@@ -120,6 +120,7 @@
                     android:inputType="number"></EditText>
             </androidx.cardview.widget.CardView>
             <Button
+                android:id="@+id/register_btn"
                 android:layout_marginTop="@dimen/size_70"
                 android:text="@string/signup_btn"
                 android:layout_width="match_parent"
