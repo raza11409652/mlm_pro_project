@@ -8,6 +8,13 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 public class StringHandler {
+    public static final boolean isEmpty(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * validate email
      *

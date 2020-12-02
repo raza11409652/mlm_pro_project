@@ -16,5 +16,7 @@
     <color name="input_shadow_color">#00000029</color>
     <color name="horizontal_line_color">#C7C8C9</color>
     <color name="text_secondary_color">#C7C8C9</color>
+    <color name="alert_red_secondary">#DD614A</color>
+    <color name="alert_red_primary">#DF2323</color>
 
 </resources>

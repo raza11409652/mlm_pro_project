@@ -16,4 +16,23 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_name">Invalid Name</string>
     <string name="invalid_psw">Invalid Password</string>
+    <string name="loading">Please wait ...</string>
+    <string name="enter_invite">Enter Invite Code</string>
+    <string name="apply_invite_text">If your were invited to MLM pro by a friend, just enter the invite code sent to your email ID to redeem your cashback offer.</string>
+    <string name="confirm">Confirm</string>
+    <string name="skip_btn">Skip</string>
+    <string name="enter_invite_code">Enter Invite Code</string>
+    <string name="required_error_invite">Invite code is required</string>
+    <string name="profile_invite">Profile Information</string>
+    <string name="whatsapp_number">WhatsApp Number</string>
+    <string name="company_name">Company Name</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="create_account">Create Account</string>
+    <string name="home">Home</string>
+    <string name="feature">Feature</string>
+    <string name="logout">Logout</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
 </resources>

@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_input"
                     android:hint="@string/enter_password"
-                    android:inputType="number"></EditText>
+                    android:inputType="textPassword"></EditText>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -117,14 +117,15 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_input"
                     android:hint="@string/password_confirm"
-                    android:inputType="number"></EditText>
+                    android:inputType="textPassword"></EditText>
             </androidx.cardview.widget.CardView>
+
             <Button
                 android:id="@+id/register_btn"
-                android:layout_marginTop="@dimen/size_70"
-                android:text="@string/signup_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></Button>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_70"
+                android:text="@string/signup_btn"></Button>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

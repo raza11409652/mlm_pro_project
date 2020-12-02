@@ -26,6 +26,7 @@ public class SessionHandler {
     private static final String DEVICE_TOKEN = "device_Token"; //it will store uid
     private static final String LOGGED_TOKEN = "login_Token"; //it will store uid
     private static final String USER_NAME = "user_name"; //it will store uid
+    private static final String USER_EMAIL = "user_email"; //it will store uid
 
     public SessionHandler(Context context) {
         this._context = context;
@@ -68,6 +69,12 @@ public class SessionHandler {
         Log.d(TAG, "setLoggedInUser: logged is user changed");
     }
 
+    public void setLoggedInEmail(String email) {
+        editor.putString(USER_EMAIL, email);
+        editor.commit();
+        Log.d(TAG, "setLoggedInEmail: Email updated");
+    }
+
     public String getLoggedInUser() {
         return pref.getString(LOGGED_IN_USER, null);
     }
@@ -88,6 +95,10 @@ public class SessionHandler {
 
     public boolean getIsLoggedIn() {
         return pref.getBoolean(IS_LOGGED_IN, false);
+    }
+
+    public String getUserEmail() {
+        return pref.getString(USER_EMAIL, null);
     }
 
 
