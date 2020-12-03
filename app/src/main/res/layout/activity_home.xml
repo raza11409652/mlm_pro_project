@@ -27,7 +27,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/parent_padding"
-                android:scrollbars="vertical"></androidx.core.widget.NestedScrollView>
+                android:scrollbars="vertical">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/image_slider"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size_160" />
+
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/indicator"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:tabBackground="@drawable/indicator_selector"
+                            app:tabGravity="center"
+                            android:layout_below="@id/image_slider"
+                            app:tabIndicatorHeight="0dp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -43,10 +70,10 @@
 
         <ExpandableListView
             android:id="@+id/menu_list"
-            android:layout_marginTop="@dimen/nav_header_height"
-            android:groupIndicator="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ExpandableListView>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/nav_header_height"
+            android:groupIndicator="@null"></ExpandableListView>
 
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

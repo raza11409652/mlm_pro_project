@@ -19,7 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
 import com.project.mlmpro.activity.service.Graphics;
 import com.project.mlmpro.activity.service.Legal;
@@ -27,6 +29,8 @@ import com.project.mlmpro.activity.service.SocialMediaMarketing;
 import com.project.mlmpro.activity.service.Software;
 import com.project.mlmpro.activity.service.VideoEditing;
 import com.project.mlmpro.adapter.NavMenuAdapter;
+import com.project.mlmpro.adapter.SliderAdapter;
+import com.project.mlmpro.model.ImageGallery;
 import com.project.mlmpro.model.MenuModel;
 
 import java.util.ArrayList;
@@ -42,6 +46,10 @@ public class Home extends AppCompatActivity {
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
     String TAG = Home.class.getSimpleName();
+    ArrayList<ImageGallery> list = new ArrayList<>();
+    ViewPager slider;
+    SliderAdapter adapterSlider;
+    TabLayout indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +59,19 @@ public class Home extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         menuList = findViewById(R.id.menu_list);
+        slider = findViewById(R.id.image_slider);
+        indicator = findViewById(R.id.indicator);
 
 
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeButtonEnabled(true);
+        adapterSlider = new SliderAdapter(this, list);
+//        adapterSlider.notifyDataSetChanged();
+        slider.setAdapter(adapterSlider);
+        indicator.setupWithViewPager(slider, true);
+
 //        setTitle("");
 
 
@@ -68,6 +83,15 @@ public class Home extends AppCompatActivity {
 
         prepareMenuData();
         populateExpandableList();
+
+
+        //Populate Gallery Image()
+
+        ImageGallery imageGallery = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
+        list.add(imageGallery);
+        ImageGallery imageGallery1 = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
+        list.add(imageGallery1);
+        adapterSlider.notifyDataSetChanged();
     }
 
     private void populateExpandableList() {

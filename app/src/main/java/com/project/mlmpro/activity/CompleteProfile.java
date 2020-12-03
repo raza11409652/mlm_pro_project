@@ -133,6 +133,7 @@ public class CompleteProfile extends AppCompatActivity {
                     updateScreen(intent);
 
 
+
                 } else {
                     if (flashbar != null) {
                         flashbar = null;

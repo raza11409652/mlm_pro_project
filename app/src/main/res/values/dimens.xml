@@ -17,4 +17,6 @@
     <dimen name="size_8">8sp</dimen>
     <dimen name="nav_header_height">160sp</dimen>
     <dimen name="size_24">24sp</dimen>
+    <dimen name="size_180">180sp</dimen>
+    <dimen name="size_160">160sp</dimen>
 </resources>

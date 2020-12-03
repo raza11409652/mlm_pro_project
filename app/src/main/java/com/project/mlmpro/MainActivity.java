@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Intent login = new Intent(getApplicationContext(), Login.class);
+            Intent login = new Intent(getApplicationContext(), Home.class);
 //        startActivity(login);
             updateScreen(login);
         }

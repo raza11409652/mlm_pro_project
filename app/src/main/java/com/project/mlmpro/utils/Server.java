@@ -15,5 +15,7 @@ public class Server {
     public static final String UPDATE_PROFILE = ROOT_SERVER + "customer/updateProfile";
     public static final String UPLOAD_PHOTO = ROOT_SERVER + "upload/photo"; //MULTIPART PHOTO
     public static final String TOKEN_LOGIN = ROOT_SERVER + "customer/accessTokenLogin";
+    public static final String USER_LOGIN = ROOT_SERVER + "customer/login";
 
 }
+
