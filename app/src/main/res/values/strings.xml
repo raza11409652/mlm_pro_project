@@ -35,4 +35,23 @@
     <string name="logout">Logout</string>
     <string name="close">close</string>
     <string name="open">open</string>
+    <string name="software">Software Development</string>
+    <string name="graphics">Graphic Designing</string>
+    <string name="video">Video Editing</string>
+    <string name="legal">Legal</string>
+    <string name="social_media_marketing">Social Media Marketing</string>
+    <string name="service">Services</string>
+    <string name="graphics_sub_text">We take care of all your design needs.</string>
+    <string name="pdf">PDF</string>
+    <string name="ppt">PPT</string>
+    <string name="logo">Logo</string>
+    <string name="poster">Poster</string>
+    <string name="call_enquiry">Call Enquiry</string>
+    <string name="whatsapp_enquiry">WhatsApp Enquiry</string>
+    <string name="software_sub_text">Always enabling you to go digital</string>
+    <string name="legal_service">Company Legal Services</string>
+    <string name="legal_sub_text">Helping you stay on top of all your legal needs</string>
+    <string name="video_editing">Video Editing</string>
+    <string name="video_editing_sub">Professional Video Editing has never been so easy!</string>
+    <string name="social_media_marketing_sub">Reaching out to your audience has never been easier</string>
 </resources>

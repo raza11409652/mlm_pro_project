@@ -15,7 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.Home"></activity>
+        <activity android:name=".activity.service.SocialMediaMarketing" android:parentActivityName=".activity.Home"></activity>
+        <activity
+            android:name=".activity.service.Legal"
+            android:parentActivityName=".activity.Home" />
+        <activity
+            android:name=".activity.service.VideoEditing"
+            android:parentActivityName=".activity.Home" />
+        <activity
+            android:name=".activity.service.Software"
+            android:parentActivityName=".activity.Home" />
+        <activity
+            android:name=".activity.service.Graphics"
+            android:parentActivityName=".activity.Home" />
+        <activity android:name=".activity.Home" />
         <activity android:name=".activity.CompleteProfile" />
         <activity
             android:name=".activity.ApplyInvitationCode"

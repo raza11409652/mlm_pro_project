@@ -5,9 +5,9 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout"
     tools:context=".activity.Home">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -39,6 +39,14 @@
         android:layout_gravity="start|left"
         android:background="@color/primaryDark"
         android:backgroundTint="@color/primaryDark"
-        app:headerLayout="@layout/header_view"
-        app:menu="@menu/nav_menu"></com.google.android.material.navigation.NavigationView>
+        app:headerLayout="@layout/header_view">
+
+        <ExpandableListView
+            android:id="@+id/menu_list"
+            android:layout_marginTop="@dimen/nav_header_height"
+            android:groupIndicator="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ExpandableListView>
+
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
