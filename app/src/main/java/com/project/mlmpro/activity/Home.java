@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -28,16 +30,25 @@ import com.project.mlmpro.activity.service.Legal;
 import com.project.mlmpro.activity.service.SocialMediaMarketing;
 import com.project.mlmpro.activity.service.Software;
 import com.project.mlmpro.activity.service.VideoEditing;
+import com.project.mlmpro.adapter.HomeMenuAdapter;
 import com.project.mlmpro.adapter.NavMenuAdapter;
 import com.project.mlmpro.adapter.SliderAdapter;
+import com.project.mlmpro.listener.HomeMenuListener;
+import com.project.mlmpro.model.HomeMenu;
 import com.project.mlmpro.model.ImageGallery;
 import com.project.mlmpro.model.MenuModel;
+import com.project.mlmpro.utils.RequestApi;
+import com.project.mlmpro.utils.Server;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements HomeMenuListener {
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
@@ -50,6 +61,11 @@ public class Home extends AppCompatActivity {
     ViewPager slider;
     SliderAdapter adapterSlider;
     TabLayout indicator;
+    RecyclerView homeMenu;
+
+    RequestApi api;
+    ArrayList<HomeMenu> menus = new ArrayList<>();
+    HomeMenuAdapter homeMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +78,11 @@ public class Home extends AppCompatActivity {
         slider = findViewById(R.id.image_slider);
         indicator = findViewById(R.id.indicator);
 
-
+        homeMenu = findViewById(R.id.home_menu);
+        homeMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        homeMenuAdapter = new HomeMenuAdapter(menus, this, this);
+        homeMenu.setAdapter(homeMenuAdapter);
+        homeMenu.setHasFixedSize(true);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -71,6 +91,7 @@ public class Home extends AppCompatActivity {
 //        adapterSlider.notifyDataSetChanged();
         slider.setAdapter(adapterSlider);
         indicator.setupWithViewPager(slider, true);
+        api = new RequestApi(this);
 
 //        setTitle("");
 
@@ -87,11 +108,62 @@ public class Home extends AppCompatActivity {
 
         //Populate Gallery Image()
 
-        ImageGallery imageGallery = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
-        list.add(imageGallery);
-        ImageGallery imageGallery1 = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
-        list.add(imageGallery1);
-        adapterSlider.notifyDataSetChanged();
+        fetchImageSlider();
+//
+//        ImageGallery imageGallery = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
+//        list.add(imageGallery);
+//        ImageGallery imageGallery1 = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
+//        list.add(imageGallery1);
+//        adapterSlider.notifyDataSetChanged();
+
+        //Populate Home Menu
+        HomeMenu growth_company = new HomeMenu("Current Growth Company", null, R.drawable.currentgrowthcompany);
+        menus.add(growth_company);
+        HomeMenu top_leaders = new HomeMenu("Company Top Leaders", null, R.drawable.companytopleader);
+        menus.add(top_leaders);
+        HomeMenu plan_Details = new HomeMenu("Company Plan Detail", null, R.drawable.plandetails);
+        menus.add(plan_Details);
+
+        HomeMenu top_mlm_trainer = new HomeMenu("Top MLM Trainer", null, R.drawable.topmlmtrainer);
+        menus.add(top_mlm_trainer);
+
+
+        HomeMenu mlm_company = new HomeMenu("All MLM Company", null, R.drawable.allmlmcompany);
+        menus.add(mlm_company);
+        HomeMenu top_network = new HomeMenu("Top Network Company", null, R.drawable.topnetwork);
+        menus.add(top_network);
+        HomeMenu training_seminar_update = new HomeMenu("Training Seminar Update", null, R.drawable.trainingseminar);
+        menus.add(training_seminar_update);
+        homeMenuAdapter.notifyDataSetChanged();
+
+
+    }
+
+    private void fetchImageSlider() {
+
+        api.getRequest(Server.SLIDER_IMAGE, response -> {
+//            Log.d(TAG, "fetchImageSlider: " + response);
+            try {
+                JSONObject object = new JSONObject(response);
+                int status = object.getInt("status");
+                if (status == 200) {
+                    JSONArray images = object.getJSONArray("data");
+                    for (int i = 0; i < images.length(); i++) {
+                        JSONObject single = images.getJSONObject(i);
+                        String title = single.getString("name");
+                        String url = single.getString("imageStr");
+                        ImageGallery imageGallery = new ImageGallery(url, title);
+                        list.add(imageGallery);
+                    }
+                    adapterSlider.notifyDataSetChanged();
+                } else {
+                    //Status code invalid
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     private void populateExpandableList() {
@@ -187,4 +259,9 @@ public class Home extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(HomeMenu menu) {
+        Log.d(TAG, "onItemClick: Home menu Item click");
+
+    }
 }

@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#5E487F</color>
+    <color name="primary_click">#975E487F</color>
     <color name="primaryDark">#5E487F</color>
     <color name="accent">#DF2323</color>
     <color name="input_border_color">#FFFFFF</color>

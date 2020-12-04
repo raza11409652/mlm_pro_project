@@ -54,7 +54,7 @@ public class RequestApi {
 
 
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
@@ -77,6 +77,24 @@ public class RequestApi {
         };
 
         queue.add(request);
+    }
+
+    public void getRequest(String url, Response.Listener<String> success) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, success, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: " + error);
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("authorization", token);
+                return map;
+            }
+        };
+        queue.add(stringRequest);
     }
 
     public byte[] getFileDataFromDrawable(Bitmap bitmap) {

@@ -40,7 +40,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_160" />
 
-
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/indicator"
                             android:layout_width="match_parent"
@@ -50,6 +49,11 @@
                             android:layout_below="@id/image_slider"
                             app:tabIndicatorHeight="0dp" />
                     </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/home_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
 
