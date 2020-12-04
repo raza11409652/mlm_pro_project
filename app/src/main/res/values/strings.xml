@@ -54,4 +54,13 @@
     <string name="video_editing">Video Editing</string>
     <string name="video_editing_sub">Professional Video Editing has never been so easy!</string>
     <string name="social_media_marketing_sub">Reaching out to your audience has never been easier</string>
+    <string name="post">Post</string>
+    <string name="post_hint">Whats on your mind ?</string>
+    <string name="new_post_heading">Create Post</string>
+    <string name="likes">Like</string>
+    <string name="comment">Comment</string>
+    <string name="share">Share</string>
+    <string name="wallet">Wallet</string>
+    <string name="balance">Balance</string>
+    <string name="recent_trans">Recent Transactions</string>
 </resources>

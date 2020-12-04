@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    tools:context=".activity.WalletScreen">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar"></include>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/loader_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/loader_screen"></include>
+
+            <include layout="@layout/loader_screen"></include>
+
+            <include layout="@layout/loader_screen"></include>
+
+            <include layout="@layout/loader_screen"></include>
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/data_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/parent_padding">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/size_240"
+                android:layout_height="wrap_content"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/size_8"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/parent_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/balance"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_20"></TextView>
+
+                    <TextView
+                        android:id="@+id/amount_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_top"
+                        android:drawableStart="@drawable/icon_rs"
+                        android:drawablePadding="@dimen/size_4"
+                        android:text="AMOUNT"
+                        android:textColor="@color/warm_grey"
+                        android:textSize="@dimen/size_32"></TextView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:text="@string/recent_trans"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_20"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+</LinearLayout>

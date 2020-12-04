@@ -15,7 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.service.SocialMediaMarketing" android:parentActivityName=".activity.Home"></activity>
+        <activity
+            android:name=".activity.WalletScreen"
+            android:parentActivityName=".activity.Home"></activity>
+        <activity
+            android:name=".activity.NewPost"
+            android:parentActivityName=".activity.Home" />
+        <activity
+            android:name=".activity.service.SocialMediaMarketing"
+            android:parentActivityName=".activity.Home" />
         <activity
             android:name=".activity.service.Legal"
             android:parentActivityName=".activity.Home" />

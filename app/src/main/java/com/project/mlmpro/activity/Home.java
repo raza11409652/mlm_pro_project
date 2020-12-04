@@ -32,11 +32,14 @@ import com.project.mlmpro.activity.service.Software;
 import com.project.mlmpro.activity.service.VideoEditing;
 import com.project.mlmpro.adapter.HomeMenuAdapter;
 import com.project.mlmpro.adapter.NavMenuAdapter;
+import com.project.mlmpro.adapter.PostAdapter;
 import com.project.mlmpro.adapter.SliderAdapter;
 import com.project.mlmpro.listener.HomeMenuListener;
+import com.project.mlmpro.listener.PostListener;
 import com.project.mlmpro.model.HomeMenu;
 import com.project.mlmpro.model.ImageGallery;
 import com.project.mlmpro.model.MenuModel;
+import com.project.mlmpro.model.Post;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 
@@ -48,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Home extends AppCompatActivity implements HomeMenuListener {
+public class Home extends AppCompatActivity implements HomeMenuListener, PostListener {
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
@@ -67,6 +70,10 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
     ArrayList<HomeMenu> menus = new ArrayList<>();
     HomeMenuAdapter homeMenuAdapter;
 
+    RecyclerView postListView;
+    ArrayList<Post> posts = new ArrayList<>();
+    PostAdapter postAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +84,12 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
         menuList = findViewById(R.id.menu_list);
         slider = findViewById(R.id.image_slider);
         indicator = findViewById(R.id.indicator);
+        postListView = findViewById(R.id.post_list);
+        postListView.setHasFixedSize(true);
+        postAdapter = new PostAdapter(posts, this);
+        postListView.setLayoutManager(new LinearLayoutManager(this));
+//        postListView.setAdapter();
+        postListView.setAdapter(postAdapter);
 
         homeMenu = findViewById(R.id.home_menu);
         homeMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -93,9 +106,6 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
         indicator.setupWithViewPager(slider, true);
         api = new RequestApi(this);
 
-//        setTitle("");
-
-
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,
                 R.string.close);
 
@@ -108,13 +118,13 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
 
         //Populate Gallery Image()
 
-        fetchImageSlider();
-//
-//        ImageGallery imageGallery = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
-//        list.add(imageGallery);
-//        ImageGallery imageGallery1 = new ImageGallery("https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/qnb4ihhwxcfwlbbrrhc", "Title");
-//        list.add(imageGallery1);
-//        adapterSlider.notifyDataSetChanged();
+//        fetchImageSlider();
+
+        runOnUiThread(() -> {
+            fetchPost();
+            fetchImageSlider();
+
+        });
 
         //Populate Home Menu
         HomeMenu growth_company = new HomeMenu("Current Growth Company", null, R.drawable.currentgrowthcompany);
@@ -137,6 +147,46 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
         homeMenuAdapter.notifyDataSetChanged();
 
 
+    }
+
+    private void fetchPost() {
+        api.getRequest(Server.GET_POST, response -> {
+            Log.d(TAG, "onResponse: " + response);
+            try {
+                JSONObject object = new JSONObject(response);
+//
+                int status = object.getInt("status");
+
+                if (status == 200) {
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject single = array.getJSONObject(i);
+                        String _id = single.getString("id");
+                        String _senderId = single.getString("senderID");
+                        String _senderName = single.getString("senderName");
+                        String _senderImage = single.getString("senderImage");
+                        String _postText = single.getString("postText");
+                        String _postImage = single.getString("postImage");
+                        String _likesCount = single.getString("noOfLikes");
+                        String _sendBirdGroupId = single.getString("sendBirdGroupId");
+                        String _isLiked = single.getString("likedByYou");
+                        String _createdOn = single.getString("createdAt");
+                        String _updatedOn = single.getString("updatedAt");
+                        Post post = new Post(_id, _senderId, _senderName, _senderImage, _postText, _postImage, _likesCount, _sendBirdGroupId, _createdOn, _updatedOn, _isLiked);
+                        posts.add(post);
+                        Log.d(TAG, "fetchPost: " + _postImage);
+
+                    }
+                    postAdapter.notifyDataSetChanged();
+
+                } else {
+                    //Eroror form server
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 
     private void fetchImageSlider() {
@@ -172,7 +222,12 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
         menuList.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             if (headerList.get(groupPosition).isGroup) {
                 if (!headerList.get(groupPosition).hasChildren) {
-                    Log.d(TAG, "onGroupClick: " + headerList.get(groupPosition));
+                    Log.d(TAG, "onGroupClick: " + headerList.get(groupPosition).menuName);
+                    Intent next = headerList.get(groupPosition).intent;
+//                    Log.d(TAG, "populateExpandableList: " + next);
+                    if (next != null) {
+                        updateUi(next);
+                    }
 
                 }
             }
@@ -234,7 +289,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
         if (service.hasChildren) {
             childList.put(service, services);
         }
-
+        MenuModel walletMenu = new MenuModel(getString(R.string.wallet), new Intent(getApplicationContext(), WalletScreen.class), false, true);
+        headerList.add(walletMenu);
 
     }
 
@@ -255,6 +311,13 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
+        switch (item.getItemId()) {
+            case R.id.new_post_menu:
+                Intent newPost = new Intent(getApplicationContext(), NewPost.class);
+                updateUi(newPost);
+
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -263,5 +326,10 @@ public class Home extends AppCompatActivity implements HomeMenuListener {
     public void onItemClick(HomeMenu menu) {
         Log.d(TAG, "onItemClick: Home menu Item click");
 
+    }
+
+    @Override
+    public void onLikeClick(Post post) {
+        Log.d(TAG, "onLikeClick: " + post.getId());
     }
 }

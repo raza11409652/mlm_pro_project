@@ -26,15 +26,18 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/parent_padding"
+                android:padding="@dimen/size_10"
                 android:scrollbars="vertical">
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/image_slider"
                             android:layout_width="match_parent"
@@ -44,9 +47,9 @@
                             android:id="@+id/indicator"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/image_slider"
                             app:tabBackground="@drawable/indicator_selector"
                             app:tabGravity="center"
-                            android:layout_below="@id/image_slider"
                             app:tabIndicatorHeight="0dp" />
                     </RelativeLayout>
 
@@ -55,6 +58,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/post_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
 

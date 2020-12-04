@@ -17,6 +17,9 @@ public class Server {
     public static final String TOKEN_LOGIN = ROOT_SERVER + "customer/accessTokenLogin";
     public static final String USER_LOGIN = ROOT_SERVER + "customer/login";
     public static final String SLIDER_IMAGE = ROOT_SERVER + "getSliderImage";
+    public static final String NEW_POST = ROOT_SERVER + "customer/post";
+    public static final String GET_POST = ROOT_SERVER + "customer/post";
+    public static final String GET_WALLET = ROOT_SERVER + "customer/getWalletDetails";
 
 }
 

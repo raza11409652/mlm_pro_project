@@ -43,4 +43,12 @@
         <item name="android:textColor">@color/primaryDark</item>
 
     </style>
+
+
+    <style name="FlatButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="rippleColor">@color/primary_click</item>
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColor">@color/primaryDark</item>
+    </style>
 </resources>

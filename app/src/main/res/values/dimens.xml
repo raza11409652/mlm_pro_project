@@ -20,4 +20,6 @@
     <dimen name="size_180">180sp</dimen>
     <dimen name="size_160">160sp</dimen>
     <dimen name="size_4">4sp</dimen>
+    <dimen name="size_32">32sp</dimen>
+    <dimen name="size_240">240sp</dimen>
 </resources>
