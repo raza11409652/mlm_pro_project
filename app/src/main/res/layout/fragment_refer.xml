@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.Refer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/parent_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_32"
+            android:text="@string/refer_heading"
+            android:textColor="@color/black"></TextView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:background="@color/primaryDark"
+            android:backgroundTint="@color/primaryDark"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="@dimen/size_120"
+                    android:layout_height="@dimen/size_120"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/logo_circle"></ImageView>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/refer_code"
+            android:textStyle="bold"
+            android:textSize="@dimen/size_24"
+            android:textColor="@color/green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="TEXT"
+            android:textAlignment="center"
+            android:textAllCaps="true"></TextView>
+        <TextView
+            android:layout_marginTop="@dimen/size_32"
+            android:textAlignment="center"
+            android:text="@string/refer_sub_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <Button
+            android:text="INVITE"
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+</FrameLayout>

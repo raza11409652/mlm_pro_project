@@ -15,9 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.Referral"></activity>
         <activity
             android:name=".activity.WalletScreen"
-            android:parentActivityName=".activity.Home"></activity>
+            android:parentActivityName=".activity.Home" />
         <activity
             android:name=".activity.NewPost"
             android:parentActivityName=".activity.Home" />

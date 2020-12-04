@@ -63,4 +63,20 @@
     <string name="wallet">Wallet</string>
     <string name="balance">Balance</string>
     <string name="recent_trans">Recent Transactions</string>
+    <string name="ecommerce">E-Commerce</string>
+    <string name="school_management">School Management</string>
+    <string name="hotel_management">Hotel Management</string>
+    <string name="resturent">Restaurant</string>
+    <string name="rd_software"><![CDATA[RD & FD Software]]></string>
+    <string name="binary_plan">Binary Plan</string>
+    <string name="help_plan">Help Plan</string>
+    <string name="metrix_plan">Matrix Plan</string>
+    <string name="purchase_plan">Repurchase Plan</string>
+    <string name="call_to_number">9815963210</string>
+    <string name="refer">Refer</string>
+    <string name="reward">Rewards</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="refer_heading">Refer MLM Pro to your friends and family and earn guaranteed cashback rewards</string>
+    <string name="refer_sub_text">On every successful referral you receive Rs.100 cashback, while your friends receive Rs.50 cashback upon downloading using your invite link.</string>
 </resources>

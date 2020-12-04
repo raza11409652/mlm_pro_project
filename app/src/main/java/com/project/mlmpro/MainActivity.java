@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 //            Intent home = new Intent(getApplicationContext(), Home.class);
 //            updateScreen(home);
             requestApi.validateSession(response -> {
-                Log.d(TAG, "onResponse: " + response);
+//                Log.d(TAG, "onResponse: " + response);
                 try {
                     JSONObject object = new JSONObject(response);
                     int status = object.getInt("status");

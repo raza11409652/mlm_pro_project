@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andrognito.flashbar.Flashbar;
 import com.project.mlmpro.R;
 import com.project.mlmpro.component.Loader;
+import com.project.mlmpro.model.User;
 import com.project.mlmpro.utils.AlertFlash;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
@@ -125,7 +126,7 @@ public class Login extends AppCompatActivity {
                     String _name = data.getString("fullName");
                     String _email = data.getString("email");
                     String _phone = data.getString("phone");
-                    String _token = data.getString("accessToken");
+                    String _token = data.getString("token"); // accessToken
                     sessionHandler.setLoggedInMobile(_phone);
                     sessionHandler.setLoggedInUser(_id);
                     sessionHandler.setLoggedToken(_token);
@@ -133,6 +134,8 @@ public class Login extends AppCompatActivity {
                     sessionHandler.setLoggedInEmail(_email);
                     sessionHandler.setLogin(true);
 
+
+                    User user = new User(_id ,_name , _email ,_phone, _token  );
                     Intent home = new Intent(getApplicationContext(), Home.class);
                     startActivity(home);
                     home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |

@@ -68,7 +68,7 @@
         android:id="@+id/post_image"
         android:visibility="gone"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/placeholder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_160"></ImageView>
     <LinearLayout

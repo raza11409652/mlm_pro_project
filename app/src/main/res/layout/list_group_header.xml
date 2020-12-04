@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
             android:id="@+id/lblListHeader"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"

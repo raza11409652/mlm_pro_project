@@ -20,5 +20,6 @@
     <color name="text_secondary_color">#C7C8C9</color>
     <color name="alert_red_secondary">#DD614A</color>
     <color name="alert_red_primary">#DF2323</color>
+    <color name="green">#1fbc69</color>
 
 </resources>

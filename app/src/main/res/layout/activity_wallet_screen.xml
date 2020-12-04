@@ -73,6 +73,7 @@
                         android:textSize="@dimen/size_20"></TextView>
 
                     <TextView
+
                         android:id="@+id/amount_wallet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -80,7 +81,7 @@
                         android:drawableStart="@drawable/icon_rs"
                         android:drawablePadding="@dimen/size_4"
                         android:text="AMOUNT"
-                        android:textColor="@color/warm_grey"
+                        android:textColor="@color/green"
                         android:textSize="@dimen/size_32"></TextView>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -96,6 +97,8 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:padding="@dimen/size_18"
+            android:id="@+id/history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

@@ -72,13 +72,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/ecommerce"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/pdf"
+                            android:text="@string/ecommerce"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -107,13 +107,92 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/scool_png"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/ppt"
+                            android:text="@string/school_management"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_10"
+                    android:layout_weight="1"
+                    android:clipToPadding="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/size_14"
+                        android:paddingTop="@dimen/size_24"
+                        android:paddingRight="14dp"
+                        android:paddingBottom="@dimen/size_24">
+
+                        <ImageView
+                            android:layout_width="@dimen/size_80"
+                            android:layout_height="@dimen/size_80"
+                            android:layout_gravity="center"
+                            android:src="@drawable/hotel"></ImageView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4sp"
+                            android:text="@string/hotel_management"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_10"
+                    android:layout_weight="1"
+                    android:clipToPadding="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/size_14"
+                        android:paddingTop="@dimen/size_24"
+                        android:paddingRight="14dp"
+                        android:paddingBottom="@dimen/size_24">
+
+                        <ImageView
+                            android:layout_width="@dimen/size_80"
+                            android:layout_height="@dimen/size_80"
+                            android:layout_gravity="center"
+                            android:src="@drawable/resturant"></ImageView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4sp"
+                            android:text="@string/resturent"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -151,13 +230,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/rd_fd"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/logo"
+                            android:text="@string/rd_software"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -186,13 +265,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/binary"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/poster"
+                            android:text="@string/binary_plan"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -230,13 +309,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/ic_baseline_help_24"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/logo"
+                            android:text="@string/help_plan"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -265,19 +344,74 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/matrix"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/poster"
+                            android:text="@string/metrix_plan"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+              android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_weight="0.5"
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"></TextView>
+
+                <androidx.cardview.widget.CardView
+
+                    android:layout_weight="1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_10"
+                    android:clipToPadding="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/size_32"
+                        android:paddingTop="@dimen/size_24"
+                        android:paddingRight="@dimen/size_32"
+                        android:paddingBottom="@dimen/size_24">
+
+                        <ImageView
+                            android:layout_width="@dimen/size_80"
+                            android:layout_height="@dimen/size_80"
+                            android:layout_gravity="center"
+                            android:src="@drawable/purchase_plan"></ImageView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4sp"
+                            android:text="@string/purchase_plan"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/size_14"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_weight="0.5"
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"></TextView>
+
 
             </LinearLayout>
 
@@ -301,6 +435,7 @@
             android:text="@string/whatsapp_enquiry"></Button>
 
         <Button
+            android:id="@+id/call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/call_enquiry"></Button>

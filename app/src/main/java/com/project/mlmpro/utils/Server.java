@@ -20,6 +20,7 @@ public class Server {
     public static final String NEW_POST = ROOT_SERVER + "customer/post";
     public static final String GET_POST = ROOT_SERVER + "customer/post";
     public static final String GET_WALLET = ROOT_SERVER + "customer/getWalletDetails";
+    public static final String GET_REFERRAL= ROOT_SERVER + "customer/getReferrals";
 
 }
 

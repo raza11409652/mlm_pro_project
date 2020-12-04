@@ -5,16 +5,20 @@
 package com.project.mlmpro.activity.service;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.project.mlmpro.R;
+import com.project.mlmpro.utils.IntentSetting;
 
 public class Software extends AppCompatActivity {
 
     Toolbar toolbar;
+    Button call   ;
+    IntentSetting setting ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +32,9 @@ public class Software extends AppCompatActivity {
         actionbar.setHomeButtonEnabled(true);
 
         setTitle(getString(R.string.service));
+        setting  =new IntentSetting(this) ;
+        call  =findViewById(R.id.call);
+        call.setOnClickListener(v->{setting.call(getString(R.string.call_to_number));
+        });
     }
 }

@@ -80,6 +80,7 @@
         app:headerLayout="@layout/header_view">
 
         <ExpandableListView
+            android:divider="@drawable/nav_main_header_seperator"
             android:id="@+id/menu_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

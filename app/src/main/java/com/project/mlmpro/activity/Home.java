@@ -289,6 +289,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         if (service.hasChildren) {
             childList.put(service, services);
         }
+        MenuModel referral = new MenuModel("Referral", new Intent(getApplicationContext(), Referral.class), false, true);
+        headerList.add(referral);
         MenuModel walletMenu = new MenuModel(getString(R.string.wallet), new Intent(getApplicationContext(), WalletScreen.class), false, true);
         headerList.add(walletMenu);
 
