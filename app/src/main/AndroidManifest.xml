@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.feature.NewFcs"></activity>
+        <activity android:name=".activity.feature.NewManufacturing"></activity>
+        <activity android:name=".activity.feature.NewProvider" />
+        <activity android:name=".activity.feature.NewFcs" />
         <activity android:name=".activity.feature.NewGrowthCompany" />
         <activity android:name=".activity.feature.NewTrainingUpdate" />
         <activity android:name=".activity.feature.NewCompanyTopLeaders" />
