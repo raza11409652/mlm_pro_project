@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.feature.NewGrowthCompany">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar"></include>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/parent_padding">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fill_in_blanks"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_20"
+                android:textStyle="bold"></TextView>
+
+            <ImageButton
+                android:id="@+id/image_uploader"
+                android:layout_width="@dimen/size_120"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/size_10"
+                android:background="@drawable/click_back"></ImageButton>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/company_name"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="@string/company_name"
+                    android:inputType="textPersonName"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/address_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Address Line 1"
+                    android:inputType="textPostalAddress"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/address_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Address Line 2"
+                    android:inputType="textPostalAddress"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Contact Number"
+                    android:inputType="number"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+
+                    android:id="@+id/whatsapp_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="WhatsApp Number"
+                    android:inputType="number"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardCornerRadius="@dimen/input_corner_radius"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:inputType="textWebEditText"
+                    android:id="@+id/website_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Website Link"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_weight="1"
+                    android:clipToPadding="true"
+                    app:cardCornerRadius="@dimen/input_corner_radius"
+                    app:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:id="@+id/start_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_input"
+                        android:focusable="false"
+                        android:hint="Starting date"></EditText>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_weight="1"
+                    android:clipToPadding="true"
+                    app:cardCornerRadius="@dimen/input_corner_radius"
+                    app:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_input"
+                        android:hint="Country"
+                        android:inputType="textPersonName"></EditText>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_32"
+                android:layout_marginBottom="@dimen/size_80"
+                android:text="@string/add"></Button>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

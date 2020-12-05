@@ -8,6 +8,8 @@ import com.project.mlmpro.model.Post;
 
 public interface PostListener {
     void onLikeClick(Post post);
+    void onDislikeClick(Post post);
+    void onShareClick(Post post);
 
 
 }

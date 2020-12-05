@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent home = new Intent(getApplicationContext(), Home.class);
                         updateScreen(home);
                     } else {
-                        Intent login = new Intent(getApplicationContext(), Login.class);
+                        Intent login = new Intent(getApplicationContext(), Login.class); //login
                         updateScreen(login);
                     }
                 } catch (JSONException e) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Intent login = new Intent(getApplicationContext(), Login.class);
+            Intent login = new Intent(getApplicationContext(), Login.class); //login
 //        startActivity(login);
             updateScreen(login);
         }

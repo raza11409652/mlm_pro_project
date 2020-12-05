@@ -15,7 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.Referral"></activity>
+        <activity android:name=".activity.feature.NewFcs"></activity>
+        <activity android:name=".activity.feature.NewGrowthCompany" />
+        <activity android:name=".activity.feature.NewTrainingUpdate" />
+        <activity android:name=".activity.feature.NewCompanyTopLeaders" />
+        <activity android:name=".activity.feature.NewTopMlMTrainerNew" />
+        <activity android:name=".activity.feature.NewTopCompanyNetword" />
+        <activity android:name=".activity.feature.MlmProductManufacturing" />
+        <activity android:name=".activity.feature.MlmProductServiceProvider" />
+        <activity android:name=".activity.feature.FastCourierService" />
+        <activity android:name=".activity.feature.CurrentGrowthCompany" />
+        <activity android:name=".activity.feature.CompanyPlanDetail" />
+        <activity android:name=".activity.feature.MLMSeminalUpdate" />
+        <activity android:name=".activity.feature.CompanyTopLeaders" />
+        <activity android:name=".activity.feature.TopMLMTrainer" />
+        <activity android:name=".activity.feature.TopNetworkCompany" />
+        <activity android:name=".activity.feature.NewFeature" />
+        <activity android:name=".activity.feature.MLMCompanyList" />
+        <activity android:name=".activity.Subscription" />
+        <activity android:name=".activity.Referral" />
         <activity
             android:name=".activity.WalletScreen"
             android:parentActivityName=".activity.Home" />

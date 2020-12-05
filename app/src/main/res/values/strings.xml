@@ -73,10 +73,24 @@
     <string name="metrix_plan">Matrix Plan</string>
     <string name="purchase_plan">Repurchase Plan</string>
     <string name="call_to_number">9815963210</string>
+    <string name="whatsapp_to_number">9815963210</string>
     <string name="refer">Refer</string>
     <string name="reward">Rewards</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="refer_heading">Refer MLM Pro to your friends and family and earn guaranteed cashback rewards</string>
     <string name="refer_sub_text">On every successful referral you receive Rs.100 cashback, while your friends receive Rs.50 cashback upon downloading using your invite link.</string>
+    <string name="subscription">Subscriptions</string>
+    <string name="mlm_company_list">MLM Company List</string>
+    <string name="fill_in_blanks">Fill in the details</string>
+    <string name="add">Add</string>
+    <string name="top_Company_network">Top Company network</string>
+    <string name="top_mlm">Top MLM Trainer</string>
+    <string name="company_top_leader">Company Top Leader</string>
+    <string name="mlm_seminar_update">MLM Training seminar update</string>
+    <string name="company_plan_details">Company Plan Details</string>
+    <string name="current_growth">Current Growth Company</string>
+    <string name="fast_courier">Fast Courier Service</string>
+    <string name="mlm_product_ser_provd">Mlm Product Service Provider</string>
+    <string name="mlm_manu">Mlm Product Manufacturing</string>
 </resources>

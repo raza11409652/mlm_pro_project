@@ -21,6 +21,9 @@ public class Server {
     public static final String GET_POST = ROOT_SERVER + "customer/post";
     public static final String GET_WALLET = ROOT_SERVER + "customer/getWalletDetails";
     public static final String GET_REFERRAL= ROOT_SERVER + "customer/getReferrals";
+    public static final String POST_LIKE= ROOT_SERVER + "customer/post/like";
+    public static final String POST_DISLIKE= ROOT_SERVER + "customer/post/unlike";
+    public static final String GET_FEATURE= ROOT_SERVER + "feature/post";
 
 }
 

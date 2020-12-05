@@ -43,6 +43,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         if (type.equals("INVITE CODE AMOUNT")) {
             msg = "You just received " + transaction.getAmount() + " from invite code of " + transaction.getSecondUserName();
 
+        }else if(type.equals("REFERRAL AMOUNT")){
+            msg = "You  received Rs." + transaction.getAmount() + " from Referral code of " + transaction.getSecondUserName();
+
         }
         holder.amount.setText(transaction.getAmount());
         holder.ref.setText(msg);

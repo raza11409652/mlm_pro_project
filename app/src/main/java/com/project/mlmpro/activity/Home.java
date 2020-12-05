@@ -25,6 +25,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
+import com.project.mlmpro.activity.feature.CompanyPlanDetail;
+import com.project.mlmpro.activity.feature.CompanyTopLeaders;
+import com.project.mlmpro.activity.feature.CurrentGrowthCompany;
+import com.project.mlmpro.activity.feature.FastCourierService;
+import com.project.mlmpro.activity.feature.MLMCompanyList;
+import com.project.mlmpro.activity.feature.MLMSeminalUpdate;
+import com.project.mlmpro.activity.feature.MlmProductManufacturing;
+import com.project.mlmpro.activity.feature.MlmProductServiceProvider;
+import com.project.mlmpro.activity.feature.TopMLMTrainer;
+import com.project.mlmpro.activity.feature.TopNetworkCompany;
 import com.project.mlmpro.activity.service.Graphics;
 import com.project.mlmpro.activity.service.Legal;
 import com.project.mlmpro.activity.service.SocialMediaMarketing;
@@ -40,6 +50,7 @@ import com.project.mlmpro.model.HomeMenu;
 import com.project.mlmpro.model.ImageGallery;
 import com.project.mlmpro.model.MenuModel;
 import com.project.mlmpro.model.Post;
+import com.project.mlmpro.utils.IntentSetting;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 
@@ -65,6 +76,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     SliderAdapter adapterSlider;
     TabLayout indicator;
     RecyclerView homeMenu;
+    IntentSetting setting;
 
     RequestApi api;
     ArrayList<HomeMenu> menus = new ArrayList<>();
@@ -86,7 +98,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         indicator = findViewById(R.id.indicator);
         postListView = findViewById(R.id.post_list);
         postListView.setHasFixedSize(true);
-        postAdapter = new PostAdapter(posts, this);
+        postAdapter = new PostAdapter(posts, this, this);
         postListView.setLayoutManager(new LinearLayoutManager(this));
 //        postListView.setAdapter();
         postListView.setAdapter(postAdapter);
@@ -105,6 +117,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         slider.setAdapter(adapterSlider);
         indicator.setupWithViewPager(slider, true);
         api = new RequestApi(this);
+        setting = new IntentSetting(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,
                 R.string.close);
@@ -150,6 +163,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     }
 
     private void fetchPost() {
+
         api.getRequest(Server.GET_POST, response -> {
             Log.d(TAG, "onResponse: " + response);
             try {
@@ -228,6 +242,10 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                     if (next != null) {
                         updateUi(next);
                     }
+                    if (next == null && headerList.get(groupPosition).menuName.equals("Log Out")) {
+                        //Logout function
+                        Log.d(TAG, "populateExpandableList: logout here");
+                    }
 
                 }
             }
@@ -265,11 +283,41 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         /**
          * Feature
          */
-        MenuModel feature = new MenuModel("Feature", null, false, true);
+        MenuModel feature = new MenuModel("Feature", null, true, true);
         headerList.add(feature);
-        if (!feature.hasChildren) {
-            childList.put(feature, null);
+//        if (!feature.hasChildren) {
+//            childList.put(feature, null);
+//        }
+        List<MenuModel> features = new ArrayList<>();
+        MenuModel mlmCompanylist = new MenuModel("MLM Company List", new Intent(getApplicationContext(), MLMCompanyList.class), false, false);
+        features.add(mlmCompanylist);
+        MenuModel top_network_company = new MenuModel("Top Network Company", new Intent(getApplicationContext(), TopNetworkCompany.class), false, false);
+        features.add(top_network_company);
+        MenuModel top_mlm_trainer = new MenuModel("Top MLM Trainer", new Intent(getApplicationContext(), TopMLMTrainer.class), false, false);
+        features.add(top_mlm_trainer);
+        MenuModel topLeaders = new MenuModel("Company Top Leaders", new Intent(getApplicationContext(), CompanyTopLeaders.class), false, false);
+        features.add(topLeaders);
+        MenuModel mlmTrainingSeminarUpdate = new MenuModel("MLM Training Seminar Update", new Intent(getApplicationContext(), MLMSeminalUpdate.class), false, false);
+        features.add(mlmTrainingSeminarUpdate);
+        MenuModel companyPlanDetails = new MenuModel("Company Plan Details", new Intent(getApplicationContext(), CompanyPlanDetail.class), false, false);
+        features.add(companyPlanDetails);
+        MenuModel currentGrowthCompany = new MenuModel("Current Growth Company", new Intent(getApplicationContext(), CurrentGrowthCompany.class), false, false);
+        features.add(currentGrowthCompany);
+        MenuModel fastCourierService = new MenuModel("Fast Courier Service", new Intent(getApplicationContext(), FastCourierService.class), false, false);
+
+        features.add(fastCourierService);
+        MenuModel mlm_product_service_provider = new MenuModel("MLM Product Service Provider", new Intent(getApplicationContext(), MlmProductServiceProvider.class), false, false);
+
+        features.add(mlm_product_service_provider);
+        MenuModel mlmProductManufacturing = new MenuModel("MLM Product Manufacturing", new Intent(getApplicationContext(), MlmProductManufacturing.class), false, false);
+
+        features.add(mlmProductManufacturing);
+
+        if (feature.hasChildren) {
+            childList.put(feature, features);
         }
+
+
         /**
          * Services
          */
@@ -291,9 +339,13 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         }
         MenuModel referral = new MenuModel("Referral", new Intent(getApplicationContext(), Referral.class), false, true);
         headerList.add(referral);
+        MenuModel subscription = new MenuModel("Subscription", new Intent(getApplicationContext(), Subscription.class), false, true);
+        headerList.add(subscription);
         MenuModel walletMenu = new MenuModel(getString(R.string.wallet), new Intent(getApplicationContext(), WalletScreen.class), false, true);
         headerList.add(walletMenu);
+        MenuModel logout = new MenuModel("Log Out", null, false, true);
 
+        headerList.add(logout);
     }
 
     private void closeDrawer() {
@@ -333,5 +385,44 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onLikeClick(Post post) {
         Log.d(TAG, "onLikeClick: " + post.getId());
+
+        JSONObject like = new JSONObject();
+        try {
+            like.put("postId", post.getId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.postRequest(like, response -> {
+            Log.d(TAG, "onResponse: " + response);
+            fetchPost();
+        }, Server.POST_LIKE);
+
+    }
+
+    @Override
+    public void onDislikeClick(Post post) {
+        Log.d(TAG, "onDislikeClick: " + post.getIsLiked());
+        JSONObject like = new JSONObject();
+        try {
+            like.put("postId", post.getId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        api.postRequest(like, response -> {
+            Log.d(TAG, "onDislikeClick: dislike");
+            fetchPost();
+
+        }, Server.POST_DISLIKE);
+    }
+
+    @Override
+    public void onShareClick(Post post) {
+        String msg = post.getData();
+        msg += "\n https://url.com";
+        setting.openShare(msg);
+
     }
 }
