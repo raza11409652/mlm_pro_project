@@ -73,9 +73,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         });
         holder.dislike_wrapper.setOnClickListener(v -> {
             listener.onDislikeClick(post);
+            holder.like_wrapper.setVisibility(View.VISIBLE);
+            holder.dislike_wrapper.setVisibility(View.GONE);
         });
         holder.share_wrapper.setOnClickListener(v->{
             listener.onShareClick(post);
+            holder.like_wrapper.setVisibility(View.GONE);
+            holder.dislike_wrapper.setVisibility(View.VISIBLE);
         });
 
 

@@ -31,9 +31,10 @@
                 android:text="@string/fill_in_blanks"
                 android:textColor="@color/black"
                 android:textSize="@dimen/size_20"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold" />
 
             <ImageButton
+                android:src="@drawable/profile"
                 android:id="@+id/image_uploader"
                 android:layout_width="@dimen/size_120"
                 android:layout_height="120dp"

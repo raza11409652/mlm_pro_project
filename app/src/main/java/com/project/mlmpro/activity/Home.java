@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
@@ -212,6 +213,11 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                 int status = object.getInt("status");
                 if (status == 200) {
                     JSONArray images = object.getJSONArray("data");
+                    if (images.length()<1){
+                        slider.setVisibility(View.GONE);
+                        indicator.setVisibility(View.GONE);
+
+                    }
                     for (int i = 0; i < images.length(); i++) {
                         JSONObject single = images.getJSONObject(i);
                         String title = single.getString("name");

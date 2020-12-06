@@ -63,12 +63,12 @@
     <string name="wallet">Wallet</string>
     <string name="balance">Balance</string>
     <string name="recent_trans">Recent Transactions</string>
-    <string name="ecommerce">E-Commerce</string>
+    <string name="ecommerce">"E-Commerce\n"</string>
     <string name="school_management">School Management</string>
     <string name="hotel_management">Hotel Management</string>
-    <string name="resturent">Restaurant</string>
+    <string name="resturent">"Restaurant\n"</string>
     <string name="rd_software"><![CDATA[RD & FD Software]]></string>
-    <string name="binary_plan">Binary Plan</string>
+    <string name="binary_plan">"Binary\nPlan"</string>
     <string name="help_plan">Help Plan</string>
     <string name="metrix_plan">Matrix Plan</string>
     <string name="purchase_plan">Repurchase Plan</string>
@@ -93,4 +93,9 @@
     <string name="fast_courier">Fast Courier Service</string>
     <string name="mlm_product_ser_provd">Mlm Product Service Provider</string>
     <string name="mlm_manu">Product Manufacturing</string>
+    <string name="youtube_v">"Youtube\nVideo"</string>
+    <string name="animation_v">"Animation\nVideo"</string>
+    <string name="whiteboard">"Whiteboard\nAnimation"</string>
+    <string name="slide_v">"Slide Show\nVideo"</string>
+
 </resources>

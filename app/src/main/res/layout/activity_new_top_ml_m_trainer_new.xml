@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
   -->
 
@@ -9,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.feature.NewTopMlMTrainerNew">
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/appbar"></include>
@@ -39,8 +39,8 @@
                 android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/size_10"
-                android:background="@drawable/click_back"></ImageButton>
-
+                android:background="@drawable/click_back"
+                android:src="@drawable/profile"></ImageButton>
 
 
             <androidx.cardview.widget.CardView
@@ -113,6 +113,7 @@
                     android:hint="Email"
                     android:inputType="textEmailAddress"></EditText>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,6 +130,7 @@
                     android:hint="Training Institute"
                     android:inputType="textWebEditText"></EditText>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

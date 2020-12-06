@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
   -->
 
@@ -9,7 +8,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.feature.TopNetworkCompany">
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/appbar"></include>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_10"
+        android:clipToPadding="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <EditText
+            android:hint="Enter Name, State, Company Name..."
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_input"
+            android:inputType="textPersonName"></EditText>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_4"
+        android:padding="@dimen/size_10"
+        app:layout_constraintTop_toBottomOf="@id/search_wrapper">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

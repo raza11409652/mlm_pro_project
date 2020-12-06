@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
   -->
 
@@ -34,6 +33,7 @@
                 android:textStyle="bold"></TextView>
 
             <ImageButton
+                android:src="@drawable/profile"
                 android:id="@+id/image_uploader"
                 android:layout_width="@dimen/size_120"
                 android:layout_height="120dp"
@@ -138,13 +138,14 @@
 
                 <EditText
 
-                    android:inputType="textEmailAddress"
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_input"
-                    android:hint="E-mail"></EditText>
+                    android:hint="E-mail"
+                    android:inputType="textEmailAddress"></EditText>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,15 +154,12 @@
                 app:cardCornerRadius="@dimen/input_corner_radius"
                 app:cardUseCompatPadding="true">
 
-                <EditText
-                    android:inputType="textPersonName"
-                    android:id="@+id/type"
+                <Spinner
+                    android:id="@+id/type_selector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_input"
-                    android:hint="Courier Type"></EditText>
+                    android:background="@drawable/background_input"></Spinner>
             </androidx.cardview.widget.CardView>
-
 
 
             <Button

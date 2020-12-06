@@ -33,6 +33,7 @@
                 android:textStyle="bold"></TextView>
 
             <ImageButton
+                android:src="@drawable/profile"
                 android:id="@+id/image_uploader"
                 android:layout_width="@dimen/size_120"
                 android:layout_height="120dp"

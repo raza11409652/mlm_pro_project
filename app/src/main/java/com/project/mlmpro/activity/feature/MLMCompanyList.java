@@ -42,6 +42,7 @@ public class MLMCompanyList extends AppCompatActivity {
     CompanyListAdapter adapter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

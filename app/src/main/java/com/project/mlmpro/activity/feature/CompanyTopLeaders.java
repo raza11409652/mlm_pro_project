@@ -15,8 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
+import com.project.mlmpro.adapter.CompanyTopLeaderAdapter;
+import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 
@@ -24,10 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class CompanyTopLeaders extends AppCompatActivity {
 
     Toolbar toolbar;
     RequestApi requestApi;
+    ArrayList<FeaturePost> list = new ArrayList<>() ;
+    CompanyTopLeaderAdapter adapter ;
+    RecyclerView listView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,12 @@ public class CompanyTopLeaders extends AppCompatActivity {
 
         setTitle(getString(R.string.company_top_leader));
         requestApi = new RequestApi(this);
+
+        listView = findViewById(R.id.list_view) ;
+
+        adapter = new CompanyTopLeaderAdapter(list, this) ;
+        listView.setAdapter(adapter);
+        listView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -59,13 +74,46 @@ public class CompanyTopLeaders extends AppCompatActivity {
                 String message = object.getString("message");
                 int status = object.getInt("status");
                 if (status == 200) {
-//                    Toast.makeText()
-                    JSONObject data = object.getJSONObject("data");
+                  JSONObject data = object.getJSONObject("data");
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
+//                    list = new ArrayList<>();
+//                    Log.d(TAG, "fetch: " + array);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject single = array.getJSONObject(i);
+                        String senderID = single.getString("senderID");
+                        String senderName = single.getString("senderName");
+                        String image = single.getString("senderImage");
+                        String postImage = single.getString("postImage");
+                        String companyName = single.getString("companyName");
+                        String planFile = single.getString("planFile");
+                        String name = single.getString("name").toString();
+                        String websiteLike = single.getString("websiteLink");
+                        String startingDate = single.getString("startingDate");
+                        String phone = single.getString("phone");
+                        String email = single.getString("email");
+                        String rank = single.getString("rank");
+                        String time = single.getString("time");
+                        String trainingInstitue = single.getString("trainingInstitue");
+                        String productType = single.getString("productType");
+                        String courierType = single.getString("courierType");
+                        String street1 = single.getString("street1");
+                        String street2 = single.getString("street2");
+                        String state = single.getString("state");
+                        String country = single.getString("country");
+                        String postType = single.getString("postType");
+                        String whatsappContact = single.getString("whatsappContact");
+                        String statusP = single.getString("status");
+                        String createdAt = single.getString("createdAt");
+                        FeaturePost featurePost = new FeaturePost(senderID, senderName, image, postImage, companyName, planFile, name,
+                                websiteLike, startingDate, phone, email, rank, time, trainingInstitue, productType,
+                                courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
+                         list.add(featurePost);
+                    }
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
                 }

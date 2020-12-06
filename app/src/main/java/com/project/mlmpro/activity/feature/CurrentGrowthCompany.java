@@ -14,14 +14,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
+import com.project.mlmpro.adapter.ReferralPagerAdapter;
+import com.project.mlmpro.fragment.PendingCompany;
+import com.project.mlmpro.fragment.VerifiedCompany;
 import com.project.mlmpro.utils.RequestApi;
 
 public class CurrentGrowthCompany extends AppCompatActivity {
 
     Toolbar toolbar;
     RequestApi requestApi;
+    ViewPager viewPager;
+    ReferralPagerAdapter adapter;
+
+    TabLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +46,16 @@ public class CurrentGrowthCompany extends AppCompatActivity {
         actionbar.setHomeButtonEnabled(true);
 
         setTitle(getString(R.string.current_growth));
+        layout = findViewById(R.id.layout_tab);
+        viewPager = findViewById(R.id.view_pager);
+        adapter = new ReferralPagerAdapter(getSupportFragmentManager());
+
         requestApi = new RequestApi(this);
+
+        adapter.addFrag(new PendingCompany(), "Pending");
+        adapter.addFrag(new VerifiedCompany(), "Verified");
+        viewPager.setAdapter(adapter);
+        layout.setupWithViewPager(viewPager);
 
 
     }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="true"
+    app:cardCornerRadius="@dimen/size_10"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/parent_padding">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/size_60"
+            android:layout_height="@dimen/size_60"
+            android:src="@drawable/profile"></ImageView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_10"
+            android:layout_toRightOf="@id/image"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_20"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginLeft="@dimen/size_10"
+            android:layout_toRightOf="@id/image"
+            android:textColor="@color/black"></TextView>
+
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_name"
+            android:layout_marginLeft="@dimen/size_10"
+            android:layout_toRightOf="@id/image"></TextView>
+
+        <TextView
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/whatsapp"
+            android:id="@+id/whatsapp_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="@string/mobile"
+            android:textColor="@color/primaryDark"></TextView>
+
+        <TextView
+            android:drawablePadding="@dimen/size_4"
+            android:drawableStart="@drawable/call"
+            android:id="@+id/contact_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/whatsapp_number"
+            android:layout_marginTop="@dimen/size_4"
+            android:text="@string/mobile"
+            android:textColor="@color/primaryDark"></TextView>
+
+        <TextView
+            android:drawablePadding="@dimen/size_4"
+            android:drawableStart="@drawable/email"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contact_number"
+            android:layout_marginTop="@dimen/size_4"
+            android:text="@string/mobile"
+            android:textColor="@color/primaryDark"></TextView>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -159,7 +159,7 @@ public class NewManufacturing extends AppCompatActivity {
                 a.put("name", "0");
                 a.put("time", "0");
                 a.put("state", "0");
-                a.put("email", "0");
+                a.put("email", email);
                 a.put("rank", "0");
                 a.put("trainingInstitue", "0");
                 a.put("courierType", "0");

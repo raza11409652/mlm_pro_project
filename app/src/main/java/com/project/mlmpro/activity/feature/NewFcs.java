@@ -6,10 +6,16 @@ package com.project.mlmpro.activity.feature;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,10 +37,14 @@ public class NewFcs extends AppCompatActivity {
     EditText nameEdt, addressEdtOne, addressEdtTwo, contactNumberEdt, whatsappNumberEdt,
             webLinkEdt, startingDateEdt, countryEdt, emailEdt, typeEdt;
     String name, addressOne, addressTwo, contactNumber, whatsappNumber, webLink,
-            startDate = "NA", country, email, typeCourier;
+            startDate = "NA", country, email, typeCourier = String.valueOf(0);
     SessionHandler sessionHandler;
     RequestApi api;
     Loader loader;
+    Spinner typeSelector;
+
+
+    String[] types = {"State level", "District level", "International level", "Rural level"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +61,28 @@ public class NewFcs extends AppCompatActivity {
 //        countryEdt = findViewById(R.id.country);
         add = findViewById(R.id.add);
         emailEdt = findViewById(R.id.email);
-        typeEdt = findViewById(R.id.type);
+//        typeEdt = findViewById(R.id.type);
+        typeSelector = findViewById(R.id.type_selector);
 
+        //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, types);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        typeSelector.setAdapter(aa);
+
+
+        typeSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("TAG", "onItemSelected: " + position);
+                typeCourier = String.valueOf(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 //        title = getIntent().getStringExtra("title");
 //        type = getIntent().getStringExtra("type");
@@ -98,11 +128,7 @@ public class NewFcs extends AppCompatActivity {
             addressTwo = addressEdtTwo.getText().toString().trim();
             contactNumber = contactNumberEdt.getText().toString().trim();
             whatsappNumber = whatsappNumberEdt.getText().toString().trim();
-            typeCourier = typeEdt.getText().toString();
             email = emailEdt.getText().toString();
-
-//            webLink = webLinkEdt.getText().toString().trim();
-//            country = countryEdt.getText().toString().trim();
 
 
             if (StringHandler.isEmpty(name)) {
@@ -166,6 +192,7 @@ public class NewFcs extends AppCompatActivity {
 
         });
     }
+
     private void saveData(JSONObject a) {
         api.postRequest(a, response -> {
             Log.d("TAG", "saveData: " + response);
@@ -187,5 +214,13 @@ public class NewFcs extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, Server.GET_FEATURE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

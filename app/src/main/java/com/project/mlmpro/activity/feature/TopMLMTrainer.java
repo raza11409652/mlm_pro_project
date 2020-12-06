@@ -6,17 +6,25 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
+import com.project.mlmpro.adapter.MlmTrainerAdapter;
+import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 
@@ -24,11 +32,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class TopMLMTrainer extends AppCompatActivity {
 
     Toolbar toolbar;
     RequestApi requestApi;
+    ArrayList<FeaturePost> list = new ArrayList<>();
+    RecyclerView listView;
+    EditText searchBar;
 
+    MlmTrainerAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +57,30 @@ public class TopMLMTrainer extends AppCompatActivity {
 
         setTitle(getString(R.string.top_mlm));
         requestApi = new RequestApi(this);
+        listView
+                = findViewById(R.id.list_view);
+        searchBar = findViewById(R.id.search_bar);
+        adapter  =new MlmTrainerAdapter(list , this) ;
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setAdapter(adapter);
+
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.w("TAG", "onTextChanged: " + s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -90,6 +128,40 @@ public class TopMLMTrainer extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
+//                    list = new ArrayList<>();
+//                    Log.d(TAG, "fetch: " + array);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject single = array.getJSONObject(i);
+                        String senderID = single.getString("senderID");
+                        String senderName = single.getString("senderName");
+                        String image = single.getString("senderImage");
+                        String postImage = single.getString("postImage");
+                        String companyName = single.getString("companyName");
+                        String planFile = single.getString("planFile");
+                        String name = single.getString("name").toString();
+                        String websiteLike = single.getString("websiteLink");
+                        String startingDate = single.getString("startingDate");
+                        String phone = single.getString("phone");
+                        String email = single.getString("email");
+                        String rank = single.getString("rank");
+                        String time = single.getString("time");
+                        String trainingInstitue = single.getString("trainingInstitue");
+                        String productType = single.getString("productType");
+                        String courierType = single.getString("courierType");
+                        String street1 = single.getString("street1");
+                        String street2 = single.getString("street2");
+                        String state = single.getString("state");
+                        String country = single.getString("country");
+                        String postType = single.getString("postType");
+                        String whatsappContact = single.getString("whatsappContact");
+                        String statusP = single.getString("status");
+                        String createdAt = single.getString("createdAt");
+                        FeaturePost featurePost = new FeaturePost(senderID, senderName, image, postImage, companyName, planFile, name,
+                                websiteLike, startingDate, phone, email, rank, time, trainingInstitue, productType,
+                                courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
+                        list.add(featurePost);
+                    }
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
                 }

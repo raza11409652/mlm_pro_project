@@ -86,6 +86,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
 //            country = countryEdt.getText().toString().trim();
             from = fromEdt.getText().toString();
             to = toEdt.getText().toString();
+            String time = from + "-" + to;
             charge = chargeEdt.getText().toString();
 
 
@@ -139,7 +140,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
                 a.put("startingDate", startDate);
                 a.put("planFile", "0");
                 a.put("name", "0");
-                a.put("time", "0");
+                a.put("time", time);
                 a.put("state", "0");
                 a.put("email", "0");
                 a.put("rank", "0");
@@ -149,7 +150,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
                 a.put("to", to);
                 a.put("from", from);
                 a.put("charge", charge);
-                Log.e("TAG", "onCreate: " +a );
+                Log.e("TAG", "onCreate: " + a);
 
 
             } catch (JSONException e) {
@@ -185,6 +186,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
             }
         }, Server.GET_FEATURE);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

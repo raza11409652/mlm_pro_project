@@ -143,7 +143,7 @@ public class NewTopMlMTrainerNew extends AppCompatActivity {
                     a.put("state", "NA");
                     a.put("email", email);
                     a.put("rank", "0");
-                    a.put("trainingInstitue", "0");
+                    a.put("trainingInstitue", trainning);
                     a.put("courierType", "0");
                     a.put("postType", type);
                     Log.d("TAG", "onClick: " + a);

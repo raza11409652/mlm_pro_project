@@ -72,13 +72,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/youtube_ico"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/pdf"
+                            android:text="@string/youtube_v"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -107,13 +107,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/animation_cio"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/ppt"
+                            android:text="@string/animation_v"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -151,13 +151,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/whiteboard"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4sp"
-                            android:text="@string/logo"
+                            android:text="@string/whiteboard"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"
@@ -186,13 +186,13 @@
                             android:layout_width="@dimen/size_80"
                             android:layout_height="@dimen/size_80"
                             android:layout_gravity="center"
-                            android:src="@mipmap/ic_launcher"></ImageView>
+                            android:src="@drawable/slide"></ImageView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4sp"
-                            android:text="@string/poster"
+                            android:layout_marginTop="@dimen/size_4"
+                            android:text="@string/slide_v"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="15sp"

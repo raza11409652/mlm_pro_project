@@ -113,7 +113,7 @@
                 android:id="@+id/dislikes"
                 android:background="@color/white"
                 android:scaleType="centerCrop"
-                android:src="@drawable/likes"
+                android:src="@drawable/fill_like"
                 android:layout_width="@dimen/size_24"
                 android:layout_height="@dimen/size_24"></ImageButton>
             <TextView

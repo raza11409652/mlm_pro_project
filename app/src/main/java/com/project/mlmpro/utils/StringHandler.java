@@ -74,6 +74,19 @@ public class StringHandler {
         return false;
     }
 
+    public static String captalize(String st) {
+
+        String firstLetter = st.substring(0, 1);
+        String remainingLetters = st.substring(1, st.length());
+
+        // change the first letter to uppercase
+        firstLetter = firstLetter.toUpperCase();
+
+        // join the two substrings
+        st = firstLetter + remainingLetters;
+        return st;
+    }
+
 }
 
 

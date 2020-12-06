@@ -6,10 +6,12 @@ package com.project.mlmpro.activity.feature;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -126,7 +128,7 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
                 a.put("country", country);
                 a.put("startingDate", "NA");
                 a.put("planFile", "0");
-                a.put("name", "0");
+                a.put("name", name);
                 a.put("time", time);
                 a.put("state", "0");
                 a.put("email", email);
@@ -170,5 +172,12 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, Server.GET_FEATURE);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) finish();
+        return super.onOptionsItemSelected(item);
     }
 }

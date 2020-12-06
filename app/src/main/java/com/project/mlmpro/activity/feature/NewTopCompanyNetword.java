@@ -6,10 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -145,9 +148,32 @@ public class NewTopCompanyNetword extends AppCompatActivity {
 
     private void saveData(JSONObject a) {
         api.postRequest(a, response -> {
-            loader.dismiss();
             Log.d("TAG", "saveData: " + response);
-
+            loader.dismiss();
+            try {
+                String msg = response.getString("message");
+                int status = response.getInt("status");
+                if (status == 200) {
+                    Toast.makeText(getApplicationContext(), msg,
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                } else {
+                    Toast.makeText(getApplicationContext(), msg
+                            , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }, Server.GET_FEATURE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
