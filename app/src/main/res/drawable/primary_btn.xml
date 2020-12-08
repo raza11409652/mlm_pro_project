@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/primary_click"
+
+    >
+    <item>
+        <shape android:shape="rectangle">
+
+            <gradient
+                android:endColor="@color/primaryDark"
+                android:startColor="@color/primaryDark" />
+            <corners android:radius="@dimen/input_corner_radius"></corners>
+
+        </shape>
+    </item>
+</ripple>

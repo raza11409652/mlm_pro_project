@@ -29,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="NAME"
@@ -37,12 +38,14 @@
             android:textStyle="bold"></TextView>
 
         <TextView
+            android:id="@+id/company_name"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/company_name"></TextView>
 
         <TextView
+            android:id="@+id/address"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

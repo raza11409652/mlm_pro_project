@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.feature.NewManufacturing"></activity>
+        <activity android:name=".VerifyOtp"></activity>
+        <activity android:name=".activity.feature.NewManufacturing" />
         <activity android:name=".activity.feature.NewProvider" />
         <activity android:name=".activity.feature.NewFcs" />
         <activity android:name=".activity.feature.NewGrowthCompany" />

@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
 import com.project.mlmpro.activity.feature.CompanyPlanDetail;
@@ -51,9 +53,11 @@ import com.project.mlmpro.model.HomeMenu;
 import com.project.mlmpro.model.ImageGallery;
 import com.project.mlmpro.model.MenuModel;
 import com.project.mlmpro.model.Post;
+import com.project.mlmpro.utils.AlertFlash;
 import com.project.mlmpro.utils.IntentSetting;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
+import com.project.mlmpro.utils.SessionHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,6 +83,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     RecyclerView homeMenu;
     IntentSetting setting;
 
+    AlertFlash alertFlash;
+
     RequestApi api;
     ArrayList<HomeMenu> menus = new ArrayList<>();
     HomeMenuAdapter homeMenuAdapter;
@@ -86,11 +92,15 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     RecyclerView postListView;
     ArrayList<Post> posts = new ArrayList<>();
     PostAdapter postAdapter;
+    NavigationView navigationView   ;
+    TextView nameUser ;
+    SessionHandler sessionHandler ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        sessionHandler  =new SessionHandler(this);
 
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -103,6 +113,12 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         postListView.setLayoutManager(new LinearLayoutManager(this));
 //        postListView.setAdapter();
         postListView.setAdapter(postAdapter);
+
+        navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        nameUser  = headerView.findViewById(R.id.name);
+        nameUser.setText(sessionHandler.getUserName());
+
 
         homeMenu = findViewById(R.id.home_menu);
         homeMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -119,6 +135,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         indicator.setupWithViewPager(slider, true);
         api = new RequestApi(this);
         setting = new IntentSetting(this);
+        alertFlash = new AlertFlash(this, this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open,
                 R.string.close);
@@ -141,22 +158,22 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         });
 
         //Populate Home Menu
-        HomeMenu growth_company = new HomeMenu("Current Growth Company", null, R.drawable.currentgrowthcompany);
+        HomeMenu growth_company = new HomeMenu("Current Growth Company", new Intent(getApplicationContext() , CurrentGrowthCompany.class), R.drawable.currentgrowthcompany);
         menus.add(growth_company);
-        HomeMenu top_leaders = new HomeMenu("Company Top Leaders", null, R.drawable.companytopleader);
+        HomeMenu top_leaders = new HomeMenu("Company Top Leaders", new Intent(getApplicationContext()  , CompanyTopLeaders.class), R.drawable.companytopleader);
         menus.add(top_leaders);
-        HomeMenu plan_Details = new HomeMenu("Company Plan Detail", null, R.drawable.plandetails);
+        HomeMenu plan_Details = new HomeMenu("Company Plan Detail", new Intent(getApplicationContext() , CompanyPlanDetail.class), R.drawable.plandetails);
         menus.add(plan_Details);
 
-        HomeMenu top_mlm_trainer = new HomeMenu("Top MLM Trainer", null, R.drawable.topmlmtrainer);
+        HomeMenu top_mlm_trainer = new HomeMenu("Top MLM Trainer", new Intent(getApplicationContext() , TopMLMTrainer.class), R.drawable.topmlmtrainer);
         menus.add(top_mlm_trainer);
 
 
-        HomeMenu mlm_company = new HomeMenu("All MLM Company", null, R.drawable.allmlmcompany);
+        HomeMenu mlm_company = new HomeMenu("All MLM Company", new Intent(getApplicationContext() , MLMCompanyList.class), R.drawable.allmlmcompany);
         menus.add(mlm_company);
-        HomeMenu top_network = new HomeMenu("Top Network Company", null, R.drawable.topnetwork);
+        HomeMenu top_network = new HomeMenu("Top Network Company", new Intent(getApplicationContext()  , TopNetworkCompany.class), R.drawable.topnetwork);
         menus.add(top_network);
-        HomeMenu training_seminar_update = new HomeMenu("Training Seminar Update", null, R.drawable.trainingseminar);
+        HomeMenu training_seminar_update = new HomeMenu("Training Seminar Update", new Intent(getApplicationContext() , MLMSeminalUpdate.class), R.drawable.trainingseminar);
         menus.add(training_seminar_update);
         homeMenuAdapter.notifyDataSetChanged();
 
@@ -213,7 +230,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                 int status = object.getInt("status");
                 if (status == 200) {
                     JSONArray images = object.getJSONArray("data");
-                    if (images.length()<1){
+                    if (images.length() < 1) {
                         slider.setVisibility(View.GONE);
                         indicator.setVisibility(View.GONE);
 
@@ -250,7 +267,9 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                     }
                     if (next == null && headerList.get(groupPosition).menuName.equals("Log Out")) {
                         //Logout function
-                        Log.d(TAG, "populateExpandableList: logout here");
+//                        Log.d(TAG, "populateExpandableList: logout here");
+                        closeDrawer();
+                        alertFlash.logoutAlert();
                     }
 
                 }
@@ -385,6 +404,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onItemClick(HomeMenu menu) {
         Log.d(TAG, "onItemClick: Home menu Item click");
+        startActivity(menu.getIntent());
 
     }
 

@@ -20,8 +20,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.andrognito.flashbar.Flashbar;
 import com.project.mlmpro.R;
+import com.project.mlmpro.VerifyOtp;
 import com.project.mlmpro.component.Loader;
 import com.project.mlmpro.utils.AlertFlash;
+import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
@@ -214,8 +216,9 @@ public class Register extends AppCompatActivity {
                     sessionHandler.setLoggedToken(_token);
                     sessionHandler.setUserName(_name);
                     sessionHandler.setLoggedInEmail(_email);
-                    Intent applyInvite = new Intent(getApplicationContext(), ApplyInvitationCode.class);
-                    updateScreen(applyInvite);
+                    Constant.PROCESS = "SIGNUP";
+                    Intent verification = new Intent(getApplicationContext(), VerifyOtp.class);
+                    updateScreen(verification);
 
                 } else {
                     //Error

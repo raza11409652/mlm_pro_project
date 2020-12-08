@@ -6,9 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +41,7 @@ public class CompanyTopLeaders extends AppCompatActivity {
     ArrayList<FeaturePost> list = new ArrayList<>() ;
     CompanyTopLeaderAdapter adapter ;
     RecyclerView listView ;
+    EditText searchbar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +60,53 @@ public class CompanyTopLeaders extends AppCompatActivity {
 
         listView = findViewById(R.id.list_view) ;
 
-        adapter = new CompanyTopLeaderAdapter(list, this) ;
-        listView.setAdapter(adapter);
+
+
         listView.setLayoutManager(new LinearLayoutManager(this));
+        searchbar  =findViewById(R.id.search_bar) ;
+
+        fetch(null);
+        searchbar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length()<3){
+                    fetch(null);
+                    return;
+                }else{
+                    fetch(s.toString());
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        fetch();
+//        fetch();
     }
 
-    private void fetch() {
-        String url = Server.GET_FEATURE + "?postType=3";
+    private void fetch(String string) {
+        String url  ;
+        if (string==null){
+           url =  Server.GET_FEATURE + "?postType=3";
+        }else{
+           url =  Server.GET_FEATURE + "?postType=3&searchTxt="+string;
+        }
+        Log.d("TAG", "fetch: " + url);
         requestApi.getRequest(url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -80,7 +119,7 @@ public class CompanyTopLeaders extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
-//                    list = new ArrayList<>();
+                    list = new ArrayList<>();
 //                    Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
@@ -113,7 +152,9 @@ public class CompanyTopLeaders extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                          list.add(featurePost);
                     }
+                    adapter = new CompanyTopLeaderAdapter(list, this) ;
                     adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
                 }

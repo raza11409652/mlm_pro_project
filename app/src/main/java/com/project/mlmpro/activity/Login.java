@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.andrognito.flashbar.Flashbar;
 import com.project.mlmpro.R;
+import com.project.mlmpro.VerifyOtp;
 import com.project.mlmpro.component.Loader;
-import com.project.mlmpro.model.User;
 import com.project.mlmpro.utils.AlertFlash;
+import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
@@ -126,21 +127,39 @@ public class Login extends AppCompatActivity {
                     String _name = data.getString("fullName");
                     String _email = data.getString("email");
                     String _phone = data.getString("phone");
-                    String _token = data.getString("token"); // accessToken
+                    String _token = data.getString("accessToken"); // token
                     sessionHandler.setLoggedInMobile(_phone);
                     sessionHandler.setLoggedInUser(_id);
                     sessionHandler.setLoggedToken(_token);
                     sessionHandler.setUserName(_name);
                     sessionHandler.setLoggedInEmail(_email);
-                    sessionHandler.setLogin(true);
+//                    sessionHandler.setLogin(true);
+                    String isVerified = data.getString("isVerified");
+                    String subscriptionType = data.getString("subscriptionType");
+                    String subscriptionExpiryDate = data.getString("subscriptionExpiryDate");
+                    Constant.PURCHASED_SUBSCRIPTION_TYPE =subscriptionType ;
+                    Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON =subscriptionExpiryDate ;
+                    if (isVerified.equals("0")) {
+                        //Not verified User
+
+                        Constant.PROCESS = "1";
+                        Intent intent = new Intent(getApplicationContext()  , VerifyOtp.class);
+                        startActivity(intent);
+//                        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        finish();
+                    }else{
+                        Intent home = new Intent(getApplicationContext(), Home.class);
+                        startActivity(home);
+                        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        finish();
+                    }
 
 
-                    User user = new User(_id ,_name , _email ,_phone, _token  );
-                    Intent home = new Intent(getApplicationContext(), Home.class);
-                    startActivity(home);
-                    home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    finish();
+//                    User user = new User(_id ,_name , _email ,_phone, _token  );
+
+
                 } else {
                     if (flashbar != null) {
                         flashbar = null;

@@ -25,6 +25,8 @@ public class Server {
     public static final String POST_DISLIKE= ROOT_SERVER + "customer/post/unlike";
     public static final String GET_FEATURE= ROOT_SERVER + "feature/post";
     public static final String GET_FEATURE_PENDING= ROOT_SERVER + "customer/feature/CGC/pending";
+    public static final String CHECKOUT= ROOT_SERVER + "customer/subscription/checkout";
+    public static final String PURCHASE= ROOT_SERVER + "customer/subscription/purchase";
 
 }
 

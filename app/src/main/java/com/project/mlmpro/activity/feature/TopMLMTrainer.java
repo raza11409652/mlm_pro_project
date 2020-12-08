@@ -60,10 +60,11 @@ public class TopMLMTrainer extends AppCompatActivity {
         listView
                 = findViewById(R.id.list_view);
         searchBar = findViewById(R.id.search_bar);
-        adapter  =new MlmTrainerAdapter(list , this) ;
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setAdapter(adapter);
 
+        listView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        fetch(null);
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,7 +75,13 @@ public class TopMLMTrainer extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.w("TAG", "onTextChanged: " + s.toString());
+                if (s.length()<3) {
+                    fetch(null);
+                    return;
+                }
+                fetch(s.toString());
             }
+
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -110,11 +117,19 @@ public class TopMLMTrainer extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch();
+//        fetch("NA");
     }
 
-    private void fetch() {
-        String url = Server.GET_FEATURE + "?postType=2";
+    private void fetch(String string) {
+
+        String url ;
+
+        if (string!=null){
+            url = Server.GET_FEATURE + "?postType=2&searchTxt="+string  ;
+        }else{
+            url = Server.GET_FEATURE + "?postType=2"  ;
+        }
+
         requestApi.getRequest(url, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -128,7 +143,8 @@ public class TopMLMTrainer extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
-//                    list = new ArrayList<>();
+
+list = new ArrayList<>( );
 //                    Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
@@ -161,6 +177,8 @@ public class TopMLMTrainer extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         list.add(featurePost);
                     }
+                    adapter  =new MlmTrainerAdapter(list , this) ;
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();

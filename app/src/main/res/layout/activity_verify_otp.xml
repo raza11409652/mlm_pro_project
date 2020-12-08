@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/parent_padding"
+    tools:context=".VerifyOtp">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/otp_verify"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <com.project.mlmpro.component.OtpEditText
+        android:background="@drawable/otp_background"
+        android:id="@+id/otp_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_60"
+        android:inputType="number"
+        android:maxLength="6"
+        app:layout_constraintTop_toTopOf="@id/text"></com.project.mlmpro.component.OtpEditText>
+
+    <Button
+        android:id="@+id/verify"
+        app:layout_constraintTop_toBottomOf="@id/otp_box"
+        android:text="@string/verify"
+        android:layout_marginTop="@dimen/size_160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

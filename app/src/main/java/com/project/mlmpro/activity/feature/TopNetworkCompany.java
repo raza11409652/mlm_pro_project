@@ -6,10 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
-import com.project.mlmpro.adapter.CompanyListAdapter;
 import com.project.mlmpro.adapter.TopNetworkAdapter;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.RequestApi;
@@ -37,6 +39,7 @@ public class TopNetworkCompany extends AppCompatActivity {
     RequestApi requestApi;
     ArrayList<FeaturePost> list = new ArrayList<>();
     RecyclerView listView;
+    EditText searchBar;
 
 
     TopNetworkAdapter adapter;
@@ -55,19 +58,47 @@ public class TopNetworkCompany extends AppCompatActivity {
 
         setTitle(getString(R.string.top_Company_network));
         requestApi = new RequestApi(this);
+        searchBar = findViewById(R.id.search_bar);
 //        fetch();
 
         listView = findViewById(R.id.list_view);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TopNetworkAdapter(list, this);
-        listView.setAdapter(adapter);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() < 1) {
+                    fetch(null);
+                    return;
+                }
+                fetch(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        fetch(null);
 
 
     }
 
-    private void fetch() {
-        String url = Server.GET_FEATURE + "?postType=1";
+    private void fetch(String string) {
+        String url = null;
+        if (string == null) {
+            url = Server.GET_FEATURE + "?postType=1";
+        } else {
+            url = Server.GET_FEATURE + "?postType=1&searchTxt=" + string;
+        }
+
         requestApi.getRequest(url, response -> {
             Log.d("TAG", "fetch: " + response);
             try {
@@ -83,6 +114,7 @@ public class TopNetworkCompany extends AppCompatActivity {
 
                     }
 
+                    list = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
                         String senderID = single.getString("senderID");
@@ -114,6 +146,8 @@ public class TopNetworkCompany extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         list.add(featurePost);
                     }
+                    adapter = new TopNetworkAdapter(list, this);
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
@@ -128,7 +162,7 @@ public class TopNetworkCompany extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch();
+//        fetch();
     }
 
     @Override

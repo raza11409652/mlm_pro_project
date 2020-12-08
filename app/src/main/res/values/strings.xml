@@ -97,5 +97,14 @@
     <string name="animation_v">"Animation\nVideo"</string>
     <string name="whiteboard">"Whiteboard\nAnimation"</string>
     <string name="slide_v">"Slide Show\nVideo"</string>
+    <string name="logout_message">Are you sure want to logout</string>
+    <string name="checkout">Checkout</string>
+    <string name="subscription_details">Subscription details</string>
+    <string name="subscription_amount">Subscription Value</string>
+    <string name="payable">Total</string>
+    <string name="pay">Proceed to pay</string>
+    <string name="razp_key">rzp_test_oA8jljoWLXyICO</string>
+    <string name="otp_verify">Please enter OTP sent to your mobile number</string>
+    <string name="verify">Verify</string>
 
 </resources>
