@@ -106,5 +106,12 @@
     <string name="razp_key">rzp_test_oA8jljoWLXyICO</string>
     <string name="otp_verify">Please enter OTP sent to your mobile number</string>
     <string name="verify">Verify</string>
+    <string name="company_registeration">Company Registration</string>
+    <string name="pan_card">Company PAN Card</string>
+    <string name="registerion">"NGO\nRegistration"</string>
+    <string name="gst_management">"GST\nManagement"</string>
+    <string name="company_audit">"Company\nAudit"</string>
+    <string name="itr">"Income Tax\nReturn"</string>
+    <string name="company_annual_return">Company Annual Return</string>
 
 </resources>

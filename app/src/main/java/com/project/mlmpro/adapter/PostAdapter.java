@@ -18,6 +18,7 @@ import com.project.mlmpro.listener.PostListener;
 import com.project.mlmpro.model.Post;
 import com.project.mlmpro.utils.TimeDiff;
 import com.project.mlmpro.viewholder.PostViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = list.get(position);
         String postImage = post.getImage();
-        if (postImage == null) {
+        if (postImage == null ) {
             holder.postImage.setVisibility(View.GONE);
         } else {
             holder.postImage.setVisibility(View.VISIBLE);
@@ -57,16 +58,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         if (post.getIsLiked().equals("1")) {
             holder.like_wrapper.setVisibility(View.GONE);
             holder.dislike_wrapper.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.like_wrapper.setVisibility(View.VISIBLE);
             holder.dislike_wrapper.setVisibility(View.GONE);
 
         }
+
+        Picasso.get().load(list.get(position).getImage())
+                .placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
+                .into(holder.postImage);
         holder.postData.setText(post.getData());
         holder.time.setText(TimeDiff.diff(post.getCreatedOn()));
         holder.name.setText(post.getSenderName());
-        holder.likeCount.setText(post.getLikesCount() +" Likes");
-        holder.dislikeLikeCount.setText(post.getLikesCount()+" Likes");
+        holder.likeCount.setText(post.getLikesCount() + " Likes");
+        holder.dislikeLikeCount.setText(post.getLikesCount() + " Likes");
 
         holder.like_wrapper.setOnClickListener(v -> {
             listener.onLikeClick(post);
@@ -76,7 +81,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             holder.like_wrapper.setVisibility(View.VISIBLE);
             holder.dislike_wrapper.setVisibility(View.GONE);
         });
-        holder.share_wrapper.setOnClickListener(v->{
+        holder.share_wrapper.setOnClickListener(v -> {
             listener.onShareClick(post);
             holder.like_wrapper.setVisibility(View.GONE);
             holder.dislike_wrapper.setVisibility(View.VISIBLE);

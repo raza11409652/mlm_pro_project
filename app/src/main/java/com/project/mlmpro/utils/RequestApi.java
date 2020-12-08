@@ -6,24 +6,23 @@ package com.project.mlmpro.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.project.mlmpro.model.ImageDataPart;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,7 +85,7 @@ public class RequestApi {
                 Log.d(TAG, "onErrorResponse: " + error);
 
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
@@ -97,44 +96,49 @@ public class RequestApi {
         queue.add(stringRequest);
     }
 
-    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
+//    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+//        return byteArrayOutputStream.toByteArray();
+//    }
 
-    public void uploadImage(Bitmap bitmap, Response.Listener<NetworkResponse> success) {
-        VolleyMultipartRequest request = new VolleyMultipartRequest(Request.Method.POST, Server.UPLOAD_PHOTO, success, error -> {
-            Log.d(TAG, "uploadImage: " + error.getMessage());
 
-        }) {
-            @Override
-            protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
-                return Response.success(response, HttpHeaderParser.parseCacheHeaders(response));
-//                return super.parseNetworkResponse(response);
-            }
+    public void uploadImage(Bitmap bitmap, Response.Listener<JSONObject> success) {
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+//        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+//        JSONObject jsonObject = null;
+//        try {
+//            jsonObject = new JSONObject();
+//            String imgname = String.valueOf(Calendar.getInstance().getTimeInMillis());
+//            jsonObject.put("name", imgname);
+//            jsonObject.put("photos", encodedImage);
+//            // jsonObject.put("aa", "aa");
+//        } catch (JSONException e) {
+//            Log.e("JSONObject Here", e.toString());
+//        }
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Server.UPLOAD_PHOTO,
+//                jsonObject,
+//                success, volleyError -> Log.e("aaaaaaa", volleyError.toString())){
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                HashMap<String ,String>map = new HashMap<>() ;
+//                map.put("photos"  , encodedImage) ;
+//                return map;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> map = new HashMap<>();
+//                map.put("authorization", token);
+//                return map;
+//            }
+//
+//        };
+//
+//        queue.add(jsonObjectRequest);
 
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("authorization", token);
-                return map;
-            }
 
-            @Override
-            protected Map<String, ImageDataPart> getByteData() {
-                Map<String, ImageDataPart> params = new HashMap<>();
-                long imageName = System.currentTimeMillis();
-                params.put("photos", new ImageDataPart(imageName + ".png", getFileDataFromDrawable(bitmap)));
-                return params;
-            }
-        };
-        request.setRetryPolicy(
-                new DefaultRetryPolicy(
-                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                        1,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(request);
 
     }
 }

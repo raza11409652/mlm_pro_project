@@ -20,6 +20,7 @@
         android:padding="@dimen/size_14"
         android:layout_height="wrap_content">
         <ImageView
+            android:scaleType="centerInside"
             android:id="@+id/profile_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

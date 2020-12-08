@@ -240,7 +240,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
 //    “type”: “1
         JSONObject payment = new JSONObject();
         try {
-            payment.put("id", sessionHandler.getLoggedInUser());
+//            payment.put("id", sessionHandler.getLoggedInUser());
             payment.put("razorpay_payment_id", s);
             payment.put("razorpay_order_id", Constant.RZP_ORDER_ID);
             payment.put("razorpay_signature", "NA");
