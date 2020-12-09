@@ -18,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.StringHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CurrentGrowthAdapter extends RecyclerView.Adapter<CurrentGrowthAdapter.ViewHolder> {
     ArrayList<FeaturePost> list;
@@ -62,6 +65,11 @@ public class CurrentGrowthAdapter extends RecyclerView.Adapter<CurrentGrowthAdap
                 break;
         }
 
+        Picasso.get().load(post.getPostImage())
+                .error(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imageView);
+
     }
 
     @Override
@@ -71,6 +79,7 @@ public class CurrentGrowthAdapter extends RecyclerView.Adapter<CurrentGrowthAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView address, companyName, mobile, whatsapp, website, status;
+        CircleImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +89,7 @@ public class CurrentGrowthAdapter extends RecyclerView.Adapter<CurrentGrowthAdap
             whatsapp = itemView.findViewById(R.id.whatsapp_number);
             website = itemView.findViewById(R.id.website_link);
             status = itemView.findViewById(R.id.status);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }

@@ -3,10 +3,10 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.feature.MLMSeminalUpdate">
 
     <include
@@ -14,11 +14,11 @@
         layout="@layout/appbar"></include>
 
     <LinearLayout
-        android:padding="@dimen/size_10"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/size_10"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/search_wrapper"
@@ -41,7 +41,8 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_10">
+            android:layout_marginTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_80">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

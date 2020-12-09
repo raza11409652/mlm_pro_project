@@ -41,6 +41,8 @@ dependencies {
     implementation 'com.andrognito.flashbar:flashbar:1.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.razorpay:checkout:1.5.16' //Razorpay
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.sendbird.sdk:sendbird-android-sdk:3.0.152'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //FIREBASE

@@ -63,8 +63,13 @@ public class MLMSeminalUpdate extends AppCompatActivity {
 
         listView = findViewById(R.id.list_view);
         listView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MlmSeminarUpdateAdapter(list, this);
-        listView.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetch();
     }
 
     private void fetch() {
@@ -84,7 +89,7 @@ public class MLMSeminalUpdate extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
-//                    list = new ArrayList<>();
+                    list = new ArrayList<>();
                     Log.d("TAG", "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
@@ -117,6 +122,8 @@ public class MLMSeminalUpdate extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         list.add(featurePost);
                     }
+                    adapter = new MlmSeminarUpdateAdapter(list, this);
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();

@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.ViewHolder> {
     ArrayList<FeaturePost> list;
@@ -43,6 +46,9 @@ public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.Vi
         holder.mobile.setText(list.get(position).getPhone());
         holder.whatsapp.setText(list.get(position).getWhatsappContact());
         holder.address.setText(list.get(position).getState());
+        Picasso.get().load(list.get(position).getPostImage()).placeholder(R.drawable.placeholder)
+                .error(R.drawable.logo_circle)
+                .into(holder.imageView);
 
     }
 
@@ -53,6 +59,7 @@ public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, companyName, address, whatsapp, mobile, email;
+        CircleImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +70,7 @@ public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.Vi
             whatsapp = itemView.findViewById(R.id.whatsapp_number);
             mobile = itemView.findViewById(R.id.contact_number);
             email = itemView.findViewById(R.id.email);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }

@@ -113,5 +113,9 @@
     <string name="company_audit">"Company\nAudit"</string>
     <string name="itr">"Income Tax\nReturn"</string>
     <string name="company_annual_return">Company Annual Return</string>
+    <string name="sendbird_id">C17BE961-C770-404E-B58E-F1F7D8E125A9</string>
+    <string name="company_plan">Upload company plan</string>
+    <string name="upload_pdf">Upload Pdf</string>
+    <string name="upload_videos">Upload Videos</string>
 
 </resources>

@@ -117,7 +117,7 @@ public class TopMLMTrainer extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        fetch("NA");
+        fetch(null);
     }
 
     private void fetch(String string) {

@@ -10,6 +10,7 @@
     tools:context=".fragment.VerifiedCompany">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingBottom="@dimen/size_120"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>

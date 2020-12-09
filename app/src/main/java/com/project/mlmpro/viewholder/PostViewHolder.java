@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView postData, name, time, likeCount, dislikeLikeCount;
-    public ImageView profileImage, postImage;
+    public ImageView  postImage;
     public ImageButton like, comment, share;
     public RelativeLayout like_wrapper, dislike_wrapper, share_wrapper;
+    public CircleImageView profileImage ;
 
 
     public PostViewHolder(@NonNull View itemView) {

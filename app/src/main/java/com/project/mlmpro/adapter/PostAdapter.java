@@ -49,7 +49,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = list.get(position);
         String postImage = post.getImage();
-        if (postImage == null ) {
+        if (postImage == null || postImage.equals("NA")) {
             holder.postImage.setVisibility(View.GONE);
         } else {
             holder.postImage.setVisibility(View.VISIBLE);
@@ -62,6 +62,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             holder.like_wrapper.setVisibility(View.VISIBLE);
             holder.dislike_wrapper.setVisibility(View.GONE);
 
+        }
+        if (list.get(position).getData().equals("NA")) {
+            holder.postData.setVisibility(View.GONE);
+        } else {
+            holder.postData.setVisibility(View.VISIBLE);
         }
 
         Picasso.get().load(list.get(position).getImage())
@@ -86,6 +91,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             holder.like_wrapper.setVisibility(View.GONE);
             holder.dislike_wrapper.setVisibility(View.VISIBLE);
         });
+        Picasso.get().load(list.get(position).getSenderImage())
+                .error(R.drawable.logo)
+                .placeholder(R.drawable.logo_circle)
+                .into(holder.profileImage);
 
 
     }

@@ -27,6 +27,7 @@ public class SessionHandler {
     private static final String LOGGED_TOKEN = "login_Token"; //it will store uid
     private static final String USER_NAME = "user_name"; //it will store uid
     private static final String USER_EMAIL = "user_email"; //it will store uid
+    private static final String PROFILE_IMAGE = "user_image"; //it will store uid
 
     public SessionHandler(Context context) {
         this._context = context;
@@ -101,5 +102,13 @@ public class SessionHandler {
         return pref.getString(USER_EMAIL, null);
     }
 
+    public void setProfileImage(String image) {
+        editor.putString(PROFILE_IMAGE, image);
+        editor.commit();
+        Log.d(TAG, "setProfileImage: " + image);
+    }
 
+    public String getProfileImage() {
+        return pref.getString(PROFILE_IMAGE, null);
+    }
 }

@@ -19,14 +19,12 @@
         android:layout_width="match_parent"
         android:padding="@dimen/size_14"
         android:layout_height="wrap_content">
-        <ImageView
-            android:scaleType="centerInside"
-            android:id="@+id/profile_image"
+        <de.hdodenhof.circleimageview.CircleImageView
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/logo_circle"
+            android:id="@+id/profile_image"
             android:layout_width="@dimen/size_60"
-            android:layout_height="@dimen/size_60"></ImageView>
+            android:layout_height="@dimen/size_60"></de.hdodenhof.circleimageview.CircleImageView>
         <TextView
 
             android:textColor="@color/black"
@@ -66,12 +64,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:id="@+id/post_image"
         android:visibility="gone"
-        android:scaleType="centerCrop"
         android:src="@drawable/placeholder"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_160"></ImageView>
+        android:layout_height="wrap_content"></ImageView>
     <LinearLayout
         android:padding="@dimen/size_10"
         android:weightSum="3"

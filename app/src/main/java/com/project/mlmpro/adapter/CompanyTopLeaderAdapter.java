@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.StringHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CompanyTopLeaderAdapter extends RecyclerView.Adapter<CompanyTopLeaderAdapter.ViewHolder> {
     ArrayList<FeaturePost> list;
@@ -45,8 +48,12 @@ public class CompanyTopLeaderAdapter extends RecyclerView.Adapter<CompanyTopLead
         holder.time.setText(post.getTime());
         holder.whatsApp.setText("+91-" + post.getWhatsappContact());
         holder.mobile.setText("+91-" + post.getPhone());
-        holder.email.setText( post.getEmail());
+        holder.email.setText(post.getEmail());
         holder.rank.setText(StringHandler.captalize(post.getRank()));
+        Picasso.get().load(post.getPostImage())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.logo_circle)
+                .into(holder.imageView);
 
     }
 
@@ -57,6 +64,7 @@ public class CompanyTopLeaderAdapter extends RecyclerView.Adapter<CompanyTopLead
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, rank, whatsApp, mobile, email, time, country;
+        CircleImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +76,8 @@ public class CompanyTopLeaderAdapter extends RecyclerView.Adapter<CompanyTopLead
             email = itemView.findViewById(R.id.email);
             time = itemView.findViewById(R.id.time);
             country = itemView.findViewById(R.id.country);
+            imageView = itemView.findViewById(R.id.image);
+
 
         }
     }

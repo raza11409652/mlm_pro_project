@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,9 @@ import com.project.mlmpro.R;
 import com.project.mlmpro.component.Loader;
 import com.project.mlmpro.utils.AlertFlash;
 import com.project.mlmpro.utils.Constant;
+import com.project.mlmpro.utils.FileUploadService;
 import com.project.mlmpro.utils.RequestApi;
+import com.project.mlmpro.utils.ResultResponse;
 import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
 import com.project.mlmpro.utils.StringHandler;
@@ -31,11 +34,22 @@ import com.project.mlmpro.utils.StringHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompleteProfile extends AppCompatActivity {
     ImageButton uploadImage;
-    String TAG = CompleteProfile.class.getSimpleName();
+    String TAG = CompleteProfile.class.getSimpleName(), profileImage = null;
     RequestApi api;
     Button createButton;
     EditText whatsAppEdt, companyEdt, stateEdt, countryEdt;
@@ -99,7 +113,7 @@ public class CompleteProfile extends AppCompatActivity {
             }
             JSONObject object = new JSONObject();
             try {
-                object.put("imageStr", "imageUrl");
+                object.put("imageStr", profileImage);
                 object.put("whatsappContact", whatsAppNumber);
                 object.put("companyName", company);
                 object.put("state", state);
@@ -127,11 +141,13 @@ public class CompleteProfile extends AppCompatActivity {
                 if (status == 200) {
                     //ok
                     sessionHandler.setLogin(true);
+                    JSONObject data = response.getJSONObject("data");
+                    String imaeg = response.getString("imageStr");
+                    sessionHandler.setProfileImage(imaeg);
 
                     //Update screen set user loggedIn
                     Intent intent = new Intent(getApplicationContext(), Home.class);
                     updateScreen(intent);
-
 
 
                 } else {
@@ -169,7 +185,11 @@ public class CompleteProfile extends AppCompatActivity {
 
                 //displaying selected image to image view
                 uploadImage.setImageBitmap(bitmap);
-                uploadBitmap(bitmap);
+//                uploadBitmap(bitmap);
+
+                InputStream is = getContentResolver().openInputStream(data.getData());
+
+                uploadImage(getBytes(is));
 
 
             } catch (IOException e) {
@@ -189,5 +209,66 @@ public class CompleteProfile extends AppCompatActivity {
         });
 
 
+    }
+
+    private void uploadImage(byte[] bytes) {
+//        selectorGallery.setText("Image is being uploaded");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Server.ROOT_SERVER)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService retrofitInterface = retrofit.create(FileUploadService.class);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), bytes);
+        double random = Math.random();
+        String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
+        Log.e(TAG, "uploadImage: " + fileName);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+
+        responseCall.enqueue(new Callback<ResultResponse>() {
+            @Override
+            public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: " + response.body().getStatus());
+                    Log.d(TAG, "onResponse: " + response.body().getData().getLocation());
+                    Log.d(TAG, "onResponse: " + response.message());
+                    profileImage = response.body().getData().getLocation();
+//                    selectorGallery.setVisibility(View.GONE);
+//                    imageWrapper.setVisibility(View.VISIBLE);
+//                    Picasso.get().load(imageUrl)
+//                            .placeholder(R.drawable.placeholder)
+//                            .error(R.drawable.placeholder)
+//                            .into(imageWrapper);
+                } else {
+//                    selectorGallery.setText("Upload");
+                    Toast.makeText(getApplicationContext(), "Error in Image Upload", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResultResponse> call, Throwable t) {
+
+                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+//                selectorGallery.setText("Upload");
+            }
+        });
+
+
+    }
+
+    public byte[] getBytes(InputStream is) throws IOException {
+        ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
+
+        int buffSize = 1024;
+        byte[] buff = new byte[buffSize];
+
+        int len = 0;
+        while ((len = is.read(buff)) != -1) {
+            byteBuff.write(buff, 0, len);
+        }
+
+        return byteBuff.toByteArray();
     }
 }

@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Response;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.project.mlmpro.R;
 import com.project.mlmpro.adapter.SubscriptionAdapter;
@@ -43,7 +44,8 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
     ArrayList<SubscriptionModel> list = new ArrayList<>();
     Toolbar toolbar;
     String[] types = {"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"};
-    String[] amount = {"200", "500", "1000", "2000", "6000", "10000", "20000", "500000"};
+    String[] amount = {"200", "500", "1000", "2000", "6000", "10000", "20000", "50000"};
+    String walletDeductedAmount = null;
 
     SubscriptionAdapter subscriptionAdapter;
     RecyclerView listView;
@@ -169,6 +171,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         total.setText("Rs." + String.valueOf(totalValue));
         paymentDetails.setContentView(view);
         paymentDetails.show();
+        walletDeductedAmount = String.valueOf(appliedValue);
 
         JSONObject object = new JSONObject();
         try {
@@ -189,12 +192,14 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         loader.show("Please wait");
         api.postRequest(object, response -> {
 //            loader.dismiss();
-//            Log.d("RZP", "displayPayment: " + response);
+            Log.d("RZP", "displayPayment: " + response);
             try {
                 int status = response.getInt("status");
                 if (status == 200) {
                     JSONObject re = response.getJSONObject("data");
                     String RZP_ORDER_ID = re.getString("razorpay_order_id");
+                    String _id = re.getString("id");
+                    Constant.PAYMENT_ID = _id;
 //                    Log.d("TAG", "openCheckout: " + RZP_ORDER_ID);
                     Constant.RZP_ORDER_ID = RZP_ORDER_ID;
                     openRzpPayment(RZP_ORDER_ID, object);
@@ -233,14 +238,9 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         Log.d("TAG", "onPaymentSuccess: " + s);
         Log.d("TAG", "onPaymentSuccess: " + Constant.SUBSCRIPTION_TYPE);
 
-//        “id”: “1",
-//    “razorpay_order_id”: “order_G9oP4M2pErzvUH”,
-//    “razorpay_payment_id”: “SDcds”,
-//    “razorpay_signature”: “SDvsd”,
-//    “type”: “1
         JSONObject payment = new JSONObject();
         try {
-//            payment.put("id", sessionHandler.getLoggedInUser());
+            payment.put("id", Constant.PAYMENT_ID);
             payment.put("razorpay_payment_id", s);
             payment.put("razorpay_order_id", Constant.RZP_ORDER_ID);
             payment.put("razorpay_signature", "NA");
@@ -251,6 +251,14 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         Log.d("TAG", "onPaymentSuccess: " + payment);
 
 
+        JSONObject walletAmount = new JSONObject();
+        try {
+            walletAmount.put("total", walletDeductedAmount);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.postRequest(walletAmount, response -> Log.d("TAG", "onResponse: " + response), Server.DEDUCT_WALLET);
         api.postRequest(payment, response -> {
             Log.d("TAG", "onPaymentSuccess: " + response);
             loader.dismiss();
@@ -260,8 +268,9 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
                 status = response.getInt("status");
                 if (status == 200) {
 
-                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
-                    finish();
+                    validateSession();
+//                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+//                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Payment failed", Toast.LENGTH_SHORT).show();
                 }
@@ -271,6 +280,49 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
 
         }, Server.PURCHASE);
 
+    }
+
+    private void validateSession() {
+        api.validateSession(res -> {
+            try {
+                JSONObject response = new JSONObject(res);
+                int status = response.getInt("status");
+                String message = response.getString("message");
+                if (status == 200) {
+                    //login success
+                    JSONObject data = response.getJSONObject("data");
+                    String _id = data.getString("id");
+                    String _name = data.getString("fullName");
+                    String _email = data.getString("email");
+                    String _phone = data.getString("phone");
+                    String _token = data.getString("accessToken"); // token
+                    sessionHandler.setLoggedInMobile(_phone);
+                    sessionHandler.setLoggedInUser(_id);
+                    sessionHandler.setLoggedToken(_token);
+                    sessionHandler.setUserName(_name);
+                    sessionHandler.setLoggedInEmail(_email);
+//                    sessionHandler.setLogin(true);
+                    String isVerified = data.getString("isVerified");
+                    String subscriptionType = data.getString("subscriptionType");
+                    String subscriptionExpiryDate = data.getString("subscriptionExpiryDate");
+                    Constant.PURCHASED_SUBSCRIPTION_TYPE = subscriptionType;
+                    Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON = subscriptionExpiryDate;
+
+
+//                    User user = new User(_id ,_name , _email ,_phone, _token  );
+                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                    finish();
+
+
+
+                } else {
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override

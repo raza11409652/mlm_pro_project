@@ -51,8 +51,7 @@ public class MLMCompanyList extends AppCompatActivity {
         listView = findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setHasFixedSize(true);
-        adapter = new CompanyListAdapter(list, this);
-        listView.setAdapter(adapter);
+
 
 
         setSupportActionBar(toolbar);
@@ -71,13 +70,13 @@ public class MLMCompanyList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        fetch();
+        fetch();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-//        fetch();
+        fetch();
     }
 
     private void fetch() {
@@ -97,7 +96,7 @@ public class MLMCompanyList extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
 
                     }
-//                    list = new ArrayList<>();
+                    list = new ArrayList<>();
                     Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
@@ -130,6 +129,8 @@ public class MLMCompanyList extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         list.add(featurePost);
                     }
+                    adapter = new CompanyListAdapter(list, this);
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();

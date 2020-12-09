@@ -18,16 +18,28 @@ public class TimeDiff {
         try {
             Date today = new Date();
             Log.e(TAG, "diff: Today " + today.toString());
-            String FinalDate = convertMongoDate(date);
+            String FinalDate = convertMongoDateWithS(date);
+            Date postDate = new Date(FinalDate) ;
+            Log.d(TAG, "diff: "  +postDate);
             long difference = today.getTime() - new Date(FinalDate).getTime();
+            Log.d(TAG, "diff: "  +difference);
             long seconds = difference / 1000;
             long minutes = seconds / 60;
             long hours = minutes / 60;
             long days = hours / 24;
-            if (hours > 24) {
-                return days + "day ago";
+//            Log.d(TAG, "diff: " + minutes);
+//            if (hours > 24) {
+//                return days + " day ago";
+//            } else if(hours>1) {
+//                return hours + " hour ago";
+//            }
+            if (minutes < 60) {
+                return minutes + "Minutes ago";
+            } else if (hours > 24) {
+                return days
+                        + "days ago ";
             } else {
-                return hours + "hour ago";
+                return hours + " hour ago";
             }
 
 //            return String.valueOf(days);
@@ -38,12 +50,50 @@ public class TimeDiff {
         return null;
     }
 
-    private static String convertMongoDate(String val) {
+    public static String diffO(String date) {
+        //
+        try {
+            Date today = new Date();
+            Log.e(TAG, "diff: Today " + today.toString());
+            String FinalDate = convertMongoDate(date);
+            long difference = new Date(FinalDate).getTime() - today.getTime();
+            long seconds = difference / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
+            if (hours > 24) {
+                return String.valueOf(days);
+            } else {
+                return String.valueOf(hours);
+            }
+
+//            return String.valueOf(days);
+
+        } catch (Exception exception) {
+            Log.e("Exception" + TAG, "exception " + exception);
+        }
+        return null;
+    }
+
+    public static String convertMongoDate(String val) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd");
         try {
             String finalStr = outputFormat.format(inputFormat.parse(val));
             System.out.println(finalStr);
+            return finalStr;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String convertMongoDateWithS(String val) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        try {
+            String finalStr = outputFormat.format(inputFormat.parse(val));
+//            System.out.println(finalStr);
             return finalStr;
         } catch (ParseException e) {
             e.printStackTrace();

@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.StringHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MlmSeminarUpdateAdapter extends RecyclerView.Adapter<MlmSeminarUpdateAdapter.Viewholder> {
 
@@ -45,6 +48,11 @@ public class MlmSeminarUpdateAdapter extends RecyclerView.Adapter<MlmSeminarUpda
         holder.mobile.setText("+91-" + post.getPhone());
         holder.time.setText(post.getTime());
         holder.amount.setText("Rs. Amount");
+        Picasso.get()
+                .load(post.getPostImage())
+                .error(R.drawable.logo_circle)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imageView);
 
     }
 
@@ -55,6 +63,7 @@ public class MlmSeminarUpdateAdapter extends RecyclerView.Adapter<MlmSeminarUpda
 
     public class Viewholder extends RecyclerView.ViewHolder {
         TextView companyName, address, mobile, whatsapp, time, amount;
+        CircleImageView imageView ;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +73,7 @@ public class MlmSeminarUpdateAdapter extends RecyclerView.Adapter<MlmSeminarUpda
             mobile = itemView.findViewById(R.id.contact_number);
             time = itemView.findViewById(R.id.time);
             amount = itemView.findViewById(R.id.charges);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }

@@ -128,17 +128,21 @@ public class Login extends AppCompatActivity {
                     String _email = data.getString("email");
                     String _phone = data.getString("phone");
                     String _token = data.getString("accessToken"); // token
+                    String _profile = data.getString("imageStr");
                     sessionHandler.setLoggedInMobile(_phone);
                     sessionHandler.setLoggedInUser(_id);
                     sessionHandler.setLoggedToken(_token);
                     sessionHandler.setUserName(_name);
                     sessionHandler.setLoggedInEmail(_email);
+                    sessionHandler.setProfileImage(_profile);
+
 //                    sessionHandler.setLogin(true);
                     String isVerified = data.getString("isVerified");
                     String subscriptionType = data.getString("subscriptionType");
                     String subscriptionExpiryDate = data.getString("subscriptionExpiryDate");
                     Constant.PURCHASED_SUBSCRIPTION_TYPE =subscriptionType ;
                     Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON =subscriptionExpiryDate ;
+                    Constant.LOGEDTOKEN = _token ;
                     if (isVerified.equals("0")) {
                         //Not verified User
 

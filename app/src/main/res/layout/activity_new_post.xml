@@ -23,64 +23,76 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/size_10"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_10">
 
             <ImageView
                 android:id="@+id/profile_image"
-                android:src="@drawable/logo_circle"
                 android:layout_width="@dimen/size_60"
                 android:layout_height="@dimen/size_60"
+                android:src="@drawable/logo_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"></ImageView>
+
             <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/size_10"
+                android:text="NAME"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@id/profile_image"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_image"
-                android:id="@+id/name"
-                android:text="NAME"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></TextView>
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
             <Button
-                android:textAllCaps="false"
-                style="@style/FlatButton"
                 android:id="@+id/post_btn"
-                app:layout_constraintBottom_toBottomOf="@id/profile_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/post"
+                style="@style/FlatButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Button>
+                android:layout_height="wrap_content"
+                android:text="@string/post"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="@id/profile_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></Button>
+
             <EditText
                 android:id="@+id/post_data"
-                android:hint="@string/post_hint"
-                android:background="@drawable/input_focus"
-                android:layout_marginTop="@dimen/size_10"
-                app:layout_constraintTop_toBottomOf="@id/profile_image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_160"></EditText>
+                android:layout_height="@dimen/size_160"
+                android:layout_marginTop="@dimen/size_10"
+                android:background="@drawable/input_focus"
+                android:hint="@string/post_hint"
+                app:layout_constraintTop_toBottomOf="@id/profile_image"></EditText>
+
             <ImageView
+                android:id="@+id/image_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_160"
                 android:layout_marginTop="@dimen/size_10"
                 android:scaleType="center"
-                android:id="@+id/image_wrapper"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/post_data"
+                app:layout_constraintTop_toBottomOf="@id/post_data"></ImageView>
+
+            <VideoView
+                android:id="@+id/video_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_160"></ImageView>
+                android:layout_height="@dimen/size_160"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/post_data"></VideoView>
+
             <Button
                 android:id="@+id/selector_gallery"
-                app:icon="@drawable/ic_baseline_add_24"
-                android:textAllCaps="false"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/size_10"
-                app:layout_constraintTop_toBottomOf="@id/post_data"
                 style="@style/FlatButton"
-                android:text="Upload"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Button>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_10"
+                android:text="Upload"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/post_data"></Button>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.feature.NewPlanDetails">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/parent_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_plan"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_20"
+            android:textStyle="bold"></TextView>
+
+        <ImageButton
+            android:id="@+id/image_uploader"
+            android:layout_width="@dimen/size_120"
+            android:layout_height="@dimen/size_120"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:background="@drawable/click_back"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile"></ImageButton>
+
+        <Button
+            android:id="@+id/upload_pdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_pdf"
+            android:textAllCaps="false"></Button>
+
+        <Button
+            android:id="@+id/upload_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_10"
+            android:text="@string/upload_videos"
+            android:textAllCaps="false"></Button>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

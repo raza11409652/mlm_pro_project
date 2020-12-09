@@ -96,7 +96,7 @@ public class CompanyTopLeaders extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        fetch();
+        fetch(null);
     }
 
     private void fetch(String string) {

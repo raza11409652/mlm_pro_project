@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.StringHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServiceProviderAdapter.Viewholder> {
     ArrayList<FeaturePost> list;
@@ -39,12 +42,17 @@ public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServicePr
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         FeaturePost post = list.get(position);
-        holder.name.setText(post.getCompanyName());
+        holder.name.setText(StringHandler.captalize(post.getCompanyName()));
         holder.address.setText(StringHandler.captalize(post.getStreet1()) + " " + post.getStreet2());
         holder.phone.setText("+91-" + post.getPhone());
         holder.whtsapp.setText("+91-" + post.getWhatsappContact());
         holder.email.setText(post.getEmail());
-        holder.type.setText(post.getProductType());
+        holder.type.setText(StringHandler.captalize(post.getProductType()));
+        Picasso.get()
+                .load(post.getPostImage())
+                .error(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imageView);
 
     }
 
@@ -55,6 +63,7 @@ public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServicePr
 
     public class Viewholder extends RecyclerView.ViewHolder {
         TextView name, address, phone, whtsapp, email, type;
+        CircleImageView imageView;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +73,7 @@ public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServicePr
             phone = itemView.findViewById(R.id.contact_number);
             whtsapp = itemView.findViewById(R.id.whatsapp_number);
             type = itemView.findViewById(R.id.type);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }

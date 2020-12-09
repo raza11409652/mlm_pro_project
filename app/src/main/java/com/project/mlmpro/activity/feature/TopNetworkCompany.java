@@ -162,7 +162,7 @@ public class TopNetworkCompany extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        fetch();
+        fetch(null);
     }
 
     @Override

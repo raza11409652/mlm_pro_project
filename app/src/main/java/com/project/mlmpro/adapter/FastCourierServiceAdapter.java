@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
 import com.project.mlmpro.utils.StringHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FastCourierServiceAdapter extends RecyclerView.Adapter<FastCourierServiceAdapter.ViewHolder> {
     ArrayList<FeaturePost> list;
@@ -63,6 +66,11 @@ public class FastCourierServiceAdapter extends RecyclerView.Adapter<FastCourierS
                 break;
         }
 
+        Picasso.get().load(post.getPostImage())
+                .error(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imageView);
+
     }
 
     @Override
@@ -72,6 +80,7 @@ public class FastCourierServiceAdapter extends RecyclerView.Adapter<FastCourierS
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, address, whatsapp, phone, email, type;
+        CircleImageView imageView ;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +90,7 @@ public class FastCourierServiceAdapter extends RecyclerView.Adapter<FastCourierS
             whatsapp = itemView.findViewById(R.id.whatsapp_number);
             phone = itemView.findViewById(R.id.contact_number);
             type = itemView.findViewById(R.id.type);
+            imageView  =itemView.findViewById(R.id.image);
         }
     }
 }
