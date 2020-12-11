@@ -6,10 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +44,10 @@ public class MLMSeminalUpdate extends AppCompatActivity {
     MlmSeminarUpdateAdapter adapter;
     RecyclerView listView;
 
+    EditText search_bar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
+
+    LinearLayoutManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +64,74 @@ public class MLMSeminalUpdate extends AppCompatActivity {
         setTitle(getString(R.string.mlm_seminar_update));
         requestApi = new RequestApi(this);
 
+        search_bar = findViewById(R.id.search_bar);
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() < 1) {
+                    query = null;
+                } else {
+                    query = s.toString();
+                }
+                fetch(limit, skip, query);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
-        fetch();
+        fetch(limit, skip, query);
 
         listView = findViewById(R.id.list_view);
-        listView.setLayoutManager(new LinearLayoutManager(this));
 
+        dataManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManager);
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+                if (lastItem == list.size() - 1) {
+                    Log.d("TAG", "onScrolled: Reach last item");
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem;
+                    Log.d("TAG", "onScrolled: " + skipVal);
+                    if (query == null) {
+                        fetch(limit, String.valueOf(skipVal), query);
+                    }
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        fetch();
+        fetch(limit, skip, query);
     }
 
-    private void fetch() {
+    private void fetch(String limit, String skip, String query) {
 //
-        String url = Server.GET_FEATURE + "?postType=4";
+        String url = null;
+        if (query == null || query.length() < 1) {
+            url = Server.GET_FEATURE + "?postType=4&limit=" + limit + "&skip=" + skip;
+        } else {
+            url = Server.GET_FEATURE + "?postType=4&searchTxt=" + query + "&limit=" + limit + "&skip=" + skip;
+        }
         requestApi.getRequest(url, response -> {
 //            Log.d(TAG, "fetch: " + response);
             try {
@@ -87,9 +144,11 @@ public class MLMSeminalUpdate extends AppCompatActivity {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
                     }
-                    list = new ArrayList<>();
+                    if(skip.equals("0")){
+                        list = new ArrayList<>();
+                    }
                     Log.d("TAG", "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -28,7 +29,7 @@ import org.json.JSONObject;
  * Login Screen
  */
 public class Login extends AppCompatActivity {
-    Button loginBtn, registerBtn;
+    Button loginBtn, registerBtn, forgetPwd;
     String TAG = Login.class.getSimpleName();
     EditText mobileEdt, passwordEdt;
     String mobile, password;
@@ -52,6 +53,7 @@ public class Login extends AppCompatActivity {
         mobileEdt = findViewById(R.id.mobile_input);
         passwordEdt = findViewById(R.id.password_input);
         loginBtn = findViewById(R.id.login_btn);
+        forgetPwd = findViewById(R.id.forget_pwd);
         loader = new Loader(this);
         api = new RequestApi(this);
         sessionHandler = new SessionHandler(this);
@@ -75,6 +77,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        forgetPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forget = new Intent(getApplicationContext(), ForgetPassword.class);
+                updateScreen(forget);
             }
         });
 
@@ -140,19 +149,19 @@ public class Login extends AppCompatActivity {
                     String isVerified = data.getString("isVerified");
                     String subscriptionType = data.getString("subscriptionType");
                     String subscriptionExpiryDate = data.getString("subscriptionExpiryDate");
-                    Constant.PURCHASED_SUBSCRIPTION_TYPE =subscriptionType ;
-                    Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON =subscriptionExpiryDate ;
-                    Constant.LOGEDTOKEN = _token ;
+                    Constant.PURCHASED_SUBSCRIPTION_TYPE = subscriptionType;
+                    Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON = subscriptionExpiryDate;
+                    Constant.LOGEDTOKEN = _token;
                     if (isVerified.equals("0")) {
                         //Not verified User
 
                         Constant.PROCESS = "1";
-                        Intent intent = new Intent(getApplicationContext()  , VerifyOtp.class);
+                        Intent intent = new Intent(getApplicationContext(), VerifyOtp.class);
                         startActivity(intent);
 //                        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |
 //                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         finish();
-                    }else{
+                    } else {
                         Intent home = new Intent(getApplicationContext(), Home.class);
                         startActivity(home);
                         home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP |

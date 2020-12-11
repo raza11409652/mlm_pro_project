@@ -5,6 +5,7 @@
 package com.project.mlmpro.adapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = list.get(position);
         String postImage = post.getImage();
-        if (postImage == null || postImage.equals("NA")) {
-            holder.postImage.setVisibility(View.GONE);
-        } else {
-            holder.postImage.setVisibility(View.VISIBLE);
-        }
+
 
         if (post.getIsLiked().equals("1")) {
             holder.like_wrapper.setVisibility(View.GONE);
@@ -69,9 +66,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             holder.postData.setVisibility(View.VISIBLE);
         }
 
-        Picasso.get().load(list.get(position).getImage())
-                .placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
-                .into(holder.postImage);
+        if (postImage.contains("MLM_PRO_VIDEO")){
+            //This is vide
+            try
+            {
+                holder.postImage.setVisibility(View.GONE);
+                holder.video_wrapper.setVisibility(View.VISIBLE);
+                holder.video_wrapper.setVideoPath(postImage);
+                holder.video_wrapper.start();
+                holder.video_wrapper.setOnCompletionListener(mp -> {
+                    holder.video_wrapper.start();
+                });
+            }catch (Exception e){
+                Log.d("TAG", "onBindViewHolder: "  +e.getLocalizedMessage());
+            }
+        }else{
+            if (postImage == null || postImage.equals("NA")) {
+                holder.postImage.setVisibility(View.GONE);
+            } else {
+                holder.postImage.setVisibility(View.VISIBLE);
+            }
+            //this isimage
+//            holder.postImage.setVisibility(View.VISIBLE);
+            Picasso.get().load(list.get(position).getImage())
+                    .placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
+                    .into(holder.postImage);
+        }
+
         holder.postData.setText(post.getData());
         holder.time.setText(TimeDiff.diff(post.getCreatedOn()));
         holder.name.setText(post.getSenderName());
@@ -80,6 +101,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
         holder.like_wrapper.setOnClickListener(v -> {
             listener.onLikeClick(post);
+            holder.like_wrapper.setVisibility(View.GONE);
+            holder.dislike_wrapper.setVisibility(View.VISIBLE);
         });
         holder.dislike_wrapper.setOnClickListener(v -> {
             listener.onDislikeClick(post);
@@ -88,13 +111,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         });
         holder.share_wrapper.setOnClickListener(v -> {
             listener.onShareClick(post);
-            holder.like_wrapper.setVisibility(View.GONE);
-            holder.dislike_wrapper.setVisibility(View.VISIBLE);
+
         });
         Picasso.get().load(list.get(position).getSenderImage())
                 .error(R.drawable.logo)
                 .placeholder(R.drawable.logo_circle)
                 .into(holder.profileImage);
+        holder.commentWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onComment(post);
+            }
+        });
 
 
     }

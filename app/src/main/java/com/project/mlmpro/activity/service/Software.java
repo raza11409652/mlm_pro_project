@@ -5,6 +5,7 @@
 package com.project.mlmpro.activity.service;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,7 +18,7 @@ import com.project.mlmpro.utils.IntentSetting;
 public class Software extends AppCompatActivity {
 
     Toolbar toolbar;
-    Button call   ;
+    Button call  , whataspp  ;
     IntentSetting setting ;
 
     @Override
@@ -34,6 +35,13 @@ public class Software extends AppCompatActivity {
         setTitle(getString(R.string.service));
         setting  =new IntentSetting(this) ;
         call  =findViewById(R.id.call);
+        whataspp  =findViewById(R.id.whatsapp) ;
+        whataspp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWhatsapp();
+            }
+        });
         call.setOnClickListener(v->{setting.call(getString(R.string.call_to_number));
         });
     }

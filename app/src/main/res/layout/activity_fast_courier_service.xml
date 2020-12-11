@@ -19,6 +19,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_marginBottom="@dimen/size_10"
+            android:id="@+id/search_bar_wr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:hint="SEARCH"
+                android:background="@drawable/background_input"
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></EditText>
+        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:paddingBottom="@dimen/size_70"

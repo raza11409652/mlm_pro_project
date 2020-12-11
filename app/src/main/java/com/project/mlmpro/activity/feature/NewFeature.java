@@ -73,7 +73,7 @@ public class NewFeature extends AppCompatActivity {
     BottomSheetDialog calenderBottomSheet;
     String imageUrl;
     ImageButton imageButton;
-
+    String _token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class NewFeature extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         sessionHandler = new SessionHandler(this);
         loader = new Loader(this);
-
+        _token = "Bearer " + sessionHandler.getLoggedToken();
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -244,6 +244,7 @@ public class NewFeature extends AppCompatActivity {
 //            Log.d(TAG, "onActivityResult: user cancel this action");
         }
     }
+
     private void uploadImage(byte[] bytes) {
 //        selectorGallery.setText("Image is being uploaded");
 
@@ -257,7 +258,7 @@ public class NewFeature extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token, body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

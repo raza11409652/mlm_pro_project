@@ -19,14 +19,34 @@ public class IntentSetting {
 
     public void call(String mobile) {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
     public void openWhatsapp() {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        String url = "https://api.whatsapp.com/send?phone=" + context.getString(R.string.whatsapp_to_number);
+        String url = "https://api.whatsapp.com/send?phone=+91" + context.getString(R.string.whatsapp_to_number);
+        i.setData(Uri.parse(url));
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+    }
+
+    public void openWhatsappWithMobile(String m) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        String url = "https://api.whatsapp.com/send?phone=+91" + m;
         i.setData(Uri.parse(url));
         context.startActivity(i);
+    }
+
+    public void openWeb(String url) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+            i.setData(Uri.parse(url));
+            context.startActivity(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void openShare(String msg) {

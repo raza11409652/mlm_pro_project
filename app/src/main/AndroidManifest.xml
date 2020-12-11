@@ -12,12 +12,16 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
-        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.feature.NewPlanDetails"></activity>
+        <activity android:name=".activity.NewPassword"></activity>
+        <activity android:name=".activity.Comment" />
+        <activity android:name=".activity.UpdateProfile" />
+        <activity android:name=".activity.ForgetPassword" />
+        <activity android:name=".activity.feature.NewPlanDetails" />
         <activity android:name=".VerifyOtp" />
         <activity android:name=".activity.feature.NewManufacturing" />
         <activity android:name=".activity.feature.NewProvider" />
@@ -76,7 +80,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:host="mlm.app"
+                    android:scheme="https" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
     </application>
+
+
 
 </manifest>

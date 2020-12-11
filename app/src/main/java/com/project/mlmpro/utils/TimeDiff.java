@@ -87,6 +87,11 @@ public class TimeDiff {
         }
         return null;
     }
+    public  static  String dateNow (String time){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = formatter.format(new Date(Long.parseLong(time)));
+        return  dateString ;
+    }
 
     public static String convertMongoDateWithS(String val) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

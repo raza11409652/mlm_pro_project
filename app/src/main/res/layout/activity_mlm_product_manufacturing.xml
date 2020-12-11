@@ -13,11 +13,28 @@
         android:id="@+id/toolbar"
         layout="@layout/appbar"></include>
 
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:id="@+id/we"
+        android:layout_margin="@dimen/size_10"
+        app:cardUseCompatPadding="true"
+        android:clipToPadding="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:background="@drawable/background_input"
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></EditText>
+    </androidx.cardview.widget.CardView>
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/size_10"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"></androidx.recyclerview.widget.RecyclerView>
+        android:paddingLeft="@dimen/size_10"
+        android:paddingRight="@dimen/size_10"
+        android:paddingBottom="@dimen/size_120"
+        app:layout_constraintTop_toBottomOf="@id/we"></androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

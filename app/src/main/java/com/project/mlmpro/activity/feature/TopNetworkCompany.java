@@ -40,7 +40,9 @@ public class TopNetworkCompany extends AppCompatActivity {
     ArrayList<FeaturePost> list = new ArrayList<>();
     RecyclerView listView;
     EditText searchBar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
 
+    LinearLayoutManager dataManager;
 
     TopNetworkAdapter adapter;
 
@@ -63,7 +65,9 @@ public class TopNetworkCompany extends AppCompatActivity {
 
         listView = findViewById(R.id.list_view);
         listView.setHasFixedSize(true);
-        listView.setLayoutManager(new LinearLayoutManager(this));
+        dataManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManager);
+
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,10 +78,12 @@ public class TopNetworkCompany extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().length() < 1) {
-                    fetch(null);
+                    query = s.toString() ;
+                    fetch(limit, skip, null);
                     return;
                 }
-                fetch(s.toString());
+                query = null ;
+                fetch(limit, skip, s.toString());
             }
 
             @Override
@@ -86,18 +92,43 @@ public class TopNetworkCompany extends AppCompatActivity {
             }
         });
 
-        fetch(null);
+        fetch(limit, skip, null);
+
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+
+                   if (lastItem ==list.size()-1){
+                       Log.d("TAG", "onScrolled: Reach last item" );
+                       int skipVal = Integer.parseInt(skip);
+                       skipVal = skipVal + lastItem  ;
+                       Log.d("TAG", "onScrolled: "  +skipVal);
+                       if(query==null){
+                           fetch(limit , String.valueOf(skipVal), null );
+                       }
+                   }
+
+            }
+        });
 
 
     }
 
-    private void fetch(String string) {
+    private void fetch(String limit, String skip, String string) {
         String url = null;
         if (string == null) {
-            url = Server.GET_FEATURE + "?postType=1";
+            url = Server.GET_FEATURE + "?postType=1&limit=" + limit + "&skip=" + skip;
         } else {
-            url = Server.GET_FEATURE + "?postType=1&searchTxt=" + string;
+            url = Server.GET_FEATURE + "?postType=1&searchTxt=" + string + "&limit=" + limit + "&skip=" + skip;
         }
+        Log.d("TAG", "fetch: " + url);
 
         requestApi.getRequest(url, response -> {
             Log.d("TAG", "fetch: " + response);
@@ -111,10 +142,12 @@ public class TopNetworkCompany extends AppCompatActivity {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
                     }
-
-                    list = new ArrayList<>();
+                    if (skip.equals("0")) {
+                        list = new ArrayList<>();
+                    }
+//                    list = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
                         String senderID = single.getString("senderID");
@@ -162,7 +195,7 @@ public class TopNetworkCompany extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch(null);
+        fetch(limit, skip, null);
     }
 
     @Override

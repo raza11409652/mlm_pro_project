@@ -64,6 +64,7 @@ public class NewTopCompanyNetword extends AppCompatActivity {
     RequestApi api;
     Loader loader;
     ImageButton imageButton;
+    String _token ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class NewTopCompanyNetword extends AppCompatActivity {
 //        type = getIntent().getStringExtra("type");
         sessionHandler = new SessionHandler(this);
         loader = new Loader(this);
+        _token = "Bearer " + sessionHandler.getLoggedToken();
 
         toolbar = findViewById(R.id.toolbar);
         imageButton = findViewById(R.id.image_uploader);
@@ -297,7 +299,7 @@ public class NewTopCompanyNetword extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

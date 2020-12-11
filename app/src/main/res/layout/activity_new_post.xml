@@ -76,6 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@id/post_data"></ImageView>
 
             <VideoView
+                android:layout_marginTop="@dimen/margin_top"
                 android:id="@+id/video_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_160"

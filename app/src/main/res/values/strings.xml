@@ -72,8 +72,8 @@
     <string name="help_plan">Help Plan</string>
     <string name="metrix_plan">Matrix Plan</string>
     <string name="purchase_plan">Repurchase Plan</string>
-    <string name="call_to_number">9815963210</string>
-    <string name="whatsapp_to_number">9815963210</string>
+    <string name="call_to_number">7024889404</string>
+    <string name="whatsapp_to_number">7024889404</string>
     <string name="refer">Refer</string>
     <string name="reward">Rewards</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -117,5 +117,10 @@
     <string name="company_plan">Upload company plan</string>
     <string name="upload_pdf">Upload Pdf</string>
     <string name="upload_videos">Upload Videos</string>
+    <string name="proceed">Proceed</string>
+    <string name="forget_psw">Forget Password ?</string>
+    <string name="update_profile">Update profile</string>
+    <string name="resend_otp">Resend Otp</string>
+    <string name="website">Enter Website</string>
 
 </resources>

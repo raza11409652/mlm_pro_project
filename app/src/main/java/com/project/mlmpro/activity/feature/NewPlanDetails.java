@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -67,6 +68,8 @@ public class NewPlanDetails extends AppCompatActivity {
     //    ProgressDialog progressDialog;
 //    TextViewtView str1, str2;
     Loader loader;
+    String _token ;
+//    EditText search_bar ;
 
 
     @Override
@@ -83,12 +86,15 @@ public class NewPlanDetails extends AppCompatActivity {
         loader = new Loader(this);
         requestApi = new RequestApi(this);
 
+        _token = "Bearer " + sessionHandler.getLoggedToken();
 
         setTitle("Company Plan Details");
         imageButton = findViewById(R.id.image_uploader);
         pdfUpload = findViewById(R.id.upload_pdf);
         videoUpload = findViewById(R.id.upload_video);
         checkForSubs();
+
+//        search_bar  =findViewById(R.id.search_bar);
 
         videoUpload.setOnClickListener(v -> {
 
@@ -213,7 +219,7 @@ public class NewPlanDetails extends AppCompatActivity {
         FileUploadService retrofitInterface = retrofit.create(FileUploadService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", file.getName(), requestBody);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(fileToUpload);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  ,fileToUpload);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override
@@ -296,7 +302,7 @@ public class NewPlanDetails extends AppCompatActivity {
         double random = Math.random();
         String fileName = random + "_plan_pdf_" + System.currentTimeMillis() + ".pdf";
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override
@@ -334,7 +340,7 @@ public class NewPlanDetails extends AppCompatActivity {
         String fileName = random + "_comp_plan_logo_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

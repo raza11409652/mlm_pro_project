@@ -64,6 +64,7 @@ public class NewProvider extends AppCompatActivity {
     RequestApi api;
     Loader loader;
 
+    String _token ;
     ImageButton imageButton ;
 
     @Override
@@ -89,6 +90,7 @@ public class NewProvider extends AppCompatActivity {
         sessionHandler = new SessionHandler(this);
         loader = new Loader(this);
 
+        _token = "Bearer " + sessionHandler.getLoggedToken();
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -259,7 +261,7 @@ public class NewProvider extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

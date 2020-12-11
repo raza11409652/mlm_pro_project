@@ -28,6 +28,8 @@ public class SessionHandler {
     private static final String USER_NAME = "user_name"; //it will store uid
     private static final String USER_EMAIL = "user_email"; //it will store uid
     private static final String PROFILE_IMAGE = "user_image"; //it will store uid
+    private static final String COMPANY_NAME = "user_company"; //it will store uid
+    private static final String USER_ADDRESS= "user_address"; //it will store uid
 
     public SessionHandler(Context context) {
         this._context = context;
@@ -74,6 +76,14 @@ public class SessionHandler {
         editor.putString(USER_EMAIL, email);
         editor.commit();
         Log.d(TAG, "setLoggedInEmail: Email updated");
+    }
+    public  void setCompanyName(String com){
+        editor.putString(COMPANY_NAME , com);
+        editor.commit();
+        Log.d(TAG, "setCompanyName: " +com);
+    }
+    public  String getCompanyName(){
+        return  pref.getString(COMPANY_NAME , null) ;
     }
 
     public String getLoggedInUser() {

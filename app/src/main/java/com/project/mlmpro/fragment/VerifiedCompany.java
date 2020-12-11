@@ -5,10 +5,13 @@
 package com.project.mlmpro.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,12 +34,16 @@ import java.util.ArrayList;
 
 public class VerifiedCompany extends Fragment {
     RequestApi api;
+    EditText search_bar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
 
 //    RequestApi api;
 
     RecyclerView listView;
     ArrayList<FeaturePost> list = new ArrayList<>();
     CurrentGrowthAdapter adapter;
+    LinearLayoutManager dataManager;
+
     public VerifiedCompany() {
         // Required empty public constructor
     }
@@ -46,14 +53,19 @@ public class VerifiedCompany extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         api = new RequestApi(getContext());
-        adapter = new CurrentGrowthAdapter(list, getContext());
-
-        fetch();
+        fetch(limit , skip , query);
 
 
     }
-    private void fetch() {
-        api.getRequest(Server.GET_FEATURE+"?status=0&postType=6", response -> {
+
+    private void fetch(String limit , String skip , String query) {
+        String url = null;
+        if (query == null || query.length() < 1) {
+            url = Server.GET_FEATURE + "?postType=6&limit="+limit+"&skip="+skip;
+        } else {
+            url = Server.GET_FEATURE + "?postType=7&searchTxt=" + query+"&limit="+limit+"&skip="+skip;
+        }
+        api.getRequest(url, response -> {
             Log.d("TAG", "fetch: " + response);
             try {
                 JSONObject object = new JSONObject(response);
@@ -67,7 +79,10 @@ public class VerifiedCompany extends Fragment {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
 //                        Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
+                    }
+                    if (skip.equals("0")) {
+                        list = new ArrayList<>();
                     }
 //                    list = new ArrayList<>();
                     Log.d("TAG", "fetch: " + array);
@@ -102,6 +117,8 @@ public class VerifiedCompany extends Fragment {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         list.add(featurePost);
                     }
+                    adapter = new CurrentGrowthAdapter(list, getContext());
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
 //                    Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
@@ -118,10 +135,53 @@ public class VerifiedCompany extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         listView = view.findViewById(R.id.list_view);
         listView.setHasFixedSize(true);
+        search_bar = view.findViewById(R.id.search_bar);
 //        listView.setHasFixedSize(true);
 
-        listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.setAdapter(adapter);
+        dataManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(dataManager) ;
+
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+                Log.d("TAG", "onScrolled: " + lastItem);
+                if (lastItem ==list.size()-1){
+                    Log.d("TAG", "onScrolled: Reach last item" );
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem  ;
+//                    Log.d(TAG, "onScrolled: "  +skipVal);
+                    if(query==null){
+                        fetch(limit , String.valueOf(skipVal), query );
+                    }
+                }
+            }
+        });
+
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                query = s.toString();
+                fetch(limit , skip ,query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

@@ -41,7 +41,9 @@ public class TopMLMTrainer extends AppCompatActivity {
     ArrayList<FeaturePost> list = new ArrayList<>();
     RecyclerView listView;
     EditText searchBar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
 
+    LinearLayoutManager dataManager ;
     MlmTrainerAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +63,34 @@ public class TopMLMTrainer extends AppCompatActivity {
                 = findViewById(R.id.list_view);
         searchBar = findViewById(R.id.search_bar);
 
-        listView.setLayoutManager(new LinearLayoutManager(this));
+        dataManager  =new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManager);
 
 
-        fetch(null);
+        fetch(limit , skip , null);
 
+
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastItem  =dataManager.findLastCompletelyVisibleItemPosition();
+                if (lastItem ==list.size()-1){
+                    Log.d("TAG", "onScrolled: Reach last item" );
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem  ;
+                    Log.d("TAG", "onScrolled: "  +skipVal);
+                    if(query==null){
+                        fetch(limit , String.valueOf(skipVal), query );
+                    }
+                }
+            }
+        });
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -76,10 +101,12 @@ public class TopMLMTrainer extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.w("TAG", "onTextChanged: " + s.toString());
                 if (s.length()<3) {
-                    fetch(null);
+                    query = null ;
+                    fetch(limit ,skip , null);
                     return;
                 }
-                fetch(s.toString());
+                query  =s.toString() ;
+                fetch(limit , skip ,s.toString());
             }
 
 
@@ -117,17 +144,17 @@ public class TopMLMTrainer extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch(null);
+        fetch(limit , skip  ,null);
     }
 
-    private void fetch(String string) {
+    private void fetch(String limit , String skip ,  String string) {
 
         String url ;
 
         if (string!=null){
-            url = Server.GET_FEATURE + "?postType=2&searchTxt="+string  ;
+            url = Server.GET_FEATURE + "?postType=2&searchTxt="+string+"&limit="+limit +"&skip="+skip  ;
         }else{
-            url = Server.GET_FEATURE + "?postType=2"  ;
+            url = Server.GET_FEATURE + "?postType=2&limit="+limit+"&skip="+skip ;
         }
 
         requestApi.getRequest(url, response -> {
@@ -141,10 +168,12 @@ public class TopMLMTrainer extends AppCompatActivity {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+return;
                     }
 
-list = new ArrayList<>( );
+                    if(skip.equals("0")){
+                        list = new ArrayList<>();
+                    }
 //                    Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);

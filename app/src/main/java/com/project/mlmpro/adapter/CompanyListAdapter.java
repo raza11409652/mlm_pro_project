@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
+import com.project.mlmpro.utils.IntentSetting;
 import com.project.mlmpro.utils.StringHandler;
 import com.squareup.picasso.Picasso;
 
@@ -27,10 +27,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.ViewHolder> {
     ArrayList<FeaturePost> list;
     Context context;
+    IntentSetting setting;
 
     public CompanyListAdapter(ArrayList<FeaturePost> list, Context context) {
         this.list = list;
         this.context = context;
+        setting = new IntentSetting(context);
     }
 
     @NonNull
@@ -56,6 +58,19 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.logo_circle)
                 .into(holder.imageView);
+
+        holder.whatsApp.setOnClickListener(v -> {
+            setting.openWhatsappWithMobile(list.get(position).getWhatsappContact());
+        });
+        holder.mobile.setOnClickListener(v -> {
+            setting.call(list.get(position).getPhone());
+        });
+        holder.webLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWeb(list.get(position).getWebsiteLike());
+            }
+        });
     }
 
     @Override
@@ -77,7 +92,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
             webLink = itemView.findViewById(R.id.web_link);
             date = itemView.findViewById(R.id.date);
             country = itemView.findViewById(R.id.country);
-            imageView  =itemView.findViewById(R.id.image);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }

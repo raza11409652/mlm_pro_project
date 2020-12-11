@@ -4,11 +4,16 @@
 
 package com.project.mlmpro.utils;
 
+import com.project.mlmpro.model.Post;
+
 public class Constant {
     public static final int GALLERY_OPEN = 123;
     public static final int GALLERY_IMAGE_VIDEO = 124;
     public static final int OPEN_FOR_PDF = 1222;
     public static final int VIDEO_OPEN = 12223;
+    public static  Post CURRENT_POST =null ;
+    public static  String FORGET_MOBILE =null ;
+    public static  String OTP_FORGET =null ;
     public static  String LOGEDTOKEN =null ;
     public static  String PAYMENT_ID = null;
     public static  String PROCESS = null;

@@ -189,10 +189,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/whatsapp"
             android:text="@string/whatsapp_enquiry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Button>
         <Button
+            android:id="@+id/call"
             android:text="@string/call_enquiry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Button>

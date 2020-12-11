@@ -23,8 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/profile_image"
-            android:layout_width="@dimen/size_60"
-            android:layout_height="@dimen/size_60"></de.hdodenhof.circleimageview.CircleImageView>
+            android:layout_width="@dimen/size_80"
+            android:layout_height="@dimen/size_80"></de.hdodenhof.circleimageview.CircleImageView>
         <TextView
 
             android:textColor="@color/black"
@@ -34,6 +34,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
             android:text="NAME"
+            android:textStyle="bold"
+            android:textSize="@dimen/size_18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>
         <TextView
@@ -70,7 +72,14 @@
         android:visibility="gone"
         android:src="@drawable/placeholder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ImageView>
+        android:layout_height="@dimen/size_160"></ImageView>
+    <VideoView
+
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:id="@+id/video_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_160"></VideoView>
     <LinearLayout
         android:padding="@dimen/size_10"
         android:weightSum="3"
@@ -128,6 +137,7 @@
                 android:layout_height="wrap_content"></TextView>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/comment_wrapper"
             android:layout_weight="1"
             android:layout_width="0sp"
             android:layout_height="wrap_content">

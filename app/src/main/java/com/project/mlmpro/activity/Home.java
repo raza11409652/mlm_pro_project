@@ -63,6 +63,7 @@ import com.project.mlmpro.utils.IntentSetting;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
+import com.project.mlmpro.utils.StringHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -93,6 +94,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     RecyclerView homeMenu;
     IntentSetting setting;
 
+//
+//    String limit = String.valueOf(20) , skip="0" ;
     AlertFlash alertFlash;
     CircleImageView _profile;
 
@@ -104,7 +107,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     ArrayList<Post> posts = new ArrayList<>();
     PostAdapter postAdapter;
     NavigationView navigationView;
-    TextView nameUser;
+    TextView nameUser  ,companyname , address;
     SessionHandler sessionHandler;
 
     int visibleItemCount, totalItemCount, pastVisiblesItems;
@@ -138,9 +141,22 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
         navigationView = findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(v->{
+            Intent updatep = new Intent(getApplicationContext() , UpdateProfile.class);
+            startActivity(updatep);
+        });
         nameUser = headerView.findViewById(R.id.name);
         _profile = headerView.findViewById(R.id.image);
-        nameUser.setText(sessionHandler.getUserName());
+        nameUser.setText(StringHandler.captalize(sessionHandler.getUserName()));
+        companyname = headerView.findViewById(R.id.company_name) ;
+        address = headerView.findViewById(R.id.address) ;
+        try{
+            companyname.setText(StringHandler.captalize(sessionHandler.getCompanyName()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        address.setText(sessionHandler.getLoggedInMobile());
+
         Picasso.get().load(sessionHandler.getProfileImage()).placeholder(R.drawable.logo_circle)
                 .placeholder(R.drawable.logo_circle).into(_profile);
 
@@ -215,6 +231,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
 //        fetchImageSlider();
 
+
+        fetchPost(limit , skip);
         runOnUiThread(() -> {
 
             fetchImageSlider();
@@ -252,15 +270,18 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 Log.d(TAG, "onScrolled: " + postLayoutManager.findLastVisibleItemPosition());
-//
-//                    if (postLayoutManager != null && postLayoutManager.findLastCompletelyVisibleItemPosition()
-//                            == posts.size() - 1) {
-//                        //bottom of list!
-////                    loadMore();
-//                        fetchPost(String.valueOf(posts.size()), String.valueOf(20 + posts.size()));
-////                    isLoading = true;
-//                        Log.d(TAG, "onScrolled: Bottom of the list");
-//                    }
+                int item  =postLayoutManager.findLastVisibleItemPosition() ;
+                if (item ==posts.size()-1){
+                    //last item reach
+
+                    int skipI = Integer.parseInt(skip);
+                    skipI = skipI+item;
+
+                    fetchPost(limit , String.valueOf(skipI));
+
+
+                }
+
             }
 
         });
@@ -321,7 +342,12 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
                 if (status == 200) {
                     JSONArray array = object.getJSONArray("data");
-                    list = new ArrayList<>();
+                    if (array.length()<1){
+                        return;
+                    }
+                   if (skip.equals("0")){
+                       posts = new ArrayList<>();
+                   }
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
                         String _id = single.getString("id");
@@ -343,7 +369,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
                     postAdapter = new PostAdapter(posts, this, this);
                     postListView.setAdapter(postAdapter);
-
+                    postAdapter.notifyDataSetChanged();
                     postListView.setLayoutManager(postLayoutManager);
 
                 } else {
@@ -605,9 +631,20 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onShareClick(Post post) {
         String msg = post.getData();
-        msg += "\n https://url.com";
+        String id = post.getId() ;
+
+        msg +="\nhttps://mlm.app/"+id;
+        msg += "\nDownload app from https://url.com";
         setting.openShare(msg);
 
+    }
+
+    @Override
+    public void onComment(Post post) {
+
+        Intent intent  =new Intent(getApplicationContext() , Comment.class);
+        Constant.CURRENT_POST = post;
+        startActivity(intent);
     }
 
     @Override

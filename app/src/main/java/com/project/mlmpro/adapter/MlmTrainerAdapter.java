@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
+import com.project.mlmpro.utils.IntentSetting;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,9 +26,11 @@ public class MlmTrainerAdapter extends RecyclerView.Adapter<MlmTrainerAdapter.Vi
     ArrayList<FeaturePost> list;
     Context context;
 
+    IntentSetting setting ;
     public MlmTrainerAdapter(ArrayList<FeaturePost> list, Context context) {
         this.list = list;
         this.context = context;
+        setting = new IntentSetting(context);
     }
 
     @NonNull
@@ -52,6 +55,25 @@ public class MlmTrainerAdapter extends RecyclerView.Adapter<MlmTrainerAdapter.Vi
         Picasso.get().load(p.getPostImage()).placeholder(R.drawable.placeholder)
                 .error(R.drawable.logo_circle)
                 .into(holder.imageView);
+
+        holder.mobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.call(list.get(position).getPhone());
+            }
+        });
+        holder.whatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWhatsappWithMobile(list.get(position).getWhatsappContact());
+            }
+        });
+        holder.webLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWeb(list.get(position).getWebsiteLike());
+            }
+        });
     }
 
     @Override

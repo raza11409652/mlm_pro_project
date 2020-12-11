@@ -38,7 +38,7 @@ public class AlertFlash {
                 .setPositiveButton("OK", (dialog, which) -> {
                     sessionHandler.setLogin(false);
                     sessionHandler.setLoggedInEmail(null);
-                    sessionHandler.setLoggedToken(null);
+//                    sessionHandler.setLoggedToken(null);
                     Intent main = new Intent(context, MainActivity.class);
                     context.startActivity(main);
                     main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

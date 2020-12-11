@@ -5,6 +5,7 @@
 package com.project.mlmpro.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
+import com.project.mlmpro.utils.IntentSetting;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,9 +27,11 @@ public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.Vi
     ArrayList<FeaturePost> list;
     Context context;
 
+    IntentSetting setting ;
     public TopNetworkAdapter(ArrayList<FeaturePost> list, Context context) {
         this.list = list;
         this.context = context;
+        setting = new IntentSetting(context);
     }
 
     @NonNull
@@ -50,6 +54,25 @@ public class TopNetworkAdapter extends RecyclerView.Adapter<TopNetworkAdapter.Vi
                 .error(R.drawable.logo_circle)
                 .into(holder.imageView);
 
+        holder.mobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.call(list.get(position).getPhone());
+            }
+        });
+        holder.whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWhatsappWithMobile(list.get(position).getWhatsappContact());
+            }
+        });
+//        holder.email.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setting.openShare();
+//            }
+//        });
+//
     }
 
     @Override

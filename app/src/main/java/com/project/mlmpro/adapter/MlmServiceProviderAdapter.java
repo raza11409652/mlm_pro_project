@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.mlmpro.R;
 import com.project.mlmpro.model.FeaturePost;
+import com.project.mlmpro.utils.IntentSetting;
 import com.project.mlmpro.utils.StringHandler;
 import com.squareup.picasso.Picasso;
 
@@ -25,10 +26,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServiceProviderAdapter.Viewholder> {
     ArrayList<FeaturePost> list;
     Context context;
+    IntentSetting setting ;
 
     public MlmServiceProviderAdapter(ArrayList<FeaturePost> list, Context context) {
         this.list = list;
         this.context = context;
+        setting = new IntentSetting(context);
     }
 
     @NonNull
@@ -53,6 +56,21 @@ public class MlmServiceProviderAdapter extends RecyclerView.Adapter<MlmServicePr
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(holder.imageView);
+
+        holder.whtsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.openWhatsappWithMobile(list.get(position).getWhatsappContact());
+            }
+        });
+        holder.phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.call(list.get(position).getPhone());
+            }
+        });
+
+
 
     }
 

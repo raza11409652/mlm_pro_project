@@ -68,6 +68,7 @@ public class NewFcs extends AppCompatActivity {
     Loader loader;
     Spinner typeSelector;
     ImageButton imageButton;
+    String _token ;
 
 
     String[] types = {"State level", "District level", "International level", "Rural level"};
@@ -124,6 +125,8 @@ public class NewFcs extends AppCompatActivity {
         actionbar.setHomeButtonEnabled(true);
         api = new RequestApi(this);
 
+        sessionHandler = new SessionHandler( this);
+        _token = "Bearer " + sessionHandler.getLoggedToken();
 
 //        calendar = Calendar.getInstance();
         setTitle(title);
@@ -270,7 +273,7 @@ public class NewFcs extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

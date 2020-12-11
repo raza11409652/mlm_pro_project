@@ -58,6 +58,7 @@ public class CompleteProfile extends AppCompatActivity {
     Flashbar flashbar = null;
     AlertFlash alertFlash;
     SessionHandler sessionHandler;
+    String _token ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class CompleteProfile extends AppCompatActivity {
 
         api = new RequestApi(this);
         sessionHandler = new SessionHandler(this);
+        _token = "Bearer " + sessionHandler.getLoggedToken();
         loader = new Loader(this);
 
         alertFlash = new AlertFlash(this, this);
@@ -202,14 +204,7 @@ public class CompleteProfile extends AppCompatActivity {
         }
     }
 
-    private void uploadBitmap(Bitmap bitmap) {
-        api.uploadImage(bitmap, response -> {
-            Log.d(TAG, "uploadBitmap: " + response);
 
-        });
-
-
-    }
 
     private void uploadImage(byte[] bytes) {
 //        selectorGallery.setText("Image is being uploaded");
@@ -224,7 +219,7 @@ public class CompleteProfile extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
         Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

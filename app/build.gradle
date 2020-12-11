@@ -6,7 +6,9 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.project.mlmpro"
         minSdkVersion 22
@@ -43,8 +45,12 @@ dependencies {
     implementation 'com.razorpay:checkout:1.5.16' //Razorpay
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.sendbird.sdk:sendbird-android-sdk:3.0.152'
+    implementation 'com.sendbird.sdk:uikit:1.2.4'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-database'
     //FIREBASE
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     testImplementation 'junit:junit:4.+'

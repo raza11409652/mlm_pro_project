@@ -5,10 +5,13 @@
 package com.project.mlmpro.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,11 +35,12 @@ import java.util.ArrayList;
 public class PendingCompany extends Fragment {
 
     RequestApi api;
-
+    EditText search_bar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
     RecyclerView listView;
     ArrayList<FeaturePost> list = new ArrayList<>();
     CurrentGrowthAdapter adapter;
-
+    LinearLayoutManager dataManager;
 
     public PendingCompany() {
         // Required empty public constructor
@@ -49,12 +53,12 @@ public class PendingCompany extends Fragment {
         api = new RequestApi(getContext());
         adapter = new CurrentGrowthAdapter(list, getContext());
 
-        fetch();
+        fetch(limit, skip ,query);
 
     }
 
-    private void fetch() {
-        api.getRequest(Server.GET_FEATURE_PENDING, response -> {
+    private void fetch(String limit , String skip , String query) {
+        api.getRequest(Server.GET_FEATURE_PENDING+"&searchTxt="+query, response -> {
             Log.d("TAG", "fetch: " + response);
             try {
                 JSONObject object = new JSONObject(response);
@@ -117,6 +121,25 @@ public class PendingCompany extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         listView = view.findViewById(R.id.list_view);
         listView.setHasFixedSize(true);
+        search_bar  =view.findViewById(R.id.search_bar);
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                query =s.toString() ;
+                fetch(limit ,skip , query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 //        listView.setHasFixedSize(true);
 
         listView.setLayoutManager(new LinearLayoutManager(getContext()));

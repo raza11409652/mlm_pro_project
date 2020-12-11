@@ -6,9 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +41,10 @@ public class MlmProductServiceProvider extends AppCompatActivity {
     RecyclerView listView;
     ArrayList<FeaturePost> l = new ArrayList<>();
     MlmServiceProviderAdapter adapter;
+    LinearLayoutManager dataManger;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
+
+    EditText searchbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +60,70 @@ public class MlmProductServiceProvider extends AppCompatActivity {
         actionbar.setHomeButtonEnabled(true);
 
         setTitle(getString(R.string.mlm_product_ser_provd));
+        searchbar = findViewById(R.id.search_bar);
+
+
         requestApi = new RequestApi(this);
         listView = findViewById(R.id.list_view);
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MlmServiceProviderAdapter(l, this);
-        listView.setAdapter(adapter);
+        dataManger = new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManger);
+//        adapter = new MlmServiceProviderAdapter(l, this);
+//        listView.setAdapter(adapter);
 //        listView.setAdapter();
-        fetch();
+
+
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastItem = dataManger.findLastCompletelyVisibleItemPosition();
+                if (lastItem == l.size() - 1) {
+                    Log.d("TAG", "onScrolled: Reach last item");
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem;
+                    Log.d("TAG", "onScrolled: " + skipVal);
+                    if (query == null) {
+                        fetch(limit, String.valueOf(skipVal), null);
+                    }
+                }
+            }
+        });
+        searchbar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                query = s.toString();
+                if (query.length() < 1 || query == null) {
+//                    return;
+                }
+                fetch(limit, skip, query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        fetch(limit, skip, query);
     }
 
-    private void fetch() {
+    private void fetch(String limit, String skip, String query) {
 //
-        String url = Server.GET_FEATURE + "?postType=8";
+        String url = null;
+        if (query == null || query.length() < 1) {
+            url = Server.GET_FEATURE + "?postType=8&limit=" + limit + "&skip=" + skip;
+        } else {
+            url = Server.GET_FEATURE + "?postType=8&limit=" + limit + "&skip=" + skip + "&searchTxt=" + query;
+        }
         requestApi.getRequest(url, response -> {
 //            Log.d(TAG, "fetch: " + response);
             try {
@@ -76,7 +136,10 @@ public class MlmProductServiceProvider extends AppCompatActivity {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
+                    }
+                    if (skip.equals("0")) {
+                        l = new ArrayList<>();
                     }
 //                    list = new ArrayList<>();
 //                    /Log.d(TAG, "fetch: " + array);
@@ -111,6 +174,8 @@ public class MlmProductServiceProvider extends AppCompatActivity {
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
                         l.add(featurePost);
                     }
+                    adapter = new MlmServiceProviderAdapter(l, getApplicationContext());
+                    listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();

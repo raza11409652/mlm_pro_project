@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UpdateProfile">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar"></include>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/parent_padding"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="@dimen/size_120"
+                android:layout_height="120sp"
+                android:layout_gravity="center"
+                android:background="@drawable/click_back"
+                android:src="@drawable/profile">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="NAME"
+                    android:inputType="textPersonName"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="@string/email_hint"
+                    android:inputType="textEmailAddress"></EditText>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="@string/company_name"
+                    android:inputType="textEmailAddress"></EditText>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top"
+                android:clipToPadding="true"
+                app:cardUseCompatPadding="true">
+
+                <EditText
+                    android:id="@+id/url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="@string/website"
+                    android:inputType="textEmailAddress"></EditText>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/update_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_60"
+                android:layout_marginBottom="@dimen/margin_top"
+                android:background="@drawable/primary_btn"
+                android:text="@string/update_profile"></Button>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

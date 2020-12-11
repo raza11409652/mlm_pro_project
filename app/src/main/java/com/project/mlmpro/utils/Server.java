@@ -5,7 +5,7 @@
 package com.project.mlmpro.utils;
 
 public class Server {
-    public static final String ROOT_SERVER = "http://ec2-3-137-211-102.us-east-2.compute.amazonaws.com:1111/";
+    public static final String ROOT_SERVER = "http://ec2-3-135-185-63.us-east-2.compute.amazonaws.com:1111/";
 
     //End points
 
@@ -28,6 +28,8 @@ public class Server {
     public static final String CHECKOUT= ROOT_SERVER + "customer/subscription/checkout";
     public static final String PURCHASE= ROOT_SERVER + "customer/subscription/purchase";
     public static final String DEDUCT_WALLET= ROOT_SERVER + "customer/subscription/deductWalletAmount";
+    public static final String FORGET_PASSWORD= ROOT_SERVER + "customer/forgotPassword";
+    public static final String SET_NEW_PASSWORD= ROOT_SERVER + "customer/setNewPassword";
 
 }
 

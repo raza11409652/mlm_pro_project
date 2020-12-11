@@ -219,11 +219,13 @@
         android:padding="@dimen/parent_padding">
 
         <Button
+            android:id="@+id/whatsapp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/whatsapp_enquiry"></Button>
 
         <Button
+            android:id="@+id/call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/call_enquiry"></Button>

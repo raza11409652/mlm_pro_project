@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +20,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView postData, name, time, likeCount, dislikeLikeCount;
-    public ImageView  postImage;
+    public ImageView postImage;
     public ImageButton like, comment, share;
-    public RelativeLayout like_wrapper, dislike_wrapper, share_wrapper;
-    public CircleImageView profileImage ;
+    public RelativeLayout like_wrapper, dislike_wrapper, share_wrapper, commentWrapper;
+    public CircleImageView profileImage;
+    public VideoView video_wrapper;
 
 
     public PostViewHolder(@NonNull View itemView) {
@@ -38,6 +40,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         likeCount = itemView.findViewById(R.id.like_count);
         dislikeLikeCount = itemView.findViewById(R.id.dislike_like_Count);
         share_wrapper = itemView.findViewById(R.id.share_wrapper);
-
+        commentWrapper = itemView.findViewById(R.id.comment_wrapper);
+        video_wrapper = itemView.findViewById(R.id.video_wrapper);
     }
 }

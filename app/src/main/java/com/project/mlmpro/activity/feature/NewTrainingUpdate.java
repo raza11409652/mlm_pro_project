@@ -65,6 +65,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
     Loader loader;
 
     ImageButton imageButton ;
+    String _token  ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
 //        type = getIntent().getStringExtra("type");
         sessionHandler = new SessionHandler(this);
         loader = new Loader(this);
+        _token = "Bearer " + sessionHandler.getLoggedToken();
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -245,7 +247,7 @@ public class NewTrainingUpdate extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

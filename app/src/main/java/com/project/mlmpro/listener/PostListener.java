@@ -10,6 +10,7 @@ public interface PostListener {
     void onLikeClick(Post post);
     void onDislikeClick(Post post);
     void onShareClick(Post post);
+    void onComment(Post post);
 
 
 }

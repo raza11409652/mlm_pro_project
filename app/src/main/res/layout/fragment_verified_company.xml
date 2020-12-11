@@ -2,17 +2,33 @@
   ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="@dimen/size_10"
     tools:context=".fragment.VerifiedCompany">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="true"
+        app:cardUseCompatPadding="true">
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_input"
+            android:hint="SEARCH"></EditText>
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingBottom="@dimen/size_120"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/size_120"></androidx.recyclerview.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>

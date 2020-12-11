@@ -38,10 +38,13 @@ public class CompanyTopLeaders extends AppCompatActivity {
 
     Toolbar toolbar;
     RequestApi requestApi;
-    ArrayList<FeaturePost> list = new ArrayList<>() ;
-    CompanyTopLeaderAdapter adapter ;
-    RecyclerView listView ;
-    EditText searchbar ;
+    ArrayList<FeaturePost> list = new ArrayList<>();
+    CompanyTopLeaderAdapter adapter;
+    RecyclerView listView;
+    EditText searchbar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
+
+    LinearLayoutManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +61,38 @@ public class CompanyTopLeaders extends AppCompatActivity {
         setTitle(getString(R.string.company_top_leader));
         requestApi = new RequestApi(this);
 
-        listView = findViewById(R.id.list_view) ;
+        listView = findViewById(R.id.list_view);
 
 
+        dataManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManager);
+        searchbar = findViewById(R.id.search_bar);
 
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        searchbar  =findViewById(R.id.search_bar) ;
+        fetch(limit , skip , null);
 
-        fetch(null);
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+                if (lastItem == list.size() - 1) {
+                    Log.d("TAG", "onScrolled: Reach last item");
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem;
+                    Log.d("TAG", "onScrolled: " + skipVal);
+                    if (query == null) {
+                        fetch(limit, String.valueOf(skipVal), query);
+                    }
+                }
+
+            }
+        });
         searchbar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -74,11 +101,13 @@ public class CompanyTopLeaders extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length()<3){
-                    fetch(null);
+                if (s.toString().length() < 3) {
+                    query = null;
+                    fetch(limit, skip, null);
                     return;
-                }else{
-                    fetch(s.toString());
+                } else {
+                    query = s.toString();
+                    fetch(limit, skip, s.toString());
                 }
 
 
@@ -96,15 +125,15 @@ public class CompanyTopLeaders extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch(null);
+        fetch(limit, skip, null);
     }
 
-    private void fetch(String string) {
-        String url  ;
-        if (string==null){
-           url =  Server.GET_FEATURE + "?postType=3";
-        }else{
-           url =  Server.GET_FEATURE + "?postType=3&searchTxt="+string;
+    private void fetch(String limit, String skip, String string) {
+        String url;
+        if (string == null) {
+            url = Server.GET_FEATURE + "?postType=3+limit="+limit+"&skip="+skip;
+        } else {
+            url = Server.GET_FEATURE + "?postType=3&searchTxt=" + string+"&limit="+limit+"&skip="+skip;
         }
         Log.d("TAG", "fetch: " + url);
         requestApi.getRequest(url, response -> {
@@ -113,13 +142,15 @@ public class CompanyTopLeaders extends AppCompatActivity {
                 String message = object.getString("message");
                 int status = object.getInt("status");
                 if (status == 200) {
-                  JSONObject data = object.getJSONObject("data");
+                    JSONObject data = object.getJSONObject("data");
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
                     }
-                    list = new ArrayList<>();
+                    if(skip.equals("0")){
+                        list = new ArrayList<>();
+                    }
 //                    Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
@@ -150,9 +181,9 @@ public class CompanyTopLeaders extends AppCompatActivity {
                         FeaturePost featurePost = new FeaturePost(senderID, senderName, image, postImage, companyName, planFile, name,
                                 websiteLike, startingDate, phone, email, rank, time, trainingInstitue, productType,
                                 courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
-                         list.add(featurePost);
+                        list.add(featurePost);
                     }
-                    adapter = new CompanyTopLeaderAdapter(list, this) ;
+                    adapter = new CompanyTopLeaderAdapter(list, this);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 } else {

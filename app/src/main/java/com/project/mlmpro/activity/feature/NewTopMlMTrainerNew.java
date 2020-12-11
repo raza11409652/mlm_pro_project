@@ -59,7 +59,7 @@ public class NewTopMlMTrainerNew extends AppCompatActivity {
     EditText nameEdt, addressEdtOne, addressEdtTwo, contactNumberEdt, whatsappNumberEdt,
             webLinkEdt, startingDateEdt, countryEdt, companyNameEdt, emailEdt, trainingEdt;
     String name, addressOne, addressTwo, contactNumber, whatsappNumber, webLink,
-            startDate = "NA", country, email, companyName, trainning;
+            startDate = "NA", country, email, companyName, trainning , _token;
     SessionHandler sessionHandler;
     RequestApi api;
     Loader loader;
@@ -90,7 +90,7 @@ public class NewTopMlMTrainerNew extends AppCompatActivity {
 //        type = getIntent().getStringExtra("type");
         sessionHandler = new SessionHandler(this);
         loader = new Loader(this);
-
+        _token = "Bearer " + sessionHandler.getLoggedToken();
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -235,7 +235,7 @@ public class NewTopMlMTrainerNew extends AppCompatActivity {
         String fileName = random + "_profile_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

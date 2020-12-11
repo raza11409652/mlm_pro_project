@@ -6,10 +6,13 @@ package com.project.mlmpro.activity.feature;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,7 +44,10 @@ public class MLMCompanyList extends AppCompatActivity {
     ArrayList<FeaturePost> list = new ArrayList<>();
     CompanyListAdapter adapter;
 
+    EditText searchBar;
+    String limit = String.valueOf(20), query = null, skip = String.valueOf(0);
 
+    LinearLayoutManager dataManager ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +55,9 @@ public class MLMCompanyList extends AppCompatActivity {
         setContentView(R.layout.activity_m_l_m_company_list);
         toolbar = findViewById(R.id.toolbar);
         listView = findViewById(R.id.list);
-        listView.setLayoutManager(new LinearLayoutManager(this));
+        dataManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(dataManager);
         listView.setHasFixedSize(true);
-
 
 
         setSupportActionBar(toolbar);
@@ -61,8 +67,57 @@ public class MLMCompanyList extends AppCompatActivity {
 
         setTitle(getString(R.string.mlm_company_list));
         requestApi = new RequestApi(this);
+        searchBar = findViewById(R.id.search_bar);
 
-        fetch();
+
+        fetch(limit, skip, query);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() >1){
+                    query = s.toString();
+                    fetch("20" , "0" , query);
+                }else{
+                    fetch("20" , "0" , null);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+//                Log.d(TAG, "onScrolled:  " + dy);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+                Log.d(TAG, "onScrolled: " + lastItem);
+                if (lastItem ==list.size()-1){
+                    Log.d(TAG, "onScrolled: Reach last item" );
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + lastItem  ;
+                    Log.d(TAG, "onScrolled: "  +skipVal);
+                    if(query==null){
+                        fetch(limit , String.valueOf(skipVal), query );
+                    }
+                }
+            }
+        });
 
 
     }
@@ -70,18 +125,30 @@ public class MLMCompanyList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fetch();
+        fetch(limit, skip, query);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        fetch();
+        fetch(limit, skip, query);
     }
 
-    private void fetch() {
+
+
+    private void fetch(String limit, String skip, String query) {
 //
-        String url = Server.GET_FEATURE + "?postType=0";
+        /**
+         * limit: 20
+         * skip: 0
+         */
+        String url = null;
+        if (query == null || query.length() < 1) {
+            url = Server.GET_FEATURE + "?postType=0&limit="+limit+"&skip="+skip;
+        } else {
+            url = Server.GET_FEATURE + "?postType=0&searchTxt=" + query+"&limit="+limit+"&skip="+skip;
+        }
+        Log.d(TAG, "fetch: " + url);
         requestApi.getRequest(url, response -> {
             Log.d(TAG, "fetch: " + response);
             try {
@@ -94,9 +161,11 @@ public class MLMCompanyList extends AppCompatActivity {
                     JSONArray array = data.getJSONArray("posts");
                     if (array.length() < 1) {
                         Toast.makeText(getApplicationContext(), "No list found", Toast.LENGTH_SHORT).show();
-
+                        return;
                     }
-                    list = new ArrayList<>();
+                    if(skip.equals("0")){
+                        list = new ArrayList<>();
+                    }
                     Log.d(TAG, "fetch: " + array);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
