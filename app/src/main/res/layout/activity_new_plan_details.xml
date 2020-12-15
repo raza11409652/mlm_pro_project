@@ -30,7 +30,7 @@
             android:textSize="@dimen/size_20"
             android:textStyle="bold"></TextView>
 
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_uploader"
             android:layout_width="@dimen/size_120"
             android:layout_height="@dimen/size_120"
@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/margin_top"
             android:background="@drawable/click_back"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile"></ImageButton>
+            android:src="@drawable/profile"></de.hdodenhof.circleimageview.CircleImageView>
 
         <Button
             android:id="@+id/upload_pdf"

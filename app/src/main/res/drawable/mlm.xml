@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1024dp"
+    android:height="1024dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+
+    <group
+        android:translateX="-36"
+        android:translateY="-254">
+        <group
+            android:translateX="36"
+            android:translateY="254">
+            <path
+                android:fillColor="#5e487f"
+                android:strokeWidth="1"
+                android:pathData="M 50 0 L 974 0 Q 1024 0 1024 50 L 1024 974 Q 1024 1024 974 1024 L 50 1024 Q 0 1024 0 974 L 0 50 Q 0 0 50 0 Z" />
+            <path
+                android:strokeColor="#707070"
+                android:strokeWidth="1"
+                android:pathData="M 50 0.5 L 974 0.5 Q 1023.5 0.5 1023.5 50 L 1023.5 974 Q 1023.5 1023.5 974 1023.5 L 50 1023.5 Q 0.5 1023.5 0.5 974 L 0.5 50 Q 0.5 0.5 50 0.5 Z" />
+        </group>
+        <group
+            android:translateX="47"
+            android:translateY="46">
+            <group
+                android:translateX="58"
+                android:translateY="276">
+                <path
+                    android:fillColor="#fff"
+                    android:strokeWidth="1"
+                    android:pathData="M 444 0 C 689.214428925 0 888 198.785571075 888 444 C 888 689.214428925 689.214428925 888 444 888 C 198.785571075 888 0 689.214428925 0 444 C 0 198.785571075 198.785571075 0 444 0 Z" />
+                <path
+                    android:strokeColor="#707070"
+                    android:strokeWidth="1"
+                    android:pathData="M 444 0.5 C 688.93828655 0.5 887.5 199.06171345 887.5 444 C 887.5 688.93828655 688.93828655 887.5 444 887.5 C 199.06171345 887.5 0.5 688.93828655 0.5 444 C 0.5 199.06171345 199.06171345 0.5 444 0.5 Z" />
+            </group>
+        </group>
+    </group>
+</vector>

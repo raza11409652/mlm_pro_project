@@ -11,6 +11,7 @@ public interface PostListener {
     void onDislikeClick(Post post);
     void onShareClick(Post post);
     void onComment(Post post);
+    void onDelete(Post post);
 
 
 }

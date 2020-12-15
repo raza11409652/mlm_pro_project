@@ -10,14 +10,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.NewPassword"></activity>
+        <activity android:name=".activity.SinglePost"></activity>
+        <activity android:name=".activity.Notification" />
+        <activity android:name=".activity.NewPassword" />
         <activity android:name=".activity.Comment" />
         <activity android:name=".activity.UpdateProfile" />
         <activity android:name=".activity.ForgetPassword" />
@@ -80,18 +82,29 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter android:autoVerify="true">
                 <data
                     android:host="mlm.app"
                     android:scheme="https" />
-                <action android:name="android.intent.action.VIEW"/>
+
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.FcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://238327145283439:5UEtbzC94gXK_cxCT7vqy5ohC2E@dlyuhnc8i" />
     </application>
-
-
 
 </manifest>

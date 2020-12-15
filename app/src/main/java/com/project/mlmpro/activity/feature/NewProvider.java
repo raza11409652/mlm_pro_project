@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -65,7 +66,9 @@ public class NewProvider extends AppCompatActivity {
     Loader loader;
 
     String _token ;
-    ImageButton imageButton ;
+    CircleImageView imageButton ;
+
+     JSONObject postdata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +227,17 @@ public class NewProvider extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && requestCode == Constant.PUCHASE_ACTIVITY) {
+            Log.d("TAG", "onActivityResult: " + data);
+            String status = data.getStringExtra("payment");
+            if (status.equals("TRUE")) {
+//                saveInit(postdata);
+                finish();
+            }
+            return;
+
+        }
         if (resultCode == Activity.RESULT_OK && data != null) {
 //            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
             try {
@@ -300,54 +314,14 @@ public class NewProvider extends AppCompatActivity {
         return byteBuff.toByteArray();
     }
     private void saveData(JSONObject a) {
-
-        Log.d("TAG", "saveData: "  + Constant.PURCHASED_SUBSCRIPTION_TYPE);
-        Log.d("TAG", "saveData: "  + Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON);
-        String expiry = TimeDiff.convertMongoDate(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON) ;
-        if (Constant.PURCHASED_SUBSCRIPTION_TYPE!=null){
-            String diff  =TimeDiff.diffO(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON) ;
-            Log.d("TAG", "saveData: "  +diff);
-            if (diff==null){
-                Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-                startActivity(purchase)  ;
-                return;
-            }
-            if (diff.equals("0") ||diff==null){
-                Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-                startActivity(purchase)  ;
-                return;
-            }else{
-                saveInit(a);
-            }
-        }else if(Constant.PURCHASED_SUBSCRIPTION_TYPE==null){
-            Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-            startActivity(purchase)  ;
+        Constant.CURRENT_POST_DATA = a ;
+        if (imageUrl==null){
+            Toast.makeText(getApplicationContext()  ,"Image is being uploaded" , Toast.LENGTH_SHORT).show();
             return;
-        }else{
-//            saveInit(a);
-//            loader.show("Please wait..");
-//            api.postRequest(a, response -> {
-//                Log.d("TAG", "saveData: " + response);
-//                loader.dismiss();
-//                try {
-//                    String msg = response.getString("message");
-//                    int status = response.getInt("status");
-//                    if (status == 200) {
-//                        Toast.makeText(getApplicationContext(), msg,
-//                                Toast.LENGTH_SHORT).show();
-//                        finish();
-//                        return;
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), msg
-//                                , Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }, Server.GET_FEATURE);
         }
-
+        Intent purchase = new Intent(getApplicationContext(), Subscription.class);
+        purchase.putExtra("type", "9");
+        startActivityForResult(purchase, Constant.PUCHASE_ACTIVITY);
 
 
 

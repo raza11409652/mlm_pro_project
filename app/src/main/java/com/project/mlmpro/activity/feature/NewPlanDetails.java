@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,9 +42,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -60,7 +63,7 @@ public class NewPlanDetails extends AppCompatActivity {
     RequestApi requestApi;
 
     SessionHandler sessionHandler;
-    ImageButton imageButton;
+    CircleImageView imageButton;
     Button pdfUpload, videoUpload;
     String mediaPath, mediaPath1;
     //    ImageView imgView;
@@ -70,6 +73,7 @@ public class NewPlanDetails extends AppCompatActivity {
     Loader loader;
     String _token ;
 //    EditText search_bar ;
+    JSONObject postdata ;
 
 
     @Override
@@ -92,7 +96,7 @@ public class NewPlanDetails extends AppCompatActivity {
         imageButton = findViewById(R.id.image_uploader);
         pdfUpload = findViewById(R.id.upload_pdf);
         videoUpload = findViewById(R.id.upload_video);
-        checkForSubs();
+//        checkForSubs();
 
 //        search_bar  =findViewById(R.id.search_bar);
 
@@ -154,6 +158,15 @@ public class NewPlanDetails extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constant.PUCHASE_ACTIVITY) {
+            Log.d("TAG", "onActivityResult: " + data);
+            String status = data.getStringExtra("payment");
+            if (status.equals("TRUE")) {
+                finish();
+            }
+            return;
+
+        }
         if (resultCode == Activity.RESULT_OK && data != null) {
 //            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
             switch (requestCode) {
@@ -198,7 +211,11 @@ public class NewPlanDetails extends AppCompatActivity {
                     // Set the Video Thumb in ImageView Previewing the Media
 //                    imgView.setImageBitmap(getThumbnailPathForLocalFile(MainActivity.this, selectedVideo));
                     cursor.close();
-                    uploadVideo(mediaPath1);
+                    try {
+                        uploadVideo(selectedVideo);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
             }
@@ -209,24 +226,53 @@ public class NewPlanDetails extends AppCompatActivity {
         }
     }
 
-    private void uploadVideo(String path) {
-        loader.show("Please wait...");
-        File file = new File(path);
+    private void saveInit(JSONObject postdata) {
+                requestApi.postRequest(postdata, response -> {
+
+            Log.d("TAG", "saveData: " + response);
+            loader.dismiss();
+            finish();
+        }, Server.GET_FEATURE);
+
+    }
+
+    private void uploadVideo(Uri uri) throws FileNotFoundException {
+        InputStream is = getContentResolver().openInputStream(uri);
+        byte[] arr = new byte[0];
+        try {
+            arr = getBytes(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        selectorGallery.setText("Video is being uploaded");
+
+        String fileName = "MLM_PRO_VIDEOPLAN" + System.currentTimeMillis();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Server.ROOT_SERVER)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService retrofitInterface = retrofit.create(FileUploadService.class);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", file.getName(), requestBody);
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("video/mp4"),
+                        arr
+                );
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", fileName+".3gp"  , requestFile);
         Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  ,fileToUpload);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override
             public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
+                Log.d("TAG", "onResponse: " + response.isSuccessful());
+                Log.d("Upload vide khalid", "onResponse: " + response.message());
                 if (response.isSuccessful()) {
-                    videoUrl = response.body().getData().getLocation();
-                    Log.w("TA", "onResponse: " + videoUrl);
+                    String url = response.body().getData().getLocation();
+                    Log.w("TA", "onResponse: " + url);
+//                    saveData();
+                    videoUrl  =url ;
+
                     saveData();
 
 
@@ -244,6 +290,35 @@ public class NewPlanDetails extends AppCompatActivity {
 //                selectorGallery.setText("Upload");
             }
         });
+
+//        StorageReference ref = storageReference.child(fileName);
+//        ref.putFile(uri)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+////                        Log.d(TAG, "uploadVideo: " + task.getResult().get);
+//
+//                       ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                           @Override
+//                           public void onSuccess(Uri uri) {
+//                               Log.d(TAG, "onSuccess: "  +uri);
+//                               imageUrl = uri.toString();
+//                               selectorGallery.setVisibility(View.GONE);
+//                               imageWrapper.setVisibility(View.GONE);
+//                               videoView.setVisibility(View.VISIBLE);
+//                               videoView.setVideoPath(imageUrl);
+//                               videoView.start();
+//                           }
+//                       });
+//
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Error while uploading", Toast.LENGTH_SHORT)
+//                                .show();
+//                    }
+//
+//                }).addOnFailureListener(e -> {
+//            Log.d(TAG, "uploadVideo: " + e.getLocalizedMessage());
+//
+//        });
     }
 
     private void saveData() {
@@ -280,12 +355,16 @@ public class NewPlanDetails extends AppCompatActivity {
         }
 
         Log.d("TAG", "onCreate: " + a);
-        requestApi.postRequest(a, response -> {
 
-            Log.d("TAG", "saveData: " + response);
-            loader.dismiss();
-            finish();
-        }, Server.GET_FEATURE);
+        if (imageUrl==null){
+            Toast.makeText(getApplicationContext()  , "Image is being updated" , Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Constant.CURRENT_POST_DATA = a ;
+
+        Intent purchase = new Intent(getApplicationContext(), Subscription.class);
+        purchase.putExtra("type", "6");
+        startActivityForResult(purchase, Constant.PUCHASE_ACTIVITY);
 
 
     }

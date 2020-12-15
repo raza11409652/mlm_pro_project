@@ -182,6 +182,7 @@ public class Register extends AppCompatActivity {
                     object.put("email", email);
                     object.put("phone", mobile);
                     object.put("password", password);
+                    object.put("deviceToken" , sessionHandler.getUserDeviceToken());
 
 
                     registerInit(object);

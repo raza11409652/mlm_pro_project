@@ -12,37 +12,37 @@ import java.util.Date;
 
 public class TimeDiff {
     final static String TAG = TimeDiff.class.getSimpleName();
+    static  String [] months = {"Jan" ,"Feb" , "March" , "April" ,  "May" , "June" , "July" , "Aug" , "Sep" , "Oct" , "Nov" ,"Dec" };
 
     public static String diff(String date) {
         //
         try {
             Date today = new Date();
-            Log.e(TAG, "diff: Today " + today.toString());
+//            Log.e(TAG, "diff: Today " + today.toString());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+            String tod = outputFormat.format(today);
             String FinalDate = convertMongoDateWithS(date);
+//            Log.e(TAG, "diff: "  +FinalDate );
             Date postDate = new Date(FinalDate) ;
-            Log.d(TAG, "diff: "  +postDate);
-            long difference = today.getTime() - new Date(FinalDate).getTime();
-            Log.d(TAG, "diff: "  +difference);
-            long seconds = difference / 1000;
-            long minutes = seconds / 60;
-            long hours = minutes / 60;
-            long days = hours / 24;
-//            Log.d(TAG, "diff: " + minutes);
-//            if (hours > 24) {
-//                return days + " day ago";
-//            } else if(hours>1) {
-//                return hours + " hour ago";
-//            }
-            if (minutes < 60) {
-                return minutes + "Minutes ago";
-            } else if (hours > 24) {
-                return days
-                        + "days ago ";
-            } else {
-                return hours + " hour ago";
-            }
+            Date Now = new Date(tod);
+//            Log.d(TAG, "diff: "  +postDate);
+//            Log.d(TAG, "diff: "  +Now);
 
-//            return String.valueOf(days);
+            long difference = postDate.getTime()  - Now.getTime();
+            difference = Math.abs(difference);
+            long seconds = difference / 1000;
+            long minutes = seconds/60  ;
+            long hour = minutes /60 ;
+            if (hour<24){
+                if (hour<1){
+                    return  minutes +" minutes ago";
+                }else if(minutes<1){
+                    return  seconds +" seconds ago";
+                }
+                return  hour+" hour ago";
+            }else{
+                return  postDate.getDate() +" " + months[postDate.getMonth()];
+            }
 
         } catch (Exception exception) {
             Log.e("Exception" + TAG, "exception " + exception);
@@ -54,10 +54,11 @@ public class TimeDiff {
         //
         try {
             Date today = new Date();
-            Log.e(TAG, "diff: Today " + today.toString());
+//            Log.e(TAG, "diff: Today " + today.toString());
             String FinalDate = convertMongoDate(date);
             long difference = new Date(FinalDate).getTime() - today.getTime();
             long seconds = difference / 1000;
+            Log.d(TAG, "diffO: "  +seconds);
             long minutes = seconds / 60;
             long hours = minutes / 60;
             long days = hours / 24;

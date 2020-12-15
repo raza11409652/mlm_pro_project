@@ -30,6 +30,12 @@ public class Server {
     public static final String DEDUCT_WALLET= ROOT_SERVER + "customer/subscription/deductWalletAmount";
     public static final String FORGET_PASSWORD= ROOT_SERVER + "customer/forgotPassword";
     public static final String SET_NEW_PASSWORD= ROOT_SERVER + "customer/setNewPassword";
+    public static final String DELETE_POST= ROOT_SERVER + "customer/deletePost";
+    public static final String NOTIFICATION= ROOT_SERVER + "customer/notifications";
+    public static final String FEAUTRE_CHECKOUT= ROOT_SERVER + "feature/post/checkout";
+    public static final String FEAUTRE_PURCHASE= ROOT_SERVER + "feature/post/purchase";
+    public static final String SINGLE_POST= ROOT_SERVER + "customer/getPostDetail?postId=";
+    public static final String ACTION_POST= ROOT_SERVER + "customer/actionPerformedOnPost";
 
 }
 

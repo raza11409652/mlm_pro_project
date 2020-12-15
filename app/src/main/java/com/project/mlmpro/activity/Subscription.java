@@ -4,6 +4,8 @@
 
 package com.project.mlmpro.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,8 +45,14 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
 
     ArrayList<SubscriptionModel> list = new ArrayList<>();
     Toolbar toolbar;
-    String[] types = {"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"};
-    String[] amount = {"200", "500", "1000", "2000", "6000", "10000", "20000", "50000"};
+    String[] types = {};
+    /**
+     * {"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"}
+     */
+    String[] amount = {};
+    /**
+     * {"200", "500", "1000", "2000", "6000", "10000", "20000", "50000"}
+     */
     String walletDeductedAmount = null;
 
     SubscriptionAdapter subscriptionAdapter;
@@ -53,6 +61,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
     BottomSheetDialog paymentDetails;
     Loader loader;
     Checkout checkout;
+    String type =null ;
 
     SessionHandler sessionHandler;
 
@@ -80,6 +89,22 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         checkout = new Checkout();
         checkout.setKeyID(getString(R.string.razp_key));
 
+        try{
+            type = getIntent().getStringExtra("type");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(type.equals("6")){
+            types = new String[]{"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"};
+            amount = new String[]{"300", "700", "1200", "2400", "7000", "12000", "25000", "70000"} ;
+
+        }else if(type.equals("7")){
+            types = new String[]{"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"};
+            amount = new String[]{"500", "1000", "1500", "3000", "8000", "20000", "35000", "100000"} ;
+        }else{
+            types = new String[]{"1 Month", "3 Month", "6 Month", "1 Year", "3 Year", "5 Year", "10 Year", "Lifetime"};
+            amount = new String[]{"200", "500", "1000", "2000", "6000", "10000", "20000", "50000"} ;
+        }
         createSubscription();
 
 
@@ -109,6 +134,9 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
 
         Constant.SUBSCRIPTION_TYPE = model.getId();
         loader.show("Please wait...");
+        Log.d("TAG", "onClick: "+model.getId());
+
+
         getWalletDetails(model);
 
 
@@ -173,8 +201,9 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         paymentDetails.show();
         walletDeductedAmount = String.valueOf(appliedValue);
 
-        JSONObject object = new JSONObject();
+        JSONObject object = Constant.CURRENT_POST_DATA;
         try {
+            object.put("subscriptionType" , model.getId());
             object.put("total", String.valueOf(totalValue));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -189,18 +218,20 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
     }
 
     private void openCheckout(JSONObject object) {
+//        Log.d("TAG", "openCheckout: " + object);
         loader.show("Please wait");
         api.postRequest(object, response -> {
-//            loader.dismiss();
+            loader.dismiss();
             Log.d("RZP", "displayPayment: " + response);
             try {
                 int status = response.getInt("status");
                 if (status == 200) {
                     JSONObject re = response.getJSONObject("data");
+                    Log.d("TAG", "openCheckout: "+re);
                     String RZP_ORDER_ID = re.getString("razorpay_order_id");
                     String _id = re.getString("id");
                     Constant.PAYMENT_ID = _id;
-//                    Log.d("TAG", "openCheckout: " + RZP_ORDER_ID);
+////                    Log.d("TAG", "openCheckout: " + RZP_ORDER_ID);
                     Constant.RZP_ORDER_ID = RZP_ORDER_ID;
                     openRzpPayment(RZP_ORDER_ID, object);
                 } else {
@@ -209,7 +240,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Server.CHECKOUT);
+        }, Server.FEAUTRE_CHECKOUT);
 
     }
 
@@ -250,7 +281,6 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         }
         Log.d("TAG", "onPaymentSuccess: " + payment);
 
-
         JSONObject walletAmount = new JSONObject();
         try {
             walletAmount.put("total", walletDeductedAmount);
@@ -259,6 +289,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         }
 
         api.postRequest(walletAmount, response -> Log.d("TAG", "onResponse: " + response), Server.DEDUCT_WALLET);
+//        Log.d("TAG", "onPaymentSuccess: " + payment);
         api.postRequest(payment, response -> {
             Log.d("TAG", "onPaymentSuccess: " + response);
             loader.dismiss();
@@ -268,9 +299,15 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
                 status = response.getInt("status");
                 if (status == 200) {
 
-                    validateSession();
-//                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
-//                    finish();
+//                    validateSession();
+                    Toast.makeText(getApplicationContext(), "Success full", Toast.LENGTH_SHORT).show();
+                    Intent result = new Intent();
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("id", id);
+                    bundle.putString("payment", "TRUE");
+                    result.putExtras(bundle);
+                    setResult(Activity.RESULT_OK, result);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Payment failed", Toast.LENGTH_SHORT).show();
                 }
@@ -278,7 +315,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
                 e.printStackTrace();
             }
 
-        }, Server.PURCHASE);
+        }, Server.FEAUTRE_PURCHASE);
 
     }
 
@@ -309,8 +346,14 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
                     Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON = subscriptionExpiryDate;
 
 
-//                    User user = new User(_id ,_name , _email ,_phone, _token  );
                     Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent() ;
+                    Intent result = new Intent();
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("id", id);
+                    bundle.putString("payment", "TRUE");
+                    result.putExtras(bundle);
+                    setResult(Activity.RESULT_OK, result);
                     finish();
 
 

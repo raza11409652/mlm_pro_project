@@ -29,29 +29,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
+import com.google.common.primitives.Bytes;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.mlmpro.R;
 import com.project.mlmpro.component.Loader;
 import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.FileUploadService;
+import com.project.mlmpro.utils.FileUtils;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.ResultResponse;
 import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
 import com.project.mlmpro.utils.StringHandler;
 import com.sendbird.android.OpenChannel;
-import com.sendbird.android.SendBird;
-import com.sendbird.android.SendBirdException;
-import com.sendbird.android.User;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -102,18 +116,18 @@ public class NewPost extends AppCompatActivity {
         senderImage = sessionHandler.getProfileImage();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        SendBird.init(getString(R.string.sendbird_id), NewPost.this);
+//        SendBird.init(getString(R.string.sendbird_id), NewPost.this);
         _token = "Bearer " + sessionHandler.getLoggedToken();
 
-        SendBird.connect(sessionHandler.getLoggedInMobile(), new SendBird.ConnectHandler() {
-            @Override
-            public void onConnected(User user, SendBirdException e) {
-                if (e != null) {
-                    Log.w(TAG, "onConnected: " + e.toString());
-                }
-                Log.w(TAG, "onConnected: " + user.getFriendName());
-            }
-        });
+//        SendBird.connect(sessionHandler.getLoggedInMobile(), new SendBird.ConnectHandler() {
+//            @Override
+//            public void onConnected(User user, SendBirdException e) {
+//                if (e != null) {
+//                    Log.w(TAG, "onConnected: " + e.toString());
+//                }
+//                Log.w(TAG, "onConnected: " + user.getFriendName());
+//            }
+//        });
 
 
         setSupportActionBar(toolbar);
@@ -145,17 +159,17 @@ public class NewPost extends AppCompatActivity {
             if (StringHandler.isEmpty(postData)) {
                 postData = "NA";
             }
-            OpenChannel.createChannel((openChannel, e) -> {
-                if (e != null) {
-                    Log.w(TAG, "onCreate: " + e.toString());
-                }
-
-
-                Log.d(TAG, "onCreate: " + openChannel.getName());
-                Log.d(TAG, "onCreate: " + openChannel.getCoverUrl());
-                Log.d(TAG, "onCreate: " + openChannel.getUrl());
-
-            });
+//            OpenChannel.createChannel((openChannel, e) -> {
+//                if (e != null) {
+//                    Log.w(TAG, "onCreate: " + e.toString());
+//                }
+//
+//
+////                Log.d(TAG, "onCreate: " + openChannel.getName());
+////                Log.d(TAG, "onCreate: " + openChannel.getCoverUrl());
+////                Log.d(TAG, "onCreate: " + openChannel.getUrl());
+//
+//            });
 
 
 //            Log.d(TAG, "onCreate: ");
@@ -243,6 +257,7 @@ public class NewPost extends AppCompatActivity {
                     //handle image
                 } else if (selectedMediaUri.toString().contains("video")) {
                     Uri selectedVideo = data.getData();
+//                    log
                     String[] filePathColumn = {MediaStore.Video.Media.DATA};
 
                     Cursor cursor = getContentResolver().query(selectedVideo, filePathColumn, null, null, null);
@@ -268,77 +283,92 @@ public class NewPost extends AppCompatActivity {
         }
     }
 
-    private void uploadVideo(Uri uri) {
-//        selectorGallery.setText("Video is being uploaded");
-//        File file = new File(videoPath);
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Server.ROOT_SERVER)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        FileUploadService retrofitInterface = retrofit.create(FileUploadService.class);
-//        RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), file);
-//        double random = Math.random();
-//
-////        Log.e(TAG, "uploadImage: " + fileName);
-//        MultipartBody.Part body = MultipartBody.Part.createFormData("photos", file.getName(), requestFile);
-//        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(sessionHandler.getLoggedToken(), body);
-//
-//        responseCall.enqueue(new Callback<ResultResponse>() {
-//            @Override
-//            public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
-//                if (response.isSuccessful()) {
-//                    Log.d(TAG, "onResponse: " + response.body().getStatus());
-//                    Log.d(TAG, "onResponse: " + response.body().getData().getLocation());
-//                    Log.d(TAG, "onResponse: " + response.message());
-//                    imageUrl = response.body().getData().getLocation();
-//                    selectorGallery.setVisibility(View.GONE);
-//                    videoView.setVisibility(View.VISIBLE);
-//                    videoView.setVideoPath(imageUrl);
-//                    videoView.start();
-//                } else {
-//                    selectorGallery.setText("Upload");
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResultResponse> call, Throwable t) {
-//
-//                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
-//            }
-//        });
+    private void uploadVideo(Uri uri) throws FileNotFoundException {
+        InputStream is = getContentResolver().openInputStream(uri);
+        byte[] arr = new byte[0];
+        try {
+             arr = getBytes(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         selectorGallery.setText("Video is being uploaded");
 
         String fileName = "MLM_PRO_VIDEO" + System.currentTimeMillis();
-        StorageReference ref = storageReference.child(fileName);
-        ref.putFile(uri)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-//                        Log.d(TAG, "uploadVideo: " + task.getResult().get);
 
-                       ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                           @Override
-                           public void onSuccess(Uri uri) {
-                               Log.d(TAG, "onSuccess: "  +uri);
-                               imageUrl = uri.toString();
-                               selectorGallery.setVisibility(View.GONE);
-                               imageWrapper.setVisibility(View.GONE);
-                               videoView.setVisibility(View.VISIBLE);
-                               videoView.setVideoPath(imageUrl);
-                               videoView.start();
-                           }
-                       });
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Server.ROOT_SERVER)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService retrofitInterface = retrofit.create(FileUploadService.class);
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("video/mp4"),
+                        arr
+                );
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", fileName+".3gp"  , requestFile);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  ,fileToUpload);
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error while uploading", Toast.LENGTH_SHORT)
-                                .show();
-                    }
+        responseCall.enqueue(new Callback<ResultResponse>() {
+            @Override
+            public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
+                Log.d("TAG", "onResponse: " + response.isSuccessful());
+                Log.d("Upload vide khalid", "onResponse: " + response.message());
+                if (response.isSuccessful()) {
+                   String videoUrl = response.body().getData().getLocation();
+                    Log.w("TA", "onResponse: " + videoUrl);
+//                    saveData();
+                    imageUrl  =videoUrl ;
+                    videoView.setVisibility(View.VISIBLE);
+                    videoView.setVideoPath(imageUrl);
+                    videoView.start();
+                    selectorGallery.setText("Upload");
+                    selectorGallery.setVisibility(View.GONE);
 
-                }).addOnFailureListener(e -> {
-            Log.d(TAG, "uploadVideo: " + e.getLocalizedMessage());
 
+                } else {
+//                    selectorGallery.setText("Upload");
+                    Toast.makeText(getApplicationContext(), "Error in Video Upload", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResultResponse> call, Throwable t) {
+
+                Log.d("TAG", "onFailure: " + t.getLocalizedMessage());
+//                selectorGallery.setText("Upload");
+            }
         });
+
+//        StorageReference ref = storageReference.child(fileName);
+//        ref.putFile(uri)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+////                        Log.d(TAG, "uploadVideo: " + task.getResult().get);
+//
+//                       ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                           @Override
+//                           public void onSuccess(Uri uri) {
+//                               Log.d(TAG, "onSuccess: "  +uri);
+//                               imageUrl = uri.toString();
+//                               selectorGallery.setVisibility(View.GONE);
+//                               imageWrapper.setVisibility(View.GONE);
+//                               videoView.setVisibility(View.VISIBLE);
+//                               videoView.setVideoPath(imageUrl);
+//                               videoView.start();
+//                           }
+//                       });
+//
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Error while uploading", Toast.LENGTH_SHORT)
+//                                .show();
+//                    }
+//
+//                }).addOnFailureListener(e -> {
+//            Log.d(TAG, "uploadVideo: " + e.getLocalizedMessage());
+//
+//        });
     }
 
     private void uploadImage(byte[] bytes) {

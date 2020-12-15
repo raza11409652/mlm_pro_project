@@ -30,6 +30,7 @@ public class SessionHandler {
     private static final String PROFILE_IMAGE = "user_image"; //it will store uid
     private static final String COMPANY_NAME = "user_company"; //it will store uid
     private static final String USER_ADDRESS= "user_address"; //it will store uid
+    private static final String USER_DEVICE_TOKEN= "user_device_token"; //it will store uid
 
     public SessionHandler(Context context) {
         this._context = context;
@@ -52,6 +53,14 @@ public class SessionHandler {
         editor.putString(LOGGED_TOKEN, _token);
         editor.commit();
         Log.d(TAG, "setLoggedToken: Token modified");
+    }
+    public  void setUserDeviceToken(String deviceToken){
+        editor.putString(USER_DEVICE_TOKEN , deviceToken) ;
+        editor.commit() ;
+        Log.d(TAG, "setUserDeviceToken: modified " + deviceToken);
+    }
+    public  String getUserDeviceToken(){
+        return  pref.getString(USER_DEVICE_TOKEN , null);
     }
 
     public void setLoggedInMobile(String _mobile) {

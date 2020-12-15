@@ -1,0 +1,12 @@
+/*
+ * Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+ */
+
+package com.project.mlmpro.listener;
+
+import com.project.mlmpro.model.Notify;
+
+public interface NotifyListener {
+    void onItemClick (Notify v);
+
+}

@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -63,7 +64,8 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
     SessionHandler sessionHandler;
     RequestApi api;
     Loader loader;
-    ImageButton imageButton ;
+    CircleImageView imageButton ;
+    JSONObject postdata ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +184,10 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
 
             Log.e("TAG", "onCreate: " + a);
 //            loader.show("Please wait ...");
+            if (imageUrl==null){
+                Toast.makeText(getApplicationContext()  , "Image is being updated" , Toast.LENGTH_SHORT).show();
+                return;
+            }
             saveData(a);
 
 
@@ -191,6 +197,15 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constant.PUCHASE_ACTIVITY) {
+            Log.d("TAG", "onActivityResult: " + data);
+            String status = data.getStringExtra("payment");
+            if (status.equals("TRUE")) {
+              finish();
+            }
+            return;
+
+        }
         if (resultCode == Activity.RESULT_OK && data != null) {
 //            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
             try {
@@ -235,6 +250,7 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
             public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
                 if (response.isSuccessful()) {
                     imageUrl = response.body().getData().getLocation();
+                    Toast.makeText(getApplicationContext()  ,"Image upload completed" , Toast.LENGTH_SHORT).show();
                 } else {
 //                    selectorGallery.setText("Upload");
                     Toast.makeText(getApplicationContext(), "Error in Image Upload", Toast.LENGTH_SHORT).show();
@@ -269,52 +285,10 @@ public class NewCompanyTopLeaders extends AppCompatActivity {
 
     private void saveData(JSONObject a) {
 
-        Log.d("TAG", "saveData: "  + Constant.PURCHASED_SUBSCRIPTION_TYPE);
-        Log.d("TAG", "saveData: "  + Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON);
-        String expiry = TimeDiff.convertMongoDate(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON) ;
-        if (Constant.PURCHASED_SUBSCRIPTION_TYPE!=null){
-            String diff  =TimeDiff.diffO(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON) ;
-            Log.d("TAG", "saveData: "  +diff);
-            if (diff==null){
-                Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-                startActivity(purchase)  ;
-                return;
-            }
-            if (diff.equals("0") ||diff==null){
-                Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-                startActivity(purchase)  ;
-                return;
-            }else {
-                saveInit(a);
-            }
-        }else if(Constant.PURCHASED_SUBSCRIPTION_TYPE==null){
-            Intent purchase = new Intent(getApplicationContext()  , Subscription.class) ;
-            startActivity(purchase)  ;
-            return;
-        }else{
-//            saveInit(a);
-//            loader.show("Please wait..");
-//            api.postRequest(a, response -> {
-//                Log.d("TAG", "saveData: " + response);
-//                loader.dismiss();
-//                try {
-//                    String msg = response.getString("message");
-//                    int status = response.getInt("status");
-//                    if (status == 200) {
-//                        Toast.makeText(getApplicationContext(), msg,
-//                                Toast.LENGTH_SHORT).show();
-//                        finish();
-//                        return;
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), msg
-//                                , Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }, Server.GET_FEATURE);
-        }
+        Constant.CURRENT_POST_DATA = a ;
+        Intent purchase = new Intent(getApplicationContext(), Subscription.class);
+        purchase.putExtra("type", "4");
+        startActivityForResult(purchase, Constant.PUCHASE_ACTIVITY);
 
 
 

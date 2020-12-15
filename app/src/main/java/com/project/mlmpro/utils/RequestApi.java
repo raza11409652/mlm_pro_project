@@ -68,7 +68,8 @@ public class RequestApi {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, object,
                 success, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage())) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
+//                Log.d(TAG, "getHeaders: " + token);
                 HashMap<String, String> map = new HashMap<>();
                 map.put("authorization", token);
                 return map;

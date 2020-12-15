@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Response;
 import com.project.mlmpro.activity.Home;
 import com.project.mlmpro.activity.Login;
+import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.SessionHandler;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sessionHandler = new SessionHandler(this);
         requestApi = new RequestApi(this);
+//        sessionHandler.setUserDeviceToken(Constant.DEVICE_TOKEN );
         if (sessionHandler.getIsLoggedIn()) {
 //            Intent home = new Intent(getApplicationContext(), Home.class);
 //            updateScreen(home);

@@ -6,11 +6,14 @@ package com.project.mlmpro.utils;
 
 import com.project.mlmpro.model.Post;
 
+import org.json.JSONObject;
+
 public class Constant {
     public static final int GALLERY_OPEN = 123;
     public static final int GALLERY_IMAGE_VIDEO = 124;
     public static final int OPEN_FOR_PDF = 1222;
     public static final int VIDEO_OPEN = 12223;
+    public static final int PUCHASE_ACTIVITY = 9876;
     public static  Post CURRENT_POST =null ;
     public static  String FORGET_MOBILE =null ;
     public static  String OTP_FORGET =null ;
@@ -23,4 +26,7 @@ public class Constant {
     public static  String RZP_ORDER_ID;
     public static String SUBSCRIPTION_TYPE = null;
     public static int PERMISSION = 765;
+    public static String DEVICE_TOKEN = null;
+    public static JSONObject CURRENT_POST_DATA = null;
+
 }

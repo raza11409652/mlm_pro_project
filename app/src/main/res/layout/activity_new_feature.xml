@@ -32,14 +32,14 @@
                 android:textSize="@dimen/size_20"
                 android:textStyle="bold"></TextView>
 
-            <ImageButton
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:src="@drawable/profile"
                 android:id="@+id/image_uploader"
                 android:layout_width="@dimen/size_120"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/size_10"
-                android:background="@drawable/click_back"></ImageButton>
+                android:background="@drawable/click_back"></de.hdodenhof.circleimageview.CircleImageView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

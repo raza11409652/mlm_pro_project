@@ -51,6 +51,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-database'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.2.+'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
+
+    implementation "com.google.android.exoplayer:exoplayer:2.12.2"
+
+    // All:
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.28.2'
+
+//// Download + Preprocess:
+//    implementation group: 'com.cloudinary', name: 'cloudinary-android-preprocess', version: '1.28.2'
+//    implementation group: 'com.cloudinary', name: 'cloudinary-android-download', version: '1.28.2'
     //FIREBASE
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     testImplementation 'junit:junit:4.+'

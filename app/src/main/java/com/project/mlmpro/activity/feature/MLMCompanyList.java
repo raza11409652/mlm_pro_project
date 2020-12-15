@@ -99,23 +99,36 @@ public class MLMCompanyList extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+                Log.d(TAG, "onScrollStateChanged: " + lastItem);
+                if (lastItem ==list.size()-1){
+                    Log.d(TAG, "onScrollStateChanged: Last Item reached");
+
+                    int skipInt = Integer.parseInt(skip);
+                    skipInt = skipInt+=list.size() ;
+                    skip = String.valueOf(skipInt);
+                    if (query==null){
+                        fetch(limit , skip , query);
+                    }
+
+                }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 //                Log.d(TAG, "onScrolled:  " + dy);
-                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
-                Log.d(TAG, "onScrolled: " + lastItem);
-                if (lastItem ==list.size()-1){
-                    Log.d(TAG, "onScrolled: Reach last item" );
-                    int skipVal = Integer.parseInt(skip);
-                    skipVal = skipVal + lastItem  ;
-                    Log.d(TAG, "onScrolled: "  +skipVal);
-                    if(query==null){
-                        fetch(limit , String.valueOf(skipVal), query );
-                    }
-                }
+//                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+//                Log.d(TAG, "onScrolled: " + lastItem);
+//                if (lastItem ==list.size()-1){
+//                    Log.d(TAG, "onScrolled: Reach last item" );
+//                    int skipVal = Integer.parseInt(skip);
+//                    skipVal = skipVal + lastItem  ;
+//                    Log.d(TAG, "onScrolled: "  +skipVal);
+//                    if(query==null){
+//                        fetch(limit , String.valueOf(skipVal), query );
+//                    }
+//                }
             }
         });
 

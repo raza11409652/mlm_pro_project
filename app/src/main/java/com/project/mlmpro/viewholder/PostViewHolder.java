@@ -14,17 +14,21 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.project.mlmpro.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
-    public TextView postData, name, time, likeCount, dislikeLikeCount;
+    public TextView postData, name, time, likeCount, dislikeLikeCount  , commentCount;
     public ImageView postImage;
-    public ImageButton like, comment, share;
+    public ImageButton like, comment, share  , delete;
     public RelativeLayout like_wrapper, dislike_wrapper, share_wrapper, commentWrapper;
     public CircleImageView profileImage;
-    public VideoView video_wrapper;
+    public StyledPlayerView videoView ;
+
 
 
     public PostViewHolder(@NonNull View itemView) {
@@ -41,6 +45,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         dislikeLikeCount = itemView.findViewById(R.id.dislike_like_Count);
         share_wrapper = itemView.findViewById(R.id.share_wrapper);
         commentWrapper = itemView.findViewById(R.id.comment_wrapper);
-        video_wrapper = itemView.findViewById(R.id.video_wrapper);
+        videoView  =itemView.findViewById(R.id.video_wrapper);
+
+        delete  =itemView.findViewById(R.id.delete_btn);
+        commentCount =itemView.findViewById(R.id.comment_count);
     }
 }

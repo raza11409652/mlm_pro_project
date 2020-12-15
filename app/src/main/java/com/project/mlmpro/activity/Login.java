@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
         loader = new Loader(this);
         api = new RequestApi(this);
         sessionHandler = new SessionHandler(this);
+//        sessionHandler.setUserDeviceToken(Constant.DEVICE_TOKEN);
         alertFlash = new AlertFlash(this, this);
 
         mobileEdt.addTextChangedListener(new TextWatcher() {
@@ -101,6 +102,7 @@ public class Login extends AppCompatActivity {
             try {
                 object.put("phone", mobile);
                 object.put("password", password);
+                object.put("deviceToken" , sessionHandler.getUserDeviceToken());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

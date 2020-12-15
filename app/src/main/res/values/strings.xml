@@ -122,5 +122,8 @@
     <string name="update_profile">Update profile</string>
     <string name="resend_otp">Resend Otp</string>
     <string name="website">Enter Website</string>
+    <string name="cloud_name">dlyuhnc8i</string>
+    <string name="no_notification">Notificaton  not found</string>
+    <string name="notification">Notification</string>
 
 </resources>

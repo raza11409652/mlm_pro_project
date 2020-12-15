@@ -76,21 +76,22 @@ public class MlmProductServiceProvider extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 int lastItem = dataManger.findLastCompletelyVisibleItemPosition();
                 if (lastItem == l.size() - 1) {
                     Log.d("TAG", "onScrolled: Reach last item");
                     int skipVal = Integer.parseInt(skip);
-                    skipVal = skipVal + lastItem;
+                    skipVal = skipVal + l.size();
                     Log.d("TAG", "onScrolled: " + skipVal);
                     if (query == null) {
                         fetch(limit, String.valueOf(skipVal), null);
                     }
                 }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
             }
         });
         searchbar.addTextChangedListener(new TextWatcher() {

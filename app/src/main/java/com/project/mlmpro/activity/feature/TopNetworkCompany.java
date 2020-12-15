@@ -98,22 +98,24 @@ public class TopNetworkCompany extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
+
+                if (lastItem ==list.size()-1){
+                    Log.d("TAG", "onScrolled: Reach last item" );
+                    int skipVal = Integer.parseInt(skip);
+                    skipVal = skipVal + list.size()  ;
+                    Log.d("TAG", "onScrolled: "  +skipVal);
+                    if(query==null){
+                        fetch(limit , String.valueOf(skipVal), null );
+                    }
+                }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
 
-                   if (lastItem ==list.size()-1){
-                       Log.d("TAG", "onScrolled: Reach last item" );
-                       int skipVal = Integer.parseInt(skip);
-                       skipVal = skipVal + lastItem  ;
-                       Log.d("TAG", "onScrolled: "  +skipVal);
-                       if(query==null){
-                           fetch(limit , String.valueOf(skipVal), null );
-                       }
-                   }
+
 
             }
         });

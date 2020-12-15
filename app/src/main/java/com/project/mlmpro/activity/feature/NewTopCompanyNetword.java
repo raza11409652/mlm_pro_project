@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -63,8 +64,9 @@ public class NewTopCompanyNetword extends AppCompatActivity {
     SessionHandler sessionHandler;
     RequestApi api;
     Loader loader;
-    ImageButton imageButton;
+    CircleImageView imageButton;
     String _token ;
+    JSONObject postdata ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,91 +178,37 @@ public class NewTopCompanyNetword extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-//                loader.show("Please wait ...");
+                if(imageUrl==null){
+                    Toast.makeText(getApplicationContext()  , "Image not uploaded" , Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 saveData(a);
             }
         });
     }
 
     private void saveData(JSONObject a) {
-
-        Log.d("TAG", "saveData: " + Constant.PURCHASED_SUBSCRIPTION_TYPE);
-        Log.d("TAG", "saveData: " + Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON);
-        String expiry = TimeDiff.convertMongoDate(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON);
-        if (Constant.PURCHASED_SUBSCRIPTION_TYPE != null) {
-            String diff = TimeDiff.diffO(Constant.PURCHASED_SUBSCRIPTION_EXPIRED_ON);
-            Log.d("TAG", "saveData: " + diff);
-            if (diff == null) {
-                Intent purchase = new Intent(getApplicationContext(), Subscription.class);
-                startActivity(purchase);
-                return;
-            }
-            if (diff.equals("0") || diff == null) {
-                Intent purchase = new Intent(getApplicationContext(), Subscription.class);
-                startActivity(purchase);
-                return;
-            } else {
-                saveInit(a);
-            }
-        } else if (Constant.PURCHASED_SUBSCRIPTION_TYPE == null) {
-            Intent purchase = new Intent(getApplicationContext(), Subscription.class);
-            startActivity(purchase);
-            return;
-        } else {
-//            saveInit(a);
-//            loader.show("Please wait..");
-//            api.postRequest(a, response -> {
-//                Log.d("TAG", "saveData: " + response);
-//                loader.dismiss();
-//                try {
-//                    String msg = response.getString("message");
-//                    int status = response.getInt("status");
-//                    if (status == 200) {
-//                        Toast.makeText(getApplicationContext(), msg,
-//                                Toast.LENGTH_SHORT).show();
-//                        finish();
-//                        return;
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), msg
-//                                , Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }, Server.GET_FEATURE);
-        }
-
+        Constant.CURRENT_POST_DATA = a ;
+        Intent purchase = new Intent(getApplicationContext(), Subscription.class);
+        purchase.putExtra("type", "2");
+        startActivityForResult(purchase, Constant.PUCHASE_ACTIVITY);
 
     }
 
-    private void saveInit(JSONObject a) {
-        loader.show("Please wait..");
-        api.postRequest(a, response -> {
-            Log.d("TAG", "saveData: " + response);
-            loader.dismiss();
-            try {
-                String msg = response.getString("message");
-                int status = response.getInt("status");
-                if (status == 200) {
-                    Toast.makeText(getApplicationContext(), msg,
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                } else {
-                    Toast.makeText(getApplicationContext(), msg
-                            , Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, Server.GET_FEATURE);
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constant.PUCHASE_ACTIVITY) {
+            Log.d("TAG", "onActivityResult: " + data);
+            String status = data.getStringExtra("payment");
+            if (status.equals("TRUE")) {
+               finish();
+            }
+            return;
+
+        }
         if (resultCode == Activity.RESULT_OK && data != null) {
 //            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
             try {

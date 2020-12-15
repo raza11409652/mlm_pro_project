@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Response;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
@@ -253,10 +254,16 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
         HomeMenu mlm_company = new HomeMenu("All MLM Company", new Intent(getApplicationContext(), MLMCompanyList.class), R.drawable.allmlmcompany);
         menus.add(mlm_company);
-        HomeMenu top_network = new HomeMenu("Top Network Company", new Intent(getApplicationContext(), TopNetworkCompany.class), R.drawable.topnetwork);
+        HomeMenu top_network = new HomeMenu("Top Networker", new Intent(getApplicationContext(), TopNetworkCompany.class), R.drawable.topnetwork);
         menus.add(top_network);
         HomeMenu training_seminar_update = new HomeMenu("Training Seminar Update", new Intent(getApplicationContext(), MLMSeminalUpdate.class), R.drawable.trainingseminar);
         menus.add(training_seminar_update);
+        HomeMenu service_provider = new HomeMenu("MLM Product Service Provider", new Intent(getApplicationContext(), MlmProductServiceProvider.class), R.drawable.service_provider);
+        menus.add(service_provider);
+        HomeMenu manufa = new HomeMenu("MLM Product Manufacturing", new Intent(getApplicationContext(), MlmProductManufacturing.class), R.drawable.manufactrintg_ps);
+        menus.add(manufa);
+        HomeMenu fcs = new HomeMenu("Fast Courier Service", new Intent(getApplicationContext(), FastCourierService.class), R.drawable.fcs);
+        menus.add(fcs);
         homeMenuAdapter.notifyDataSetChanged();
 
 
@@ -333,8 +340,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
         String url = Server.GET_POST + "?limit=" + limit + "&skip=" + skip;
         Log.d(TAG, "fetchPost: " + url);
-        api.getRequest(url, response -> {
-            Log.d(TAG, "onResponse: " + response);
+        runOnUiThread(() -> api.getRequest(url, response -> {
+//            Log.d(TAG, "onResponse: " + response);
             try {
                 JSONObject object = new JSONObject(response);
 //
@@ -345,9 +352,9 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                     if (array.length()<1){
                         return;
                     }
-                   if (skip.equals("0")){
-                       posts = new ArrayList<>();
-                   }
+                    if (skip.equals("0")){
+                        posts = new ArrayList<>();
+                    }
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject single = array.getJSONObject(i);
                         String _id = single.getString("id");
@@ -363,11 +370,11 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                         String _updatedOn = single.getString("updatedAt");
                         Post post = new Post(_id, _senderId, _senderName, _senderImage, _postText, _postImage, _likesCount, _sendBirdGroupId, _createdOn, _updatedOn, _isLiked);
                         posts.add(post);
-                        Log.d(TAG, "fetchPost: " + _senderImage);
+//                        Log.d(TAG, "fetchPost: " + _senderImage);
 
                     }
 
-                    postAdapter = new PostAdapter(posts, this, this);
+                    postAdapter = new PostAdapter(posts, Home.this, Home.this);
                     postListView.setAdapter(postAdapter);
                     postAdapter.notifyDataSetChanged();
                     postListView.setLayoutManager(postLayoutManager);
@@ -379,7 +386,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                 e.printStackTrace();
             }
 
-        });
+        }));
     }
 
     private void fetchImageSlider() {
@@ -498,7 +505,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         List<MenuModel> features = new ArrayList<>();
         MenuModel mlmCompanylist = new MenuModel("MLM Company List", new Intent(getApplicationContext(), MLMCompanyList.class), false, false);
         features.add(mlmCompanylist);
-        MenuModel top_network_company = new MenuModel("Top Network Company", new Intent(getApplicationContext(), TopNetworkCompany.class), false, false);
+        MenuModel top_network_company = new MenuModel("Top Networker", new Intent(getApplicationContext(), TopNetworkCompany.class), false, false);
         features.add(top_network_company);
         MenuModel top_mlm_trainer = new MenuModel("Top MLM Trainer", new Intent(getApplicationContext(), TopMLMTrainer.class), false, false);
         features.add(top_mlm_trainer);
@@ -546,8 +553,6 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         }
         MenuModel referral = new MenuModel("Referral", new Intent(getApplicationContext(), Referral.class), false, true);
         headerList.add(referral);
-        MenuModel subscription = new MenuModel("Subscription", new Intent(getApplicationContext(), Subscription.class), false, true);
-        headerList.add(subscription);
         MenuModel walletMenu = new MenuModel(getString(R.string.wallet), new Intent(getApplicationContext(), WalletScreen.class), false, true);
         headerList.add(walletMenu);
         MenuModel logout = new MenuModel("Log Out", null, false, true);
@@ -566,7 +571,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.post_menu, menu);
+        inflater.inflate(R.menu.home_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -579,6 +584,12 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
                 Intent newPost = new Intent(getApplicationContext(), NewPost.class);
                 updateUi(newPost);
 
+                break;
+
+            case
+                     R.id.notification :
+                Intent not = new Intent(getApplicationContext() , Notification.class);
+            updateUi(not);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -605,7 +616,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         }
 
         api.postRequest(like, response -> {
-            Log.d(TAG, "onResponse: " + response);
+//            Log.d(TAG, "onResponse: " + response);
             fetchPost(limit, skip);
         }, Server.POST_LIKE);
 
@@ -633,6 +644,16 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         String msg = post.getData();
         String id = post.getId() ;
 
+        JSONObject object1=new JSONObject();
+        try {
+            object1.put("postId" , post.getId());
+            object1.put("type" , "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        api.postRequest(object1, response -> {
+
+        }, Server.ACTION_POST);
         msg +="\nhttps://mlm.app/"+id;
         msg += "\nDownload app from https://url.com";
         setting.openShare(msg);
@@ -645,6 +666,21 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         Intent intent  =new Intent(getApplicationContext() , Comment.class);
         Constant.CURRENT_POST = post;
         startActivity(intent);
+    }
+
+    @Override
+    public void onDelete(Post post) {
+        JSONObject object = new JSONObject();
+        try{
+
+            object.put("id" , post.getId());
+        }catch (Exception e){
+
+        }
+        api.postRequest(object, response -> {
+            Log.d(TAG, "onResponse: " + response) ;
+            fetchPost(limit , skip );
+        }, Server.DELETE_POST);
     }
 
     @Override

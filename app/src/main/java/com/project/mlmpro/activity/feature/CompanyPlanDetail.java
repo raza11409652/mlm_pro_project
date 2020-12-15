@@ -95,21 +95,22 @@ public class CompanyPlanDetail extends AppCompatActivity implements PlanListList
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 int lastItem = dataManager.findLastCompletelyVisibleItemPosition();
                 if (lastItem == list.size() - 1) {
                     Log.d("TAG", "onScrolled: Reach last item");
                     int skipVal = Integer.parseInt(skip);
-                    skipVal = skipVal + lastItem;
+                    skipVal = skipVal + list.size();
                     Log.d("TAG", "onScrolled: " + skipVal);
                     if (query == null) {
                         fetch(limit, String.valueOf(skipVal), query);
                     }
                 }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
             }
         });
         fetch(limit, skip, query);

@@ -25,6 +25,15 @@
             android:id="@+id/profile_image"
             android:layout_width="@dimen/size_80"
             android:layout_height="@dimen/size_80"></de.hdodenhof.circleimageview.CircleImageView>
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/delete_btn"
+            android:background="@drawable/click_back"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="@dimen/size_24"
+            android:layout_height="@dimen/size_24"></ImageButton>
         <TextView
 
             android:textColor="@color/black"
@@ -72,14 +81,31 @@
         android:visibility="gone"
         android:src="@drawable/placeholder"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_160"></ImageView>
-    <VideoView
+        android:layout_height="wrap_content"></ImageView>
+<!--    <VideoView-->
 
-        android:layout_gravity="center"
+<!--        android:layout_gravity="center"-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/video_wrapper"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/size_160"></VideoView>-->
+    <com.google.android.exoplayer2.ui.StyledPlayerView
         android:visibility="gone"
         android:id="@+id/video_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_160"></VideoView>
+        android:layout_height="@dimen/size_160"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+    </com.google.android.exoplayer2.ui.StyledPlayerView>
     <LinearLayout
         android:padding="@dimen/size_10"
         android:weightSum="3"
@@ -141,20 +167,17 @@
             android:layout_weight="1"
             android:layout_width="0sp"
             android:layout_height="wrap_content">
-            <ImageButton
 
-                android:id="@+id/comment"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/comment"
-                android:layout_width="@dimen/size_24"
-                android:layout_height="@dimen/size_24"></ImageButton>
             <TextView
+                android:drawablePadding="@dimen/size_4"
+                android:drawableStart="@drawable/comment"
+                android:id="@+id/comment_count"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:layout_marginLeft="@dimen/size_4"
+                android:layout_marginLeft="@dimen/size_0"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/comment"
+
+                android:textSize="@dimen/sb_size_12"
                 android:text="@string/comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></TextView>

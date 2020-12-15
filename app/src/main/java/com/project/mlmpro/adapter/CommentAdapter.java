@@ -5,6 +5,7 @@
 package com.project.mlmpro.adapter;
 
 import android.content.Context;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.Viewhol
         holder.user.setText(list.get(position).getUser());
         holder.comment.setText(list.get(position).getComment());
         holder.time.setText(TimeDiff.dateNow(list.get(position).getTime()));
+
+        Linkify.addLinks(holder.comment , Linkify.WEB_URLS) ;
     }
 
     @Override

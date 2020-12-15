@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Response;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,8 +33,13 @@ import com.project.mlmpro.R;
 import com.project.mlmpro.adapter.CommentAdapter;
 import com.project.mlmpro.model.CommentPost;
 import com.project.mlmpro.utils.Constant;
+import com.project.mlmpro.utils.RequestApi;
+import com.project.mlmpro.utils.Server;
 import com.project.mlmpro.utils.SessionHandler;
 import com.project.mlmpro.utils.StringHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +56,7 @@ public class Comment extends AppCompatActivity {
     FirebaseDatabase database ;
     DatabaseReference commentWrite , commentRead ;
     ArrayList<CommentPost>posts  = new ArrayList<>();
+    RequestApi requestApi ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,7 @@ public class Comment extends AppCompatActivity {
         commentList = findViewById(R.id.comment_list);
         commentList.setHasFixedSize(true);
         commentSubmit = findViewById(R.id.submit);
+        requestApi  = new RequestApi(this);
 
 //        getAllComments();
         commentSubmit.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +95,25 @@ public class Comment extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 commentsBox.setText("");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                    }
-                }) ;
+
+                                JSONObject object1=new JSONObject();
+                                try {
+                                    object1.put("postId" , Constant.CURRENT_POST.getId());
+                                    object1.put("type" , "2");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                requestApi.postRequest(object1, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+
+                                    }
+                                } , Server.ACTION_POST);
+                            }
+                        }).addOnFailureListener(e -> {
+
+                        }) ;
 
 
             }
@@ -130,7 +150,7 @@ public class Comment extends AppCompatActivity {
 
         Log.d(TAG, "setAdapter: "+posts);
         commentList.setLayoutManager(new LinearLayoutManager(this));
-        CommentAdapter adapter = new CommentAdapter(posts , getApplicationContext()) ;
+        CommentAdapter adapter = new CommentAdapter(posts , Comment.this) ;
         adapter.notifyDataSetChanged();
         commentList.setAdapter(adapter);
     }
