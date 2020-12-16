@@ -67,6 +67,19 @@
 
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:padding="@dimen/size_10"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:text="Designed by gwltech it solution"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TextView>
+        </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

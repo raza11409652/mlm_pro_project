@@ -116,6 +116,7 @@ public class MlmProductManufacturing extends AppCompatActivity {
 
     }
 
+
     private void fetch(String limit, String skip, String query) {
 //
         String url = null;
@@ -192,6 +193,7 @@ public class MlmProductManufacturing extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        fetch(limit , skip,query);
     }
 
     @Override

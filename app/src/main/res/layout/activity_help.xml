@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Hackdroid https://github.com/raza11409652
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Help">
+    <LinearLayout
+        android:id="@+id/parent"
+        android:padding="@dimen/parent_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textAlignment="center"
+            android:text="More information about mlm pro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:id="@+id/info_email"
+            android:textColor="@color/primaryDark"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="info@mlmpromotion.in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:layout_marginTop="@dimen/margin_top"
+            android:textAlignment="center"
+            android:text="Help support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:id="@+id/support_email"
+            android:textColor="@color/primaryDark"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="support@mlmpromotion.in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:layout_marginTop="@dimen/margin_top"
+            android:textAlignment="center"
+            android:text="Enquiry support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:id="@+id/enq_email"
+            android:textColor="@color/primaryDark"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="Enquiry@mlmpro.in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+      <TextView
+            android:layout_marginTop="@dimen/margin_top"
+            android:textAlignment="center"
+            android:text="Advertisement &amp; promotion support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:id="@+id/ad_email"
+            android:textColor="@color/primaryDark"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="adsyourbusiness@mlmpro.in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+
+        <Button
+            android:id="@+id/call_support"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="Call Support 9672995845"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Button>
+        <Button
+            android:id="@+id/whatsapp_support"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="Whatsapp Support 9672995845"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Button>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

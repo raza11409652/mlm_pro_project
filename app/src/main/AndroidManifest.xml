@@ -17,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/noActionbar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.SinglePost"></activity>
+        <activity android:name=".activity.Help"
+            android:parentActivityName=".activity.Home"
+            android:theme="@style/Theme.MLMPro"></activity>
+        <activity android:name=".activity.SinglePost" />
         <activity android:name=".activity.Notification" />
         <activity android:name=".activity.NewPassword" />
         <activity android:name=".activity.Comment" />

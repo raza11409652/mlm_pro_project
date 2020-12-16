@@ -117,6 +117,12 @@ public class MlmProductServiceProvider extends AppCompatActivity {
         fetch(limit, skip, query);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetch(limit , skip , query);
+    }
+
     private void fetch(String limit, String skip, String query) {
 //
         String url = null;

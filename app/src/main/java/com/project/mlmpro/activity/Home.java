@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.Response;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
@@ -95,7 +94,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     RecyclerView homeMenu;
     IntentSetting setting;
 
-//
+    //
 //    String limit = String.valueOf(20) , skip="0" ;
     AlertFlash alertFlash;
     CircleImageView _profile;
@@ -108,7 +107,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     ArrayList<Post> posts = new ArrayList<>();
     PostAdapter postAdapter;
     NavigationView navigationView;
-    TextView nameUser  ,companyname , address;
+    TextView nameUser, companyname, address;
     SessionHandler sessionHandler;
 
     int visibleItemCount, totalItemCount, pastVisiblesItems;
@@ -142,18 +141,18 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
         navigationView = findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
-        headerView.setOnClickListener(v->{
-            Intent updatep = new Intent(getApplicationContext() , UpdateProfile.class);
+        headerView.setOnClickListener(v -> {
+            Intent updatep = new Intent(getApplicationContext(), UpdateProfile.class);
             startActivity(updatep);
         });
         nameUser = headerView.findViewById(R.id.name);
         _profile = headerView.findViewById(R.id.image);
         nameUser.setText(StringHandler.captalize(sessionHandler.getUserName()));
-        companyname = headerView.findViewById(R.id.company_name) ;
-        address = headerView.findViewById(R.id.address) ;
-        try{
+        companyname = headerView.findViewById(R.id.company_name);
+        address = headerView.findViewById(R.id.address);
+        try {
             companyname.setText(StringHandler.captalize(sessionHandler.getCompanyName()));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         address.setText(sessionHandler.getLoggedInMobile());
@@ -233,7 +232,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 //        fetchImageSlider();
 
 
-        fetchPost(limit , skip);
+        fetchPost(limit, skip);
         runOnUiThread(() -> {
 
             fetchImageSlider();
@@ -271,23 +270,24 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                int item = postLayoutManager.findLastVisibleItemPosition();
+                if (item == posts.size() - 1) {
+                    //last item reach
+
+                    int skipI = Integer.parseInt(skip);
+                    skipI = skipI + posts.size();
+
+                    fetchPost(limit, String.valueOf(skipI));
+
+
+                }
+
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 Log.d(TAG, "onScrolled: " + postLayoutManager.findLastVisibleItemPosition());
-                int item  =postLayoutManager.findLastVisibleItemPosition() ;
-                if (item ==posts.size()-1){
-                    //last item reach
-
-                    int skipI = Integer.parseInt(skip);
-                    skipI = skipI+item;
-
-                    fetchPost(limit , String.valueOf(skipI));
-
-
-                }
 
             }
 
@@ -349,10 +349,10 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
                 if (status == 200) {
                     JSONArray array = object.getJSONArray("data");
-                    if (array.length()<1){
+                    if (array.length() < 1) {
                         return;
                     }
-                    if (skip.equals("0")){
+                    if (skip.equals("0")) {
                         posts = new ArrayList<>();
                     }
                     for (int i = 0; i < array.length(); i++) {
@@ -555,6 +555,9 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         headerList.add(referral);
         MenuModel walletMenu = new MenuModel(getString(R.string.wallet), new Intent(getApplicationContext(), WalletScreen.class), false, true);
         headerList.add(walletMenu);
+
+        MenuModel help = new MenuModel("Help", new Intent(getApplicationContext() , Help.class), false, true);
+        headerList.add(help);
         MenuModel logout = new MenuModel("Log Out", null, false, true);
 
         headerList.add(logout);
@@ -586,10 +589,9 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
                 break;
 
-            case
-                     R.id.notification :
-                Intent not = new Intent(getApplicationContext() , Notification.class);
-            updateUi(not);
+            case R.id.notification:
+                Intent not = new Intent(getApplicationContext(), Notification.class);
+                updateUi(not);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -642,19 +644,19 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onShareClick(Post post) {
         String msg = post.getData();
-        String id = post.getId() ;
+        String id = post.getId();
 
-        JSONObject object1=new JSONObject();
+        JSONObject object1 = new JSONObject();
         try {
-            object1.put("postId" , post.getId());
-            object1.put("type" , "1");
+            object1.put("postId", post.getId());
+            object1.put("type", "1");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         api.postRequest(object1, response -> {
 
         }, Server.ACTION_POST);
-        msg +="\nhttps://mlm.app/"+id;
+        msg += "\nhttps://mlm.app/" + id;
         msg += "\nDownload app from https://url.com";
         setting.openShare(msg);
 
@@ -663,7 +665,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onComment(Post post) {
 
-        Intent intent  =new Intent(getApplicationContext() , Comment.class);
+        Intent intent = new Intent(getApplicationContext(), Comment.class);
         Constant.CURRENT_POST = post;
         startActivity(intent);
     }
@@ -671,15 +673,15 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     @Override
     public void onDelete(Post post) {
         JSONObject object = new JSONObject();
-        try{
+        try {
 
-            object.put("id" , post.getId());
-        }catch (Exception e){
+            object.put("id", post.getId());
+        } catch (Exception e) {
 
         }
         api.postRequest(object, response -> {
-            Log.d(TAG, "onResponse: " + response) ;
-            fetchPost(limit , skip );
+            Log.d(TAG, "onResponse: " + response);
+            fetchPost(limit, skip);
         }, Server.DELETE_POST);
     }
 
