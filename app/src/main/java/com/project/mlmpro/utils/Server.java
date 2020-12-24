@@ -36,6 +36,7 @@ public class Server {
     public static final String FEAUTRE_PURCHASE= ROOT_SERVER + "feature/post/purchase";
     public static final String SINGLE_POST= ROOT_SERVER + "customer/getPostDetail?postId=";
     public static final String ACTION_POST= ROOT_SERVER + "customer/actionPerformedOnPost";
+    public static final String VERIFY_OTP= ROOT_SERVER + "customer/verifyPhone";
 
 }
 

@@ -5,8 +5,8 @@
 package com.project.mlmpro.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -17,12 +17,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.project.mlmpro.activity.Login;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +48,11 @@ public class RequestApi {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                Intent intent = new Intent(context, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
+//                context
 
 
             }
@@ -65,6 +68,7 @@ public class RequestApi {
     }
 
     public void postRequest(JSONObject object, Response.Listener<JSONObject> success, String url) {
+        Log.e(TAG, "postRequest: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, object,
                 success, error -> Log.d(TAG, "onErrorResponse: " + error.getMessage())) {
             @Override
@@ -138,7 +142,6 @@ public class RequestApi {
 //        };
 //
 //        queue.add(jsonObjectRequest);
-
 
 
     }

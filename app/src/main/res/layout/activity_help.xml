@@ -54,7 +54,7 @@
             android:textColor="@color/primaryDark"
             android:textAlignment="center"
             android:layout_marginTop="@dimen/margin_top"
-            android:text="Enquiry@mlmpro.in"
+            android:text="enquiry@mlmpromotion.in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></TextView>
       <TextView
@@ -68,7 +68,7 @@
             android:textColor="@color/primaryDark"
             android:textAlignment="center"
             android:layout_marginTop="@dimen/margin_top"
-            android:text="adsyourbusiness@mlmpro.in"
+            android:text="ads@mlmpromotion.in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></TextView>
 

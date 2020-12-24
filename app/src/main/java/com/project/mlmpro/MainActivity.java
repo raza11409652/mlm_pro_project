@@ -2,14 +2,11 @@ package com.project.mlmpro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Response;
 import com.project.mlmpro.activity.Home;
 import com.project.mlmpro.activity.Login;
-import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.SessionHandler;
 
@@ -42,8 +39,22 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(response);
                     int status = object.getInt("status");
                     if (status == 200) {
-                        Intent home = new Intent(getApplicationContext(), Home.class);
-                        updateScreen(home);
+                        JSONObject data = object.getJSONObject("data");
+                        String _id = data.getString("id");
+                        String _name = data.getString("fullName");
+                        String _email = data.getString("email");
+                        String _phone = data.getString("phone");
+                        String _token = data.getString("accessToken");
+                        String _isVerified = data.getString("isVerified");
+                        if (_isVerified.equals("0")) {
+                            //false
+                            Intent verify = new Intent(getApplicationContext(), VerifyOtp.class);
+                            updateScreen(verify);
+                        } else {
+                            Intent home = new Intent(getApplicationContext(), Home.class);
+                            updateScreen(home);
+                        }
+//
                     } else {
                         Intent login = new Intent(getApplicationContext(), Login.class); //login
                         updateScreen(login);
@@ -58,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             updateScreen(login);
         }
 
+//        Intent login = new Intent(getApplicationContext(), Login.class); //login
+////        startActivity(login);
+//        updateScreen(login);
 
     }
 

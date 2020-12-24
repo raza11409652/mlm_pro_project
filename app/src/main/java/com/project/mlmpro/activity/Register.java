@@ -143,55 +143,52 @@ public class Register extends AppCompatActivity {
         });
 
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                name = nameEdt.getText().toString();
-                email = emailEdt.getText().toString();
-                mobile = mobileEdt.getText().toString();
+        register.setOnClickListener(v -> {
+            name = nameEdt.getText().toString();
+            email = emailEdt.getText().toString();
+            mobile = mobileEdt.getText().toString();
 
-                password = passwordEdt.getText().toString();
-                confPassword = confPasswordEdt.getText().toString();
+            password = passwordEdt.getText().toString();
+            confPassword = confPasswordEdt.getText().toString();
 
-                boolean valid = StringHandler.isPasswordValid(password, confPassword);
+            boolean valid = StringHandler.isPasswordValid(password, confPassword);
 
-                if (StringHandler.isValidName(name) == false) {
-                    nameEdt.setError(getString(R.string.invalid_name));
-                    return;
-                }
-                if (StringHandler.isEmailValid(email) == false) {
-                    emailEdt.setError(getString(R.string.invalid_email));
-                    return;
-                }
-                if (StringHandler.isValidMobile(mobile) == false) {
-                    mobileEdt.setError(getString(R.string.invalid_mobile));
-                    return;
-                }
-                if (!valid) {
-                    confPasswordEdt.setError(getString(R.string.invalid_psw));
-                    return;
-                }
-                loader.show(getString(R.string.loading));
-
-
-                //All ok
-
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("fullName", name);
-                    object.put("email", email);
-                    object.put("phone", mobile);
-                    object.put("password", password);
-                    object.put("deviceToken" , sessionHandler.getUserDeviceToken());
-
-
-                    registerInit(object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+            if (StringHandler.isValidName(name) == false) {
+                nameEdt.setError(getString(R.string.invalid_name));
+                return;
             }
+            if (StringHandler.isEmailValid(email) == false) {
+                emailEdt.setError(getString(R.string.invalid_email));
+                return;
+            }
+            if (StringHandler.isValidMobile(mobile) == false) {
+                mobileEdt.setError(getString(R.string.invalid_mobile));
+                return;
+            }
+            if (!valid) {
+                confPasswordEdt.setError(getString(R.string.invalid_psw));
+                return;
+            }
+            loader.show(getString(R.string.loading));
+
+
+            //All ok
+
+            JSONObject object = new JSONObject();
+            try {
+                object.put("fullName", name);
+                object.put("email", email);
+                object.put("phone", mobile);
+                object.put("password", password);
+                object.put("deviceToken" , sessionHandler.getUserDeviceToken());
+
+
+                registerInit(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         });
 
 
@@ -212,6 +209,7 @@ public class Register extends AppCompatActivity {
                     String _email = data.getString("email");
                     String _phone = data.getString("phone");
                     String _token = data.getString("accessToken");
+                    sessionHandler.setLogin(true);
                     sessionHandler.setLoggedInMobile(_phone);
                     sessionHandler.setLoggedInUser(_id);
                     sessionHandler.setLoggedToken(_token);

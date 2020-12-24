@@ -59,6 +59,7 @@
                         android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:paddingBottom="@dimen/sb_size_100"
                         android:id="@+id/post_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>

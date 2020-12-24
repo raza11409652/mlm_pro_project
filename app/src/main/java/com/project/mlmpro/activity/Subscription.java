@@ -87,7 +87,7 @@ public class Subscription extends AppCompatActivity implements SubscriptionListn
         sessionHandler = new SessionHandler(this);
 
         checkout = new Checkout();
-        checkout.setKeyID(getString(R.string.razp_key));
+        checkout.setKeyID(getString(R.string.razp_live_key));
 
         try{
             type = getIntent().getStringExtra("type");

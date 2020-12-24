@@ -144,8 +144,8 @@ public class CompleteProfile extends AppCompatActivity {
                     //ok
                     sessionHandler.setLogin(true);
                     JSONObject data = response.getJSONObject("data");
-                    String imaeg = response.getString("imageStr");
-                    sessionHandler.setProfileImage(imaeg);
+                    String image = data.getString("imageStr");
+                    sessionHandler.setProfileImage(image);
 
                     //Update screen set user loggedIn
                     Intent intent = new Intent(getApplicationContext(), Home.class);

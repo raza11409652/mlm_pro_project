@@ -104,6 +104,7 @@
     <string name="payable">Total</string>
     <string name="pay">Proceed to pay</string>
     <string name="razp_key">rzp_test_oA8jljoWLXyICO</string>
+    <string name="razp_live_key">rzp_live_0ZJ7M4ccBHYfwp</string>
     <string name="otp_verify">Please enter OTP sent to your mobile number</string>
     <string name="verify">Verify</string>
     <string name="company_registeration">Company Registration</string>

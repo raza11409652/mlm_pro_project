@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,7 +65,9 @@ public class Notification extends AppCompatActivity implements NotifyListener {
         linearLayoutManager = new LinearLayoutManager(this);
         list = findViewById(R.id.list);
         list.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration =new DividerItemDecoration(this , linearLayoutManager.getOrientation());
         noNotification = findViewById(R.id.no_notification);
+        list.addItemDecoration(dividerItemDecoration);
         getNotification(limit , skip);
 
         list.addOnScrollListener(new RecyclerView.OnScrollListener() {

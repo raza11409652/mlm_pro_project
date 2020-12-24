@@ -58,8 +58,9 @@ public class PendingCompany extends Fragment {
     }
 
     private void fetch(String limit , String skip , String query) {
-        api.getRequest(Server.GET_FEATURE_PENDING+"&searchTxt="+query, response -> {
-            Log.d("TAG", "fetch: " + response);
+        String url = Server.GET_FEATURE_PENDING  ;
+        api.getRequest(url, response -> {
+            Log.d("TAG Pending Comp", "fetch: " + response);
             try {
                 JSONObject object = new JSONObject(response);
                 String message = object.getString("message");

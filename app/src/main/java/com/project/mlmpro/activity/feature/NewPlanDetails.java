@@ -13,10 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,7 +38,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,9 +67,9 @@ public class NewPlanDetails extends AppCompatActivity {
     //    ProgressDialog progressDialog;
 //    TextViewtView str1, str2;
     Loader loader;
-    String _token ;
-//    EditText search_bar ;
-    JSONObject postdata ;
+    String _token;
+    //    EditText search_bar ;
+    JSONObject postdata;
 
 
     @Override
@@ -162,6 +158,7 @@ public class NewPlanDetails extends AppCompatActivity {
             Log.d("TAG", "onActivityResult: " + data);
             String status = data.getStringExtra("payment");
             if (status.equals("TRUE")) {
+                saveInit(postdata);
                 finish();
             }
             return;
@@ -214,6 +211,7 @@ public class NewPlanDetails extends AppCompatActivity {
                     try {
                         uploadVideo(selectedVideo);
                     } catch (FileNotFoundException e) {
+                        Log.d("TAG", "onActivityResult: Video upload error");
                         e.printStackTrace();
                     }
                     break;
@@ -227,7 +225,7 @@ public class NewPlanDetails extends AppCompatActivity {
     }
 
     private void saveInit(JSONObject postdata) {
-                requestApi.postRequest(postdata, response -> {
+        requestApi.postRequest(postdata, response -> {
 
             Log.d("TAG", "saveData: " + response);
             loader.dismiss();
@@ -237,11 +235,14 @@ public class NewPlanDetails extends AppCompatActivity {
     }
 
     private void uploadVideo(Uri uri) throws FileNotFoundException {
+        loader.show("Please wait");
+        Log.d("TAG", "uploadVideo: " ) ;
         InputStream is = getContentResolver().openInputStream(uri);
         byte[] arr = new byte[0];
         try {
             arr = getBytes(is);
         } catch (IOException e) {
+            Log.d("TAG", "uploadVideo:  Errir whilei converion");
             e.printStackTrace();
         }
 
@@ -259,19 +260,20 @@ public class NewPlanDetails extends AppCompatActivity {
                         MediaType.parse("video/mp4"),
                         arr
                 );
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", fileName+".3gp"  , requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token  ,fileToUpload);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("photos", fileName + ".3gp", requestFile);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token, fileToUpload);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override
             public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
                 Log.d("TAG", "onResponse: " + response.isSuccessful());
                 Log.d("Upload vide khalid", "onResponse: " + response.message());
+                loader.dismiss();
                 if (response.isSuccessful()) {
                     String url = response.body().getData().getLocation();
                     Log.w("TA", "onResponse: " + url);
 //                    saveData();
-                    videoUrl  =url ;
+                    videoUrl = url;
 
                     saveData();
 
@@ -286,6 +288,7 @@ public class NewPlanDetails extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResultResponse> call, Throwable t) {
 
+                loader.dismiss();
                 Log.d("TAG", "onFailure: " + t.getLocalizedMessage());
 //                selectorGallery.setText("Upload");
             }
@@ -356,11 +359,11 @@ public class NewPlanDetails extends AppCompatActivity {
 
         Log.d("TAG", "onCreate: " + a);
 
-        if (imageUrl==null){
-            Toast.makeText(getApplicationContext()  , "Image is being updated" , Toast.LENGTH_SHORT).show();
+        if (imageUrl == null) {
+            Toast.makeText(getApplicationContext(), "Image is being updated", Toast.LENGTH_SHORT).show();
             return;
         }
-        Constant.CURRENT_POST_DATA = a ;
+        Constant.CURRENT_POST_DATA = a;
 
         Intent purchase = new Intent(getApplicationContext(), Subscription.class);
         purchase.putExtra("type", "6");
@@ -381,7 +384,7 @@ public class NewPlanDetails extends AppCompatActivity {
         double random = Math.random();
         String fileName = random + "_plan_pdf_" + System.currentTimeMillis() + ".pdf";
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token, body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override
@@ -419,7 +422,7 @@ public class NewPlanDetails extends AppCompatActivity {
         String fileName = random + "_comp_plan_logo_" + System.currentTimeMillis() + ".jpg";
 //        Log.e(TAG, "uploadImage: " + fileName);
         MultipartBody.Part body = MultipartBody.Part.createFormData("photos", fileName, requestFile);
-        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token , body);
+        Call<ResultResponse> responseCall = retrofitInterface.uploadImage(_token, body);
 
         responseCall.enqueue(new Callback<ResultResponse>() {
             @Override

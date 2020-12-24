@@ -27,13 +27,13 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/size_10">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="@dimen/size_60"
                 android:layout_height="@dimen/size_60"
                 android:src="@drawable/logo_circle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+                app:layout_constraintTop_toTopOf="parent"></de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
                 android:id="@+id/name"

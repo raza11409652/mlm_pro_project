@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -67,6 +68,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -89,6 +91,8 @@ public class NewPost extends AppCompatActivity {
     Loader loader;
     FirebaseStorage storage;
     StorageReference storageReference;
+    CircleImageView imageView;
+    TextView nameProfile ;
 
     ImageView imageWrapper;
     String _token = null;
@@ -111,6 +115,8 @@ public class NewPost extends AppCompatActivity {
         post = findViewById(R.id.post_btn);
         postEdt = findViewById(R.id.post_data);
         selectorGallery = findViewById(R.id.selector_gallery);
+        imageView = findViewById(R.id.profile_image) ;
+        nameProfile = findViewById(R.id.name);
 
         sessionHandler = new SessionHandler(this);
         senderImage = sessionHandler.getProfileImage();
@@ -145,6 +151,11 @@ public class NewPost extends AppCompatActivity {
         loader = new Loader(this);
         imageWrapper = findViewById(R.id.image_wrapper);
         videoView = findViewById(R.id.video_wrapper);
+        Picasso.get().load(sessionHandler.getProfileImage())
+                .error(R.drawable.logo_circle)
+                .placeholder(R.drawable.logo_circle)
+                .into(imageView);
+        nameProfile.setText(sessionHandler.getUserName() ==null?"NAME":sessionHandler.getUserName());
 
 //        verifyStoragePermissions(this , 0);
 

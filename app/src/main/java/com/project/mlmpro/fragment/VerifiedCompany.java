@@ -66,7 +66,7 @@ public class VerifiedCompany extends Fragment {
             url = Server.GET_FEATURE + "?postType=7&searchTxt=" + query+"&limit="+limit+"&skip="+skip;
         }
         api.getRequest(url, response -> {
-            Log.d("TAG", "fetch: " + response);
+            Log.d("TAG", "fetch: Verified " + response);
             try {
                 JSONObject object = new JSONObject(response);
                 String message = object.getString("message");
