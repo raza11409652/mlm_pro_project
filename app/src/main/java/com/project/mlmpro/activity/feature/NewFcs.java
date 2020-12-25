@@ -210,7 +210,7 @@ public class NewFcs extends AppCompatActivity {
                 a.put("email", email);
                 a.put("rank", "0");
                 a.put("trainingInstitue", "0");
-                a.put("courierType", "0");
+                a.put("courierType", typeCourier);
                 a.put("postType", type);
 
 
@@ -224,14 +224,11 @@ public class NewFcs extends AppCompatActivity {
 
         });
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gallery = new Intent();
-                gallery.setType("image/*");
-                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(gallery, "Select Picture"), Constant.GALLERY_OPEN);
-            }
+        imageButton.setOnClickListener(v -> {
+            Intent gallery = new Intent();
+            gallery.setType("image/*");
+            gallery.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(gallery, "Select Picture"), Constant.GALLERY_OPEN);
         });
     }
 

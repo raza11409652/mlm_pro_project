@@ -80,12 +80,9 @@ public class Login extends AppCompatActivity {
 
             }
         });
-        forgetPwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent forget = new Intent(getApplicationContext(), ForgetPassword.class);
-                updateScreen(forget);
-            }
+        forgetPwd.setOnClickListener(v -> {
+            Intent forget = new Intent(getApplicationContext(), ForgetPassword.class);
+            updateScreen(forget);
         });
 
         loginBtn.setOnClickListener(v -> {
@@ -147,6 +144,7 @@ public class Login extends AppCompatActivity {
                     sessionHandler.setLoggedInEmail(_email);
                     sessionHandler.setProfileImage(_profile);
 
+                    sessionHandler.setLogin(true);
 //                    sessionHandler.setLogin(true);
                     String isVerified = data.getString("isVerified");
                     String subscriptionType = data.getString("subscriptionType");

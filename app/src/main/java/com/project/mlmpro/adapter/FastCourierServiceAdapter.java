@@ -73,18 +73,8 @@ public class FastCourierServiceAdapter extends RecyclerView.Adapter<FastCourierS
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(holder.imageView);
-        holder.whatsapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setting.openWhatsappWithMobile(list.get(position).getWhatsappContact());
-            }
-        });
-        holder.phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setting.call(list.get(position).getPhone());
-            }
-        });
+        holder.whatsapp.setOnClickListener(v -> setting.openWhatsappWithMobile(list.get(position).getWhatsappContact()));
+        holder.phone.setOnClickListener(v -> setting.call(list.get(position).getPhone()));
 
     }
 

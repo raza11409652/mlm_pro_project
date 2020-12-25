@@ -177,9 +177,10 @@ public class MLMSeminalUpdate extends AppCompatActivity {
                         String whatsappContact = single.getString("whatsappContact");
                         String statusP = single.getString("status");
                         String createdAt = single.getString("createdAt");
+                        String total = single.getString("charge");
                         FeaturePost featurePost = new FeaturePost(senderID, senderName, image, postImage, companyName, planFile, name,
                                 websiteLike, startingDate, phone, email, rank, time, trainingInstitue, productType,
-                                courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt);
+                                courierType, street1, street2, state, country, postType, whatsappContact, statusP, createdAt , total);
                         list.add(featurePost);
                     }
                     adapter = new MlmSeminarUpdateAdapter(list, this);

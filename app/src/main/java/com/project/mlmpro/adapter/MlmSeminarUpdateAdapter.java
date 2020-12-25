@@ -50,7 +50,7 @@ public class MlmSeminarUpdateAdapter extends RecyclerView.Adapter<MlmSeminarUpda
         holder.whatsapp.setText("+91-" + post.getWhatsappContact());
         holder.mobile.setText("+91-" + post.getPhone());
         holder.time.setText(post.getTime());
-        holder.amount.setText("Rs. Amount");
+        holder.amount.setText("Rs."+post.getTotal());
         Picasso.get()
                 .load(post.getPostImage())
                 .error(R.drawable.logo_circle)

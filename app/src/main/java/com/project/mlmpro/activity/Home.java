@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.mlmpro.R;
@@ -93,6 +94,7 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
     TabLayout indicator;
     RecyclerView homeMenu;
     IntentSetting setting;
+    ShimmerFrameLayout loaderScreen;
 
     //
 //    String limit = String.valueOf(20) , skip="0" ;
@@ -134,6 +136,8 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
         indicator = findViewById(R.id.indicator);
         postListView = findViewById(R.id.post_list);
         postListView.setHasFixedSize(true);
+        loaderScreen = findViewById(R.id.loader);
+        loaderScreen.startShimmer();
 
 
         postLayoutManager = new LinearLayoutManager(this);
@@ -374,6 +378,13 @@ public class Home extends AppCompatActivity implements HomeMenuListener, PostLis
 
                     }
 
+                   try{
+                       loaderScreen.stopShimmer();
+                       loaderScreen.setVisibility(View.GONE);
+                   }catch (Exception e){
+
+                   }
+                    postListView.setVisibility(View.VISIBLE);
                     postAdapter = new PostAdapter(posts, Home.this, Home.this);
                     postListView.setAdapter(postAdapter);
                     postAdapter.notifyDataSetChanged();

@@ -102,15 +102,19 @@ public class CompleteProfile extends AppCompatActivity {
                 return;
             }
             if (!StringHandler.isValidMobile(whatsAppNumber)) {
+                whatsAppEdt.setError("Required");
                 return;
             }
             if (StringHandler.isEmpty(company)) {
+                companyEdt.setError("Required");
                 return;
             }
             if (StringHandler.isEmpty(state)) {
+                stateEdt.setError("Required");
                 return;
             }
             if (StringHandler.isEmpty(country)) {
+                countryEdt.setError("Required");
                 return;
             }
             JSONObject object = new JSONObject();
@@ -124,7 +128,7 @@ public class CompleteProfile extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            runOnUiThread(() -> saveProfile(object));
+            saveProfile(object);
 
 
         });

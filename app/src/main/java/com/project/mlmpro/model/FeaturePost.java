@@ -11,7 +11,36 @@ public class FeaturePost {
             planFile , name , websiteLike , startingDate ,phone ,email ,
             rank , time , trainingInstitue  , productType, courierType ,
             street1 , street2  , state , country , postType ,whatsappContact ,
-            status , createdAt  ;
+            status , createdAt  ,total ;
+
+    public FeaturePost(String senderId, String senderName, String senderImage,
+                       String postImage, String companyName, String planFile, String name, String websiteLike, String startingDate, String phone, String email, String rank, String time, String trainingInstitue, String productType, String courierType, String street1, String street2, String state, String country, String postType, String whatsappContact, String status, String createdAt, String total) {
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.senderImage = senderImage;
+        this.postImage = postImage;
+        this.companyName = companyName;
+        this.planFile = planFile;
+        this.name = name;
+        this.websiteLike = websiteLike;
+        this.startingDate = startingDate;
+        this.phone = phone;
+        this.email = email;
+        this.rank = rank;
+        this.time = time;
+        this.trainingInstitue = trainingInstitue;
+        this.productType = productType;
+        this.courierType = courierType;
+        this.street1 = street1;
+        this.street2 = street2;
+        this.state = state;
+        this.country = country;
+        this.postType = postType;
+        this.whatsappContact = whatsappContact;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.total = total;
+    }
 
     public FeaturePost(String senderId, String senderName, String senderImage, String postImage, String companyName,
                        String planFile, String name, String websiteLike, String startingDate, String phone, String email, String rank, String time, String trainingInstitue, String productType, String courierType, String street1, String street2, String state, String country, String postType, String whatsappContact, String status, String createdAt) {
@@ -39,6 +68,14 @@ public class FeaturePost {
         this.whatsappContact = whatsappContact;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 
     public String getSenderId() {

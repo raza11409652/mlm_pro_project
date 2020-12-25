@@ -295,6 +295,7 @@ public class NewPost extends AppCompatActivity {
     }
 
     private void uploadVideo(Uri uri) throws FileNotFoundException {
+        post.setEnabled(false);
         InputStream is = getContentResolver().openInputStream(uri);
         byte[] arr = new byte[0];
         try {
@@ -326,6 +327,7 @@ public class NewPost extends AppCompatActivity {
                 Log.d("TAG", "onResponse: " + response.isSuccessful());
                 Log.d("Upload vide khalid", "onResponse: " + response.message());
                 if (response.isSuccessful()) {
+                    post.setEnabled(true);
                    String videoUrl = response.body().getData().getLocation();
                     Log.w("TA", "onResponse: " + videoUrl);
 //                    saveData();
@@ -383,6 +385,7 @@ public class NewPost extends AppCompatActivity {
     }
 
     private void uploadImage(byte[] bytes) {
+        post.setEnabled(false);
         selectorGallery.setText("Image is being uploaded");
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -404,6 +407,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResultResponse> call, Response<ResultResponse> response) {
                 if (response.isSuccessful()) {
+                    post.setEnabled(true);
                     Log.d(TAG, "onResponse: " + response.body().getStatus());
                     Log.d(TAG, "onResponse: " + response.body().getData().getLocation());
                     Log.d(TAG, "onResponse: " + response.message());

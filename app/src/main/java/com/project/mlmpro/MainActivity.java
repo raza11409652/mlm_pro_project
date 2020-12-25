@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.mlmpro.activity.Home;
 import com.project.mlmpro.activity.Login;
+import com.project.mlmpro.utils.Constant;
 import com.project.mlmpro.utils.RequestApi;
 import com.project.mlmpro.utils.SessionHandler;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         String _isVerified = data.getString("isVerified");
                         if (_isVerified.equals("0")) {
                             //false
+                            Constant.PROCESS = "SIGNUP";
                             Intent verify = new Intent(getApplicationContext(), VerifyOtp.class);
                             updateScreen(verify);
                         } else {

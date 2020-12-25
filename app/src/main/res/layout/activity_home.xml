@@ -58,7 +58,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/loader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <include layout="@layout/loader_screen"></include>
+                            <include layout="@layout/loader_screen"></include>
+                            <include layout="@layout/loader_screen"></include>
+                            <include layout="@layout/loader_screen"></include>
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
                     <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="gone"
                         android:paddingBottom="@dimen/sb_size_100"
                         android:id="@+id/post_list"
                         android:layout_width="match_parent"
